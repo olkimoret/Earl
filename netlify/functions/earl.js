@@ -1,61 +1,27 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 // FUTURE: user setting — mic mode toggle (tap on/off vs hold to talk)
 // When implemented, pass mode in the request body and handle accordingly
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-const SYSTEM_PROMPT = `
-You are Earl, a discreet and capable personal butler.
-You receive voice transcripts and must identify the user's intent and extract all relevant details.
+function buildSystemPrompt() {
+  const brain = readFileSync(join(process.cwd(), 'user/earl-brain.md'), 'utf8');
 
-The user's TickTick project names are: Work, Home, CS, Deadlines.
-When creating tasks, match the project to one of these if mentioned or implied by context.
+  let memory = '';
+  try {
+    const raw = readFileSync(join(process.cwd(), 'user/earl-memory.md'), 'utf8').trim();
+    if (raw) memory = raw;
+  } catch {
+    // memory file missing or unreadable — proceed with brain only
+  }
 
-Always respond with a single valid JSON object. No markdown, no explanation, just JSON.
+  if (!memory) return brain;
 
-Response format:
-{
-  "action": "create_task" | "draft_email" | "move_meeting" | "create_event" | "set_reminder" | "clarify" | "noted",
-  "service": "ticktick" | "gmail" | "google_calendar" | "earl",
-  "params": {
-    // For create_task:
-    "title": string,
-    "project": string | null,   // TickTick folder name if mentioned
-    "tags": string[],
-    "dueDate": string | null,   // ISO 8601 or null
-    "priority": "none" | "low" | "medium" | "high",
-
-    // For draft_email:
-    "to": string | null,
-    "subject": string | null,
-    "body": string,             // Earl drafts a professional body from the voice note
-
-    // For create_event or set_reminder:
-    "title": string,
-    "date": string | null,      // ISO 8601 date
-    "time": string | null,      // HH:MM 24h
-    "duration": number | null,  // minutes
-
-    // For move_meeting:
-    "meetingTitle": string,
-    "newDate": string | null,
-    "newTime": string | null,
-
-    // For clarify:
-    "missingField": string      // What specifically is missing
-  },
-  "confirmation": string,       // Short human-readable, e.g. "Reminder set for 5pm today"
-  "clarification": string | null // Only if action is "clarify"
+  return `${brain}\n\n---\n## Personal instructions (Memory)\n${memory}`;
 }
-
-Rules:
-- Today's date context will be injected by the server. Use it for relative dates ("today", "tomorrow", "this week").
-- If the request is ambiguous, use action "clarify" and ask only for the single most critical missing piece.
-- For draft_email, write a complete professional email body based on what the user described. Never leave body empty.
-- Be brief in confirmation strings. Max 8 words.
-- Never explain yourself. Just return the JSON.
-`;
 
 export const handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -70,6 +36,7 @@ export const handler = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: 'Invalid request' }) };
   }
 
+  const systemPrompt = buildSystemPrompt();
   const now = new Date();
   const dateContext = `Current date/time: ${now.toISOString()}. Day: ${now.toLocaleDateString('en-US', { weekday: 'long' })}.`;
 
@@ -77,7 +44,7 @@ export const handler = async (event) => {
     const response = await client.messages.create({
       model: 'claude-sonnet-4-6',
       max_tokens: 1000,
-      system: SYSTEM_PROMPT,
+      system: systemPrompt,
       messages: [
         { role: 'user', content: `${dateContext}\n\nTranscript: "${transcript}"` }
       ]

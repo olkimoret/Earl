@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Earl" />
+  <meta name="theme-color" content="#2A2938" />
   <title>Earl</title>
   <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
 
   <script>
     (function () {
@@ -332,25 +335,118 @@
     .app.processing .ctrl-btn.cancel,
     .app.result .ctrl-btn.cancel { opacity: 1; }
 
-    /* mic */
-    .ctrl-btn.mic-main {
+    /* mode buttons — mic + text */
+    .ctrl-btn.mode-btn {
       width: 76px;
       height: 76px;
       background: var(--mic-bg);
       border: 1px solid var(--mic-border);
+      opacity: 0.42;
       transition: background 0.25s ease, border-color 0.25s ease,
-                  box-shadow 0.25s ease, transform 0.15s ease;
+                  box-shadow 0.25s ease, transform 0.15s ease, opacity 0.25s ease;
     }
 
-    .ctrl-btn.mic-main svg * { stroke: var(--mic-icon); transition: stroke 0.25s ease; }
+    .ctrl-btn.mode-btn svg * { stroke: var(--mic-icon); transition: stroke 0.25s ease; }
 
-    .ctrl-btn.mic-main.active {
+    .ctrl-btn.mode-btn.active {
       background: var(--mic-active-bg);
       border-color: var(--mic-active-bg);
       box-shadow: 0 0 32px var(--mic-active-glow), 0 0 8px var(--mic-active-glow);
+      opacity: 1;
     }
 
-    .ctrl-btn.mic-main.active svg * { stroke: var(--mic-icon-active); }
+    .ctrl-btn.mode-btn.active svg * { stroke: var(--mic-icon-active); }
+
+    .app.text-open .ctrl-btn.cancel { opacity: 1; }
+
+    /* ── TEXT INPUT MODE ─────────────────────────────────────────── */
+
+    .ctrl-side {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .text-input-row {
+      display: none;
+      flex: 1;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* When text mode is active, controls re-layout */
+    .controls.text-mode {
+      justify-content: flex-start;
+      gap: 12px;
+    }
+
+    .controls.text-mode .ctrl-side {
+      flex-direction: column;
+      gap: 8px;
+      align-self: stretch;
+      justify-content: center;
+    }
+
+    .controls.text-mode .ctrl-btn.cancel,
+    .controls.text-mode .ctrl-btn.mic-btn {
+      width: 42px;
+      height: 42px;
+      opacity: 0.75;
+    }
+
+    .controls.text-mode .ctrl-btn.cancel svg { width: 14px; height: 14px; }
+    .controls.text-mode .ctrl-btn.mic-btn svg { width: 17px; height: 17px; }
+
+    .controls.text-mode .text-btn { display: none; }
+
+    .controls.text-mode .text-input-row { display: flex; }
+
+    #textInput {
+      flex: 1;
+      background: var(--btn-bg);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 10px 16px;
+      outline: none;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      caret-color: var(--mic-icon);
+      transition: border-color 0.2s ease;
+    }
+
+    #textInput:focus { border-color: var(--mic-border); }
+
+    #textInput::placeholder { color: var(--text-soft); }
+
+    .send-btn {
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--mic-bg);
+      border: 1px solid var(--mic-border);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .send-btn:disabled { opacity: 0.28; cursor: default; }
+
+    .send-btn svg * { stroke: var(--mic-icon); transition: stroke 0.2s ease; }
+
+    .send-btn:not(:disabled):hover,
+    .send-btn:not(:disabled):active {
+      background: var(--mic-active-bg);
+      border-color: var(--mic-active-bg);
+    }
+
+    .send-btn:not(:disabled):hover svg *,
+    .send-btn:not(:disabled):active svg * { stroke: var(--mic-icon-active); }
 
     /* ── RESULT CARD ────────────────────────────────────────────── */
 
@@ -360,6 +456,7 @@
       left: 0;
       right: 0;
       z-index: 100;
+      min-height: 25vh;
       background: var(--card-bg);
       border-top: 1px solid var(--border);
       border-radius: 20px 20px 0 0;
@@ -450,24 +547,45 @@
       <p class="status-text" id="statusText">Ready when you are.</p>
     </main>
 
-    <div class="controls">
-      <button class="ctrl-btn cancel" id="cancelBtn" aria-label="Cancel">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+    <div class="controls" id="controls">
+      <div class="ctrl-side">
+        <button class="ctrl-btn cancel" id="cancelBtn" aria-label="Cancel">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+               stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4"  y1="4"  x2="14" y2="14" stroke-width="1.8"/>
+            <line x1="14" y1="4"  x2="4"  y2="14" stroke-width="1.8"/>
+          </svg>
+        </button>
+
+        <button class="ctrl-btn mode-btn mic-btn" id="micBtn" aria-label="Hold to speak">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
+               stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="2" width="8" height="13" rx="4" fill="none" stroke-width="1.75"/>
+            <path d="M4.5 13.5C4.5 18.2 8.3 22 13 22s8.5-3.8 8.5-8.5" stroke-width="1.75"/>
+            <line x1="13" y1="22"   x2="13" y2="25.5" stroke-width="1.75"/>
+            <line x1="9"  y1="25.5" x2="17" y2="25.5" stroke-width="1.75"/>
+          </svg>
+        </button>
+      </div>
+
+      <button class="ctrl-btn mode-btn text-btn" id="textBtn" aria-label="Text mode" type="button">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
              stroke-linecap="round" stroke-linejoin="round">
-          <line x1="4"  y1="4"  x2="14" y2="14" stroke-width="1.8"/>
-          <line x1="14" y1="4"  x2="4"  y2="14" stroke-width="1.8"/>
+          <path d="M3 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H7l-4 3V4z"
+                stroke-width="1.5"/>
         </svg>
       </button>
 
-      <button class="ctrl-btn mic-main" id="micBtn" aria-label="Hold to speak">
-        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
-             stroke-linecap="round" stroke-linejoin="round">
-          <rect x="9" y="2" width="8" height="13" rx="4" fill="none" stroke-width="1.75"/>
-          <path d="M4.5 13.5C4.5 18.2 8.3 22 13 22s8.5-3.8 8.5-8.5" stroke-width="1.75"/>
-          <line x1="13" y1="22"   x2="13" y2="25.5" stroke-width="1.75"/>
-          <line x1="9"  y1="25.5" x2="17" y2="25.5" stroke-width="1.75"/>
-        </svg>
-      </button>
+      <div class="text-input-row" id="textInputRow">
+        <input type="text" id="textInput" placeholder="Ask Earl anything…"
+               autocomplete="off" enterkeyhint="send" />
+        <button class="send-btn" id="sendBtn" aria-label="Send" type="button" disabled>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 13V3M4 7l4-4 4 4" stroke-width="1.5"/>
+          </svg>
+        </button>
+      </div>
     </div>
 
   </div><!-- #app -->
@@ -484,14 +602,42 @@
     let appState = 'idle';
     const app        = document.getElementById('app');
     const statusEl   = document.getElementById('statusText');
+    const controls   = document.getElementById('controls');
     const micBtn     = document.getElementById('micBtn');
     const cancelBtn  = document.getElementById('cancelBtn');
+    const textBtn    = document.getElementById('textBtn');
+    const textInput  = document.getElementById('textInput');
+    const sendBtn    = document.getElementById('sendBtn');
     const resultCard = document.getElementById('resultCard');
     const actionList = document.getElementById('actionList');
 
+    /* ── MODE ───────────────────────────────────────────────────── */
+
+    let activeMode = 'voice';
+
+    function setMode(mode) {
+      activeMode = mode;
+      micBtn.classList.toggle('active', mode === 'voice');
+      textBtn.classList.toggle('active', mode === 'text');
+    }
+
+    function openTextInput() {
+      controls.classList.add('text-mode');
+      app.classList.add('text-open');
+      setTimeout(() => textInput.focus(), 50);
+    }
+
+    function closeTextInput() {
+      controls.classList.remove('text-mode');
+      app.classList.remove('text-open');
+      textInput.value = '';
+      sendBtn.disabled = true;
+    }
+
     function setState(s) {
       appState = s;
-      app.className = 'app' + (s !== 'idle' ? ' ' + s : '');
+      const textOpen = app.classList.contains('text-open');
+      app.className  = 'app' + (s !== 'idle' ? ' ' + s : '') + (textOpen ? ' text-open' : '');
       if (s === 'idle')       statusEl.textContent = 'Ready when you are.';
       if (s === 'processing') statusEl.textContent = 'On it\u2026';
       if (s === 'result')     statusEl.textContent = 'Done.';
@@ -506,7 +652,7 @@
     const ORB_CONFIGS = {
       idle: {
         rings: 4,  baseR: 95,  gap: 24,
-        amp: 10,   speed: 0.00042, ns: 1.0, lw: 1.3
+        amp: 18,   speed: 0.0008, ns: 1.4, lw: 1.3
       },
       listening: {
         rings: 7,  baseR: 118, gap: 21,
@@ -549,14 +695,19 @@
       const tAlpha = getTargetAlpha(key);
       const F      = 0.038;
 
+      // Slow breathing pulse at rest (~4.5s cycle), fades out during active states
+      const breathe     = (key === 'idle') ? Math.sin(Date.now() * 0.0014) : 0;
+      const tBaseR      = target.baseR + breathe * 9;
+      const tAlphaFinal = tAlpha       + breathe * 0.055;
+
       cur.rings  = lerp(cur.rings,  target.rings,  F);
-      cur.baseR  = lerp(cur.baseR,  target.baseR,  F);
+      cur.baseR  = lerp(cur.baseR,  tBaseR,        F);
       cur.gap    = lerp(cur.gap,    target.gap,    F);
       cur.amp    = lerp(cur.amp,    target.amp,    F);
       cur.speed  = lerp(cur.speed,  target.speed,  F);
       cur.ns     = lerp(cur.ns,     target.ns,     F);
       cur.lw     = lerp(cur.lw,     target.lw,     F);
-      cur.alpha  = lerp(cur.alpha,  tAlpha,        F);
+      cur.alpha  = lerp(cur.alpha,  tAlphaFinal,   F);
 
       animT += cur.speed;
 
@@ -633,7 +784,6 @@
       transcript = '';
       setState('listening');
       statusEl.textContent = '\u2026';
-      micBtn.classList.add('active');
 
       if (recognition) {
         try { recognition.start(); } catch (_) {}
@@ -650,7 +800,6 @@
     function stopListening() {
       clearTimeout(autoTriggerTimer);
       if (appState !== 'listening') return;
-      micBtn.classList.remove('active');
       if (recognition) {
         recognition.stop();
       } else {
@@ -660,6 +809,7 @@
 
     function onPressStart(e) {
       e.preventDefault();
+      if (activeMode === 'text') return;
       if (appState === 'listening' || appState === 'processing') return;
       clearTimeout(holdTimer);
       holdTimer = setTimeout(startListening, 100);
@@ -668,6 +818,11 @@
     function onPressEnd(e) {
       e.preventDefault();
       clearTimeout(holdTimer);
+      if (activeMode === 'text') {
+        setMode('voice');
+        closeTextInput();
+        return;
+      }
       if (appState === 'listening') stopListening();
     }
 
@@ -776,8 +931,14 @@
     cancelBtn.addEventListener('click', () => {
       clearTimeout(holdTimer);
       clearTimeout(autoTriggerTimer);
-      micBtn.classList.remove('active');
-      if (recognition) try { recognition.abort(); } catch (_) {}
+      if (recognition && appState === 'listening') try { recognition.abort(); } catch (_) {}
+
+      if (controls.classList.contains('text-mode')) {
+        textInput.value = '';
+        sendBtn.disabled = true;
+        return;
+      }
+
       if (appState === 'result') {
         dismissCard();
       } else {
@@ -785,6 +946,43 @@
         setState('idle');
       }
     });
+
+    /* ── MODE SWITCHING ─────────────────────────────────────────── */
+
+    micBtn.addEventListener('click', () => {
+      if (activeMode !== 'voice') {
+        setMode('voice');
+        closeTextInput();
+      }
+    });
+
+    textBtn.addEventListener('click', () => {
+      setMode('text');
+      openTextInput();
+    });
+
+    function sendTextInput() {
+      const text = textInput.value.trim();
+      if (!text) return;
+      textInput.value = '';
+      sendBtn.disabled = true;
+      transcript = text;
+      processTranscript();
+    }
+
+    sendBtn.addEventListener('click', sendTextInput);
+
+    textInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendTextInput();
+    });
+
+    textInput.addEventListener('input', () => {
+      sendBtn.disabled = !textInput.value.trim();
+    });
+
+    /* ── INIT ───────────────────────────────────────────────────── */
+
+    setMode(activeMode);
 
     /* ── SERVICE WORKER ─────────────────────────────────────────── */
 
