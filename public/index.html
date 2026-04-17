@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Earl</title>
+  <link rel="manifest" href="/manifest.json" />
+
+  <script>
+    (function () {
+      var t = localStorage.getItem('earl-theme') || 'slate';
+      document.documentElement.setAttribute('data-theme', t);
+    }());
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── THEMES ─────────────────────────────────────────────────── */
+
+    :root,
+    :root[data-theme="slate"] {
+      --bg-gradient-start: #6B6880;
+      --bg-gradient-mid:   #52506B;
+      --bg-gradient-end:   #2A2938;
+      --bg-gradient-angle: 170deg;
+      --bloom-color:       rgba(200,194,223,0.09);
+      --orb-color:         200,194,223;
+      --orb-alpha-idle:    0.28;
+      --orb-alpha-listen:  0.62;
+      --text-primary:      #EDE8F2;
+      --text-mid:          rgba(237,232,242,0.65);
+      --text-soft:         rgba(237,232,242,0.38);
+      --border:            rgba(237,232,242,0.09);
+      --card-bg:           rgba(36,35,50,0.95);
+      --btn-bg:            rgba(255,255,255,0.05);
+      --btn-border:        rgba(237,232,242,0.09);
+      --mic-bg:            rgba(200,194,223,0.10);
+      --mic-border:        rgba(200,194,223,0.26);
+      --mic-active-bg:     #C8C2DF;
+      --mic-active-glow:   rgba(200,194,223,0.30);
+      --mic-icon:          #C8C2DF;
+      --mic-icon-active:   #2A2938;
+      --danger:            #E08888;
+      --icon-gmail:        rgba(234,67,53,0.16);
+      --icon-calendar:     rgba(100,149,237,0.16);
+      --icon-ticktick:     rgba(80,200,120,0.16);
+      --icon-earl:         rgba(200,194,223,0.14);
+      --icon-warn:         rgba(255,200,80,0.16);
+      --font-body:         'DM Sans', sans-serif;
+      --font-display:      'DM Sans', sans-serif;
+      --wordmark-tracking: 0.34em;
+    }
+
+    :root[data-theme="parchment"] {
+      --bg-gradient-start: #F0EBE0;
+      --bg-gradient-mid:   #E5DDD0;
+      --bg-gradient-end:   #C8BFB0;
+      --bg-gradient-angle: 160deg;
+      --bloom-color:       rgba(180,160,130,0.12);
+      --orb-color:         120,100,80;
+      --orb-alpha-idle:    0.22;
+      --orb-alpha-listen:  0.55;
+      --text-primary:      #2A2520;
+      --text-mid:          rgba(42,37,32,0.60);
+      --text-soft:         rgba(42,37,32,0.35);
+      --border:            rgba(42,37,32,0.10);
+      --card-bg:           rgba(245,240,232,0.96);
+      --btn-bg:            rgba(0,0,0,0.04);
+      --btn-border:        rgba(42,37,32,0.10);
+      --mic-bg:            rgba(120,100,80,0.10);
+      --mic-border:        rgba(120,100,80,0.25);
+      --mic-active-bg:     #7A6450;
+      --mic-active-glow:   rgba(120,100,80,0.28);
+      --mic-icon:          #7A6450;
+      --mic-icon-active:   #F0EBE0;
+      --danger:            #C05050;
+      --icon-gmail:        rgba(234,67,53,0.12);
+      --icon-calendar:     rgba(66,133,244,0.12);
+      --icon-ticktick:     rgba(52,168,83,0.12);
+      --icon-earl:         rgba(120,100,80,0.12);
+      --icon-warn:         rgba(230,170,0,0.12);
+      --font-body:         'DM Sans', sans-serif;
+      --font-display:      'DM Sans', sans-serif;
+      --wordmark-tracking: 0.34em;
+    }
+
+    :root[data-theme="noir"] {
+      --bg-gradient-start: #1A1A1A;
+      --bg-gradient-mid:   #111111;
+      --bg-gradient-end:   #050505;
+      --bg-gradient-angle: 180deg;
+      --bloom-color:       rgba(255,255,255,0.04);
+      --orb-color:         220,220,220;
+      --orb-alpha-idle:    0.20;
+      --orb-alpha-listen:  0.55;
+      --text-primary:      #E8E8E8;
+      --text-mid:          rgba(232,232,232,0.55);
+      --text-soft:         rgba(232,232,232,0.30);
+      --border:            rgba(255,255,255,0.07);
+      --card-bg:           rgba(18,18,18,0.97);
+      --btn-bg:            rgba(255,255,255,0.04);
+      --btn-border:        rgba(255,255,255,0.07);
+      --mic-bg:            rgba(220,220,220,0.08);
+      --mic-border:        rgba(220,220,220,0.18);
+      --mic-active-bg:     #D0D0D0;
+      --mic-active-glow:   rgba(220,220,220,0.20);
+      --mic-icon:          #AAAAAA;
+      --mic-icon-active:   #0A0A0A;
+      --danger:            #E06060;
+      --icon-gmail:        rgba(234,67,53,0.14);
+      --icon-calendar:     rgba(100,149,237,0.14);
+      --icon-ticktick:     rgba(80,200,120,0.14);
+      --icon-earl:         rgba(200,200,200,0.10);
+      --icon-warn:         rgba(255,200,80,0.14);
+      --font-body:         'DM Sans', sans-serif;
+      --font-display:      'DM Sans', sans-serif;
+      --wordmark-tracking: 0.38em;
+    }
+
+    :root[data-theme="dusk"] {
+      --bg-gradient-start: #8B6A50;
+      --bg-gradient-mid:   #6B4E3A;
+      --bg-gradient-end:   #2E2018;
+      --bg-gradient-angle: 165deg;
+      --bloom-color:       rgba(220,170,100,0.10);
+      --orb-color:         220,185,140;
+      --orb-alpha-idle:    0.28;
+      --orb-alpha-listen:  0.60;
+      --text-primary:      #F2E8DC;
+      --text-mid:          rgba(242,232,220,0.62);
+      --text-soft:         rgba(242,232,220,0.36);
+      --border:            rgba(242,232,220,0.09);
+      --card-bg:           rgba(38,26,18,0.95);
+      --btn-bg:            rgba(255,255,255,0.05);
+      --btn-border:        rgba(242,232,220,0.09);
+      --mic-bg:            rgba(220,185,140,0.10);
+      --mic-border:        rgba(220,185,140,0.26);
+      --mic-active-bg:     #DDB978;
+      --mic-active-glow:   rgba(220,185,140,0.30);
+      --mic-icon:          #DDB978;
+      --mic-icon-active:   #2E2018;
+      --danger:            #E08070;
+      --icon-gmail:        rgba(234,67,53,0.16);
+      --icon-calendar:     rgba(100,149,237,0.16);
+      --icon-ticktick:     rgba(80,200,120,0.16);
+      --icon-earl:         rgba(220,185,140,0.14);
+      --icon-warn:         rgba(255,200,80,0.16);
+      --font-body:         'DM Sans', sans-serif;
+      --font-display:      'DM Sans', sans-serif;
+      --wordmark-tracking: 0.34em;
+    }
+
+    :root[data-theme="sage"] {
+      --bg-gradient-start: #4A6B58;
+      --bg-gradient-mid:   #354D40;
+      --bg-gradient-end:   #1A2820;
+      --bg-gradient-angle: 168deg;
+      --bloom-color:       rgba(140,200,160,0.09);
+      --orb-color:         160,210,175;
+      --orb-alpha-idle:    0.26;
+      --orb-alpha-listen:  0.58;
+      --text-primary:      #E8F2EC;
+      --text-mid:          rgba(232,242,236,0.62);
+      --text-soft:         rgba(232,242,236,0.36);
+      --border:            rgba(232,242,236,0.09);
+      --card-bg:           rgba(20,32,24,0.95);
+      --btn-bg:            rgba(255,255,255,0.05);
+      --btn-border:        rgba(232,242,236,0.09);
+      --mic-bg:            rgba(160,210,175,0.10);
+      --mic-border:        rgba(160,210,175,0.26);
+      --mic-active-bg:     #90C8A0;
+      --mic-active-glow:   rgba(160,210,175,0.28);
+      --mic-icon:          #90C8A0;
+      --mic-icon-active:   #1A2820;
+      --danger:            #E08888;
+      --icon-gmail:        rgba(234,67,53,0.16);
+      --icon-calendar:     rgba(100,149,237,0.16);
+      --icon-ticktick:     rgba(80,200,120,0.16);
+      --icon-earl:         rgba(160,210,175,0.14);
+      --icon-warn:         rgba(255,200,80,0.16);
+      --font-body:         'DM Sans', sans-serif;
+      --font-display:      'DM Sans', sans-serif;
+      --wordmark-tracking: 0.34em;
+    }
+
+    /* ── RESET ──────────────────────────────────────────────────── */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { height: 100%; -webkit-text-size-adjust: 100%; }
+
+    body {
+      height: 100%;
+      font-family: var(--font-body);
+      color: var(--text-primary);
+      background: linear-gradient(
+        var(--bg-gradient-angle),
+        var(--bg-gradient-start)  0%,
+        var(--bg-gradient-mid)   50%,
+        var(--bg-gradient-end)  100%
+      );
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(
+        ellipse 60% 50% at 50% 38%,
+        var(--bloom-color) 0%,
+        transparent 68%
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── LAYOUT ─────────────────────────────────────────────────── */
+
+    #app {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      height: 100dvh;
+    }
+
+    /* ── HEADER ─────────────────────────────────────────────────── */
+
+    .header {
+      flex: none;
+      padding: 20px 24px;
+      padding-top: calc(20px + env(safe-area-inset-top));
+    }
+
+    .wordmark {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: var(--wordmark-tracking);
+      text-transform: uppercase;
+      color: var(--text-primary);
+      background: var(--btn-bg);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 16px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    /* ── STAGE ──────────────────────────────────────────────────── */
+
+    .stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 38px;
+    }
+
+    #orbCanvas {
+      width: 300px;
+      height: 300px;
+      display: block;
+    }
+
+    .status-text {
+      font-size: 1rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-mid);
+      letter-spacing: 0.01em;
+      text-align: center;
+      max-width: 280px;
+      min-height: 1.4em;
+      transition: color 0.3s ease;
+    }
+
+    .app.listening .status-text {
+      font-style: normal;
+      color: var(--text-primary);
+    }
+
+    /* ── CONTROLS ───────────────────────────────────────────────── */
+
+    .controls {
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px 24px;
+      padding-bottom: calc(48px + env(safe-area-inset-bottom));
+    }
+
+    .ctrl-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      transition: transform 0.15s ease, opacity 0.25s ease;
+    }
+
+    .ctrl-btn:active { transform: scale(0.93); }
+
+    /* cancel */
+    .ctrl-btn.cancel {
+      width: 54px;
+      height: 54px;
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      opacity: 0.4;
+    }
+
+    .ctrl-btn.cancel svg { stroke: var(--text-soft); transition: stroke 0.2s ease; }
+    .ctrl-btn.cancel:active { border-color: var(--danger); }
+    .ctrl-btn.cancel:active svg { stroke: var(--danger); }
+
+    .app.listening .ctrl-btn.cancel,
+    .app.processing .ctrl-btn.cancel,
+    .app.result .ctrl-btn.cancel { opacity: 1; }
+
+    /* mic */
+    .ctrl-btn.mic-main {
+      width: 76px;
+      height: 76px;
+      background: var(--mic-bg);
+      border: 1px solid var(--mic-border);
+      transition: background 0.25s ease, border-color 0.25s ease,
+                  box-shadow 0.25s ease, transform 0.15s ease;
+    }
+
+    .ctrl-btn.mic-main svg * { stroke: var(--mic-icon); transition: stroke 0.25s ease; }
+
+    .ctrl-btn.mic-main.active {
+      background: var(--mic-active-bg);
+      border-color: var(--mic-active-bg);
+      box-shadow: 0 0 32px var(--mic-active-glow), 0 0 8px var(--mic-active-glow);
+    }
+
+    .ctrl-btn.mic-main.active svg * { stroke: var(--mic-icon-active); }
+
+    /* ── RESULT CARD ────────────────────────────────────────────── */
+
+    .result-card {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+      border-radius: 20px 20px 0 0;
+      padding: 12px 24px calc(48px + env(safe-area-inset-bottom));
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      transform: translateY(110%);
+      transition: transform 0.52s cubic-bezier(0.34, 1.48, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .result-card.visible { transform: translateY(0); }
+
+    .card-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 0 auto 16px;
+    }
+
+    .card-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 14px;
+    }
+
+    .action-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .action-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      animation: slideUp 0.38s cubic-bezier(0.34, 1.48, 0.64, 1) both;
+    }
+
+    .action-icon {
+      flex: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .action-icon.gmail    { background: var(--icon-gmail); }
+    .action-icon.calendar { background: var(--icon-calendar); }
+    .action-icon.ticktick { background: var(--icon-ticktick); }
+    .action-icon.earl     { background: var(--icon-earl); }
+    .action-icon.warn     { background: var(--icon-warn); }
+
+    .action-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--text-primary);
+    }
+
+    .action-text span {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--text-soft);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app" class="app">
+
+    <header class="header">
+      <div class="wordmark">Earl</div>
+    </header>
+
+    <main class="stage">
+      <canvas id="orbCanvas" width="600" height="600"></canvas>
+      <p class="status-text" id="statusText">Ready when you are.</p>
+    </main>
+
+    <div class="controls">
+      <button class="ctrl-btn cancel" id="cancelBtn" aria-label="Cancel">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+             stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4"  y1="4"  x2="14" y2="14" stroke-width="1.8"/>
+          <line x1="14" y1="4"  x2="4"  y2="14" stroke-width="1.8"/>
+        </svg>
+      </button>
+
+      <button class="ctrl-btn mic-main" id="micBtn" aria-label="Hold to speak">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
+             stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="2" width="8" height="13" rx="4" fill="none" stroke-width="1.75"/>
+          <path d="M4.5 13.5C4.5 18.2 8.3 22 13 22s8.5-3.8 8.5-8.5" stroke-width="1.75"/>
+          <line x1="13" y1="22"   x2="13" y2="25.5" stroke-width="1.75"/>
+          <line x1="9"  y1="25.5" x2="17" y2="25.5" stroke-width="1.75"/>
+        </svg>
+      </button>
+    </div>
+
+  </div><!-- #app -->
+
+  <div class="result-card" id="resultCard" role="status" aria-live="polite">
+    <div class="card-handle"></div>
+    <p class="card-label">Earl did</p>
+    <ul class="action-list" id="actionList"></ul>
+  </div>
+
+  <script>
+    /* ── STATE ──────────────────────────────────────────────────── */
+
+    let appState = 'idle';
+    const app        = document.getElementById('app');
+    const statusEl   = document.getElementById('statusText');
+    const micBtn     = document.getElementById('micBtn');
+    const cancelBtn  = document.getElementById('cancelBtn');
+    const resultCard = document.getElementById('resultCard');
+    const actionList = document.getElementById('actionList');
+
+    function setState(s) {
+      appState = s;
+      app.className = 'app' + (s !== 'idle' ? ' ' + s : '');
+      if (s === 'idle')       statusEl.textContent = 'Ready when you are.';
+      if (s === 'processing') statusEl.textContent = 'On it\u2026';
+      if (s === 'result')     statusEl.textContent = 'Done.';
+    }
+
+    /* ── ORB ────────────────────────────────────────────────────── */
+
+    const canvas = document.getElementById('orbCanvas');
+    const ctx    = canvas.getContext('2d');
+    const CX = 300, CY = 300;
+
+    const ORB_CONFIGS = {
+      idle: {
+        rings: 4,  baseR: 95,  gap: 24,
+        amp: 10,   speed: 0.00042, ns: 1.0, lw: 1.3
+      },
+      listening: {
+        rings: 7,  baseR: 118, gap: 21,
+        amp: 36,   speed: 0.0019,  ns: 2.6, lw: 1.6
+      },
+      processing: {
+        rings: 5,  baseR: 104, gap: 22,
+        amp: 18,   speed: 0.0010,  ns: 1.6, lw: 1.4
+      }
+    };
+
+    const cur = { rings: 4, baseR: 95, gap: 24, amp: 10, speed: 0.00042, ns: 1.0, lw: 1.3, alpha: 0.28 };
+
+    function getOrbColor() {
+      return getComputedStyle(document.documentElement).getPropertyValue('--orb-color').trim();
+    }
+
+    function getTargetAlpha(key) {
+      if (key === 'processing') return 0.40;
+      const v = key === 'listening' ? '--orb-alpha-listen' : '--orb-alpha-idle';
+      return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(v).trim());
+    }
+
+    function noise(a, t, ns, off) {
+      return (
+        Math.sin(a * 2.0 + t * 1.1 + off)       * 0.38 +
+        Math.sin(a * 3.5 + t * 0.8 + off * 1.3) * 0.26 +
+        Math.sin(a * 1.2 + t * 1.9 + off * 0.6) * 0.22 +
+        Math.sin(a * 4.8 + t * 0.4 + off * 2.0) * 0.14
+      ) * ns;
+    }
+
+    function lerp(a, b, f) { return a + (b - a) * f; }
+
+    let animT = 0;
+
+    function drawFrame() {
+      const key    = (appState === 'result') ? 'idle' : appState;
+      const target = ORB_CONFIGS[key] || ORB_CONFIGS.idle;
+      const tAlpha = getTargetAlpha(key);
+      const F      = 0.038;
+
+      cur.rings  = lerp(cur.rings,  target.rings,  F);
+      cur.baseR  = lerp(cur.baseR,  target.baseR,  F);
+      cur.gap    = lerp(cur.gap,    target.gap,    F);
+      cur.amp    = lerp(cur.amp,    target.amp,    F);
+      cur.speed  = lerp(cur.speed,  target.speed,  F);
+      cur.ns     = lerp(cur.ns,     target.ns,     F);
+      cur.lw     = lerp(cur.lw,     target.lw,     F);
+      cur.alpha  = lerp(cur.alpha,  tAlpha,        F);
+
+      animT += cur.speed;
+
+      ctx.clearRect(0, 0, 600, 600);
+
+      const col   = getOrbColor();
+      const rings = Math.round(cur.rings);
+
+      for (let i = 0; i < rings; i++) {
+        const r   = cur.baseR + i * cur.gap;
+        const off = i * 1.1;
+
+        ctx.beginPath();
+        const PTS = 180;
+        for (let j = 0; j <= PTS; j++) {
+          const a  = (j / PTS) * Math.PI * 2;
+          const pr = r + noise(a, animT, cur.ns, off) * cur.amp;
+          const x  = CX + Math.cos(a) * pr;
+          const y  = CY + Math.sin(a) * pr;
+          j === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+
+        if (i === 0) {
+          const g = ctx.createRadialGradient(CX, CY, 0, CX, CY, r + cur.amp);
+          g.addColorStop(0, `rgba(${col},${(cur.alpha * 0.14).toFixed(3)})`);
+          g.addColorStop(1, `rgba(${col},0)`);
+          ctx.fillStyle = g;
+          ctx.fill();
+        }
+
+        ctx.strokeStyle = `rgba(${col},${cur.alpha.toFixed(3)})`;
+        ctx.lineWidth   = cur.lw;
+        ctx.stroke();
+      }
+
+      requestAnimationFrame(drawFrame);
+    }
+
+    drawFrame();
+
+    /* ── SPEECH RECOGNITION ─────────────────────────────────────── */
+
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let transcript  = '';
+
+    if (SR) {
+      recognition = new SR();
+      recognition.continuous     = true;
+      recognition.interimResults = true;
+      recognition.lang           = 'en-US';
+
+      recognition.onresult = (e) => {
+        transcript = Array.from(e.results).map(r => r[0].transcript).join('');
+        statusEl.textContent = transcript || '\u2026';
+      };
+
+      recognition.onend = () => {
+        if (appState === 'listening') processTranscript();
+      };
+
+      recognition.onerror = () => {
+        if (appState === 'listening') processTranscript();
+      };
+    }
+
+    /* ── HOLD-TO-SPEAK ──────────────────────────────────────────── */
+
+    let holdTimer        = null;
+    let autoTriggerTimer = null;
+
+    function startListening() {
+      transcript = '';
+      setState('listening');
+      statusEl.textContent = '\u2026';
+      micBtn.classList.add('active');
+
+      if (recognition) {
+        try { recognition.start(); } catch (_) {}
+      }
+
+      autoTriggerTimer = setTimeout(() => {
+        if (appState === 'listening') {
+          if (!transcript) transcript = 'Earl demo';
+          stopListening();
+        }
+      }, 2400);
+    }
+
+    function stopListening() {
+      clearTimeout(autoTriggerTimer);
+      if (appState !== 'listening') return;
+      micBtn.classList.remove('active');
+      if (recognition) {
+        recognition.stop();
+      } else {
+        processTranscript();
+      }
+    }
+
+    function onPressStart(e) {
+      e.preventDefault();
+      if (appState === 'listening' || appState === 'processing') return;
+      clearTimeout(holdTimer);
+      holdTimer = setTimeout(startListening, 100);
+    }
+
+    function onPressEnd(e) {
+      e.preventDefault();
+      clearTimeout(holdTimer);
+      if (appState === 'listening') stopListening();
+    }
+
+    micBtn.addEventListener('mousedown',   onPressStart);
+    micBtn.addEventListener('mouseup',     onPressEnd);
+    micBtn.addEventListener('mouseleave',  onPressEnd);
+    micBtn.addEventListener('touchstart',  onPressStart, { passive: false });
+    micBtn.addEventListener('touchend',    onPressEnd,   { passive: false });
+    micBtn.addEventListener('touchcancel', onPressEnd,   { passive: false });
+
+    /* ── DEMO ACTIONS ───────────────────────────────────────────── */
+
+    function demoActions(text) {
+      const t = text.toLowerCase();
+      const a = [];
+      if (t.includes('email') || t.includes('draft') || t.includes('send'))
+        a.push({ service: 'gmail',    label: 'Draft created', detail: 'Proposal \u2014 3 price points' });
+      if (t.includes('remind') || t.includes('calendar') || t.includes('meeting'))
+        a.push({ service: 'calendar', label: 'Reminder set',  detail: 'Today at 5:00 PM' });
+      if (t.includes('task') || t.includes('todo'))
+        a.push({ service: 'ticktick', label: 'Task added',    detail: 'Work \u2014 send proposal' });
+      if (!a.length)
+        a.push({ service: 'earl', label: 'Noted', detail: text.slice(0, 60) });
+      return a;
+    }
+
+    /* ── PROCESS ────────────────────────────────────────────────── */
+
+    async function processTranscript() {
+      const text = transcript.trim() || 'Earl demo';
+      setState('processing');
+
+      try {
+        const ctrl = new AbortController();
+        const tid  = setTimeout(() => ctrl.abort(), 5000);
+        const res  = await fetch('/api/earl', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ transcript: text }),
+          signal:  ctrl.signal
+        });
+        clearTimeout(tid);
+        if (!res.ok) throw new Error('not ok');
+        const data = await res.json();
+        showResult(data.actions || demoActions(text));
+      } catch (_) {
+        await new Promise(r => setTimeout(r, 700));
+        showResult(demoActions(text));
+      }
+    }
+
+    /* ── RESULT CARD ────────────────────────────────────────────── */
+
+    const ICON_MAP = {
+      gmail:    { e: '\u2709\uFE0F', c: 'gmail' },
+      calendar: { e: '\uD83D\uDCC5', c: 'calendar' },
+      ticktick: { e: '\u2713',       c: 'ticktick' },
+      earl:     { e: '\u25C6',       c: 'earl' },
+      warn:     { e: '\u26A0',       c: 'warn' },
+    };
+
+    let dismissTimer = null;
+
+    function showResult(actions) {
+      setState('result');
+      actionList.innerHTML = '';
+
+      actions.forEach((action, i) => {
+        const icon = ICON_MAP[action.service] || ICON_MAP.earl;
+        const li   = document.createElement('li');
+        li.className = 'action-item';
+        li.style.animationDelay = (i * 70) + 'ms';
+
+        const iconEl = document.createElement('div');
+        iconEl.className = 'action-icon ' + icon.c;
+        iconEl.textContent = icon.e;
+
+        const textEl = document.createElement('div');
+        textEl.className = 'action-text';
+        textEl.textContent = action.label;
+
+        const sub = document.createElement('span');
+        sub.textContent = action.detail;
+        textEl.appendChild(sub);
+
+        li.appendChild(iconEl);
+        li.appendChild(textEl);
+        actionList.appendChild(li);
+      });
+
+      resultCard.classList.add('visible');
+      clearTimeout(dismissTimer);
+      dismissTimer = setTimeout(dismissCard, 6500);
+    }
+
+    function dismissCard() {
+      clearTimeout(dismissTimer);
+      resultCard.classList.remove('visible');
+      setTimeout(() => setState('idle'), 450);
+    }
+
+    resultCard.addEventListener('click', dismissCard);
+
+    /* ── CANCEL ─────────────────────────────────────────────────── */
+
+    cancelBtn.addEventListener('click', () => {
+      clearTimeout(holdTimer);
+      clearTimeout(autoTriggerTimer);
+      micBtn.classList.remove('active');
+      if (recognition) try { recognition.abort(); } catch (_) {}
+      if (appState === 'result') {
+        dismissCard();
+      } else {
+        resultCard.classList.remove('visible');
+        setState('idle');
+      }
+    });
+
+    /* ── SERVICE WORKER ─────────────────────────────────────────── */
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
+</body>
+</html>

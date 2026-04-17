@@ -1,0 +1,11 @@
+{
+  "name": "earl-app",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Earl — voice-first personal AI butler",
+  "private": true,
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.0",
+    "googleapis": "^140.0.0"
+  }
+}

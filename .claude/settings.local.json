@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(netlify --version)",
+      "Bash(npx netlify *)",
+      "Bash(where netlify *)",
+      "Bash(cmd /c \"where netlify\")",
+      "Read(//c/Users/olkim/AppData/Roaming/npm//**)"
+    ]
+  }
+}
