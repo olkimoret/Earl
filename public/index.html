@@ -33,8 +33,8 @@
       --bg-gradient-angle: 170deg;
       --bloom-color:       rgba(200,194,223,0.09);
       --orb-color:         200,194,223;
-      --orb-alpha-idle:    0.28;
-      --orb-alpha-listen:  0.62;
+      --orb-alpha-idle:    0.11;
+      --orb-alpha-listen:  0.82;
       --text-primary:      #EDE8F2;
       --text-mid:          rgba(237,232,242,0.65);
       --text-soft:         rgba(237,232,242,0.38);
@@ -66,8 +66,8 @@
       --bg-gradient-angle: 160deg;
       --bloom-color:       rgba(180,160,130,0.12);
       --orb-color:         120,100,80;
-      --orb-alpha-idle:    0.22;
-      --orb-alpha-listen:  0.55;
+      --orb-alpha-idle:    0.10;
+      --orb-alpha-listen:  0.75;
       --text-primary:      #2A2520;
       --text-mid:          rgba(42,37,32,0.60);
       --text-soft:         rgba(42,37,32,0.35);
@@ -99,8 +99,8 @@
       --bg-gradient-angle: 180deg;
       --bloom-color:       rgba(255,255,255,0.04);
       --orb-color:         220,220,220;
-      --orb-alpha-idle:    0.20;
-      --orb-alpha-listen:  0.55;
+      --orb-alpha-idle:    0.09;
+      --orb-alpha-listen:  0.78;
       --text-primary:      #E8E8E8;
       --text-mid:          rgba(232,232,232,0.55);
       --text-soft:         rgba(232,232,232,0.30);
@@ -132,8 +132,8 @@
       --bg-gradient-angle: 165deg;
       --bloom-color:       rgba(220,170,100,0.10);
       --orb-color:         220,185,140;
-      --orb-alpha-idle:    0.28;
-      --orb-alpha-listen:  0.60;
+      --orb-alpha-idle:    0.11;
+      --orb-alpha-listen:  0.80;
       --text-primary:      #F2E8DC;
       --text-mid:          rgba(242,232,220,0.62);
       --text-soft:         rgba(242,232,220,0.36);
@@ -165,8 +165,8 @@
       --bg-gradient-angle: 168deg;
       --bloom-color:       rgba(140,200,160,0.09);
       --orb-color:         160,210,175;
-      --orb-alpha-idle:    0.26;
-      --orb-alpha-listen:  0.58;
+      --orb-alpha-idle:    0.10;
+      --orb-alpha-listen:  0.78;
       --text-primary:      #E8F2EC;
       --text-mid:          rgba(232,242,236,0.62);
       --text-soft:         rgba(232,242,236,0.36);
@@ -238,6 +238,9 @@
 
     .header {
       flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 20px 24px;
       padding-top: calc(20px + env(safe-area-inset-top));
     }
@@ -532,6 +535,251 @@
       font-weight: 300;
       color: var(--text-soft);
     }
+
+    /* ── MENU TOGGLE ────────────────────────────────────────── */
+
+    .menu-toggle {
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      border-radius: 50%;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+      opacity: 0.5;
+    }
+
+    .menu-toggle:active { transform: scale(0.92); opacity: 1; }
+    .menu-toggle svg line { stroke: var(--text-mid); }
+
+    /* ── SIDE MENU ──────────────────────────────────────────── */
+
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      pointer-events: none;
+    }
+
+    .menu-overlay.open { pointer-events: auto; }
+
+    .side-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(290px, 85vw);
+      z-index: 50;
+      background: var(--card-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-left: 1px solid var(--border);
+      transform: translateX(100%);
+      transition: transform 0.52s cubic-bezier(0.34, 1.48, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .side-menu.open { transform: translateX(0); }
+
+    .menu-header {
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: calc(22px + env(safe-area-inset-top)) 20px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .menu-title {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .menu-close {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      border-radius: 50%;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.15s ease;
+    }
+
+    .menu-close:active { transform: scale(0.9); }
+    .menu-close svg line { stroke: var(--text-soft); }
+
+    .menu-body {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .menu-section {
+      padding: 20px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .menu-section:last-child {
+      border-bottom: none;
+      padding-bottom: calc(32px + env(safe-area-inset-bottom));
+    }
+
+    .menu-section-label {
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 14px;
+    }
+
+    /* connected apps */
+
+    .connected-apps { display: flex; gap: 16px; }
+
+    .connected-app {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .app-status-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .app-status-icon.gmail    { background: var(--icon-gmail); }
+    .app-status-icon.calendar { background: var(--icon-calendar); }
+    .app-status-icon.ticktick { background: var(--icon-ticktick); }
+
+    .status-dot {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(128,128,128,0.4);
+      border: 1.5px solid var(--card-bg);
+    }
+
+    .status-dot.connected { background: #50C878; }
+
+    .app-name {
+      font-size: 0.70rem;
+      color: var(--text-soft);
+    }
+
+    /* action log */
+
+    .action-log { display: flex; flex-direction: column; gap: 12px; }
+
+    .log-empty {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      font-style: italic;
+    }
+
+    .log-item { display: flex; align-items: center; gap: 10px; }
+
+    .log-icon {
+      flex: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    .log-icon.gmail    { background: var(--icon-gmail); }
+    .log-icon.calendar { background: var(--icon-calendar); }
+    .log-icon.ticktick { background: var(--icon-ticktick); }
+    .log-icon.earl     { background: var(--icon-earl); }
+    .log-icon.warn     { background: var(--icon-warn); }
+
+    .log-text {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      font-size: 0.82rem;
+      color: var(--text-primary);
+    }
+
+    .log-text span {
+      font-size: 0.72rem;
+      color: var(--text-soft);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .log-time {
+      flex: none;
+      font-size: 0.70rem;
+      color: var(--text-soft);
+    }
+
+    /* theme swatches */
+
+    .theme-grid {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .swatch-circle {
+      display: block;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      outline: 2.5px solid transparent;
+      outline-offset: 2.5px;
+      transition: outline-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .swatch:active .swatch-circle { transform: scale(0.9); }
+    .swatch.active .swatch-circle { outline-color: var(--text-primary); }
+
+    .swatch-label {
+      font-size: 0.66rem;
+      color: var(--text-soft);
+    }
   </style>
 </head>
 <body>
@@ -540,6 +788,13 @@
 
     <header class="header">
       <div class="wordmark">Earl</div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+        <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
+          <line x1="0" y1="1"  x2="18" y2="1"  stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="0" y1="7"  x2="18" y2="7"  stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="0" y1="13" x2="18" y2="13" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
     </header>
 
     <main class="stage">
@@ -589,6 +844,75 @@
     </div>
 
   </div><!-- #app -->
+
+  <div class="menu-overlay" id="menuOverlay"></div>
+
+  <div class="side-menu" id="sideMenu" aria-hidden="true">
+    <div class="menu-header">
+      <span class="menu-title">Settings</span>
+      <button class="menu-close" id="menuClose" aria-label="Close menu">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+             stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="3" x2="13" y2="13" stroke-width="1.7"/>
+          <line x1="13" y1="3" x2="3" y2="13" stroke-width="1.7"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="menu-body">
+      <div class="menu-section">
+        <div class="menu-section-label">Connected</div>
+        <div class="connected-apps">
+          <div class="connected-app">
+            <div class="app-status-icon gmail">✉️</div>
+            <div class="status-dot connected"></div>
+            <span class="app-name">Gmail</span>
+          </div>
+          <div class="connected-app">
+            <div class="app-status-icon calendar">📅</div>
+            <div class="status-dot connected"></div>
+            <span class="app-name">Calendar</span>
+          </div>
+          <div class="connected-app">
+            <div class="app-status-icon ticktick">✓</div>
+            <div class="status-dot connected"></div>
+            <span class="app-name">TickTick</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-section">
+        <div class="menu-section-label">Recent</div>
+        <div class="action-log" id="actionLog"></div>
+      </div>
+
+      <div class="menu-section">
+        <div class="menu-section-label">Appearance</div>
+        <div class="theme-grid">
+          <button class="swatch" data-theme="slate" aria-label="Slate">
+            <span class="swatch-circle" style="background:#6B6880"></span>
+            <span class="swatch-label">Slate</span>
+          </button>
+          <button class="swatch" data-theme="parchment" aria-label="Parchment">
+            <span class="swatch-circle" style="background:#E8E2D5"></span>
+            <span class="swatch-label">Parchment</span>
+          </button>
+          <button class="swatch" data-theme="noir" aria-label="Noir">
+            <span class="swatch-circle" style="background:#111111"></span>
+            <span class="swatch-label">Noir</span>
+          </button>
+          <button class="swatch" data-theme="dusk" aria-label="Dusk">
+            <span class="swatch-circle" style="background:#8B6A50"></span>
+            <span class="swatch-label">Dusk</span>
+          </button>
+          <button class="swatch" data-theme="sage" aria-label="Sage">
+            <span class="swatch-circle" style="background:#4A6B58"></span>
+            <span class="swatch-label">Sage</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="result-card" id="resultCard" role="status" aria-live="polite">
     <div class="card-handle"></div>
@@ -688,6 +1012,7 @@
     function lerp(a, b, f) { return a + (b - a) * f; }
 
     let animT = 0;
+    let rotT  = 0;
 
     function drawFrame() {
       const key    = (appState === 'result') ? 'idle' : appState;
@@ -710,6 +1035,7 @@
       cur.alpha  = lerp(cur.alpha,  tAlphaFinal,   F);
 
       animT += cur.speed;
+      rotT  += 0.00055;
 
       ctx.clearRect(0, 0, 600, 600);
 
@@ -723,7 +1049,7 @@
         ctx.beginPath();
         const PTS = 180;
         for (let j = 0; j <= PTS; j++) {
-          const a  = (j / PTS) * Math.PI * 2;
+          const a  = (j / PTS) * Math.PI * 2 + rotT * (1 + i * 0.22);
           const pr = r + noise(a, animT, cur.ns, off) * cur.amp;
           const x  = CX + Math.cos(a) * pr;
           const y  = CY + Math.sin(a) * pr;
@@ -757,7 +1083,7 @@
 
     if (SR) {
       recognition = new SR();
-      recognition.continuous     = true;
+      recognition.continuous     = false;
       recognition.interimResults = true;
       recognition.lang           = 'en-US';
 
@@ -781,6 +1107,7 @@
     let autoTriggerTimer = null;
 
     function startListening() {
+      closeMenu();
       transcript = '';
       setState('listening');
       statusEl.textContent = '\u2026';
@@ -891,6 +1218,7 @@
       actionList.innerHTML = '';
 
       actions.forEach((action, i) => {
+        logAction(action);
         const icon = ICON_MAP[action.service] || ICON_MAP.earl;
         const li   = document.createElement('li');
         li.className = 'action-item';
@@ -980,9 +1308,92 @@
       sendBtn.disabled = !textInput.value.trim();
     });
 
+    /* ── MENU ──────────────────────────────────────────────────── */
+
+    const menuToggle  = document.getElementById('menuToggle');
+    const menuClose   = document.getElementById('menuClose');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const sideMenu    = document.getElementById('sideMenu');
+    const actionLog   = document.getElementById('actionLog');
+
+    function openMenu() {
+      renderLog();
+      sideMenu.classList.add('open');
+      menuOverlay.classList.add('open');
+      sideMenu.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeMenu() {
+      sideMenu.classList.remove('open');
+      menuOverlay.classList.remove('open');
+      sideMenu.setAttribute('aria-hidden', 'true');
+    }
+
+    menuToggle.addEventListener('click', openMenu);
+    menuClose.addEventListener('click',  closeMenu);
+    menuOverlay.addEventListener('click', closeMenu);
+
+    let swipeStartX = null;
+    sideMenu.addEventListener('touchstart', (e) => {
+      swipeStartX = e.touches[0].clientX;
+    }, { passive: true });
+    sideMenu.addEventListener('touchend', (e) => {
+      if (swipeStartX === null) return;
+      const dx = e.changedTouches[0].clientX - swipeStartX;
+      swipeStartX = null;
+      if (dx > 60) closeMenu();
+    }, { passive: true });
+
+    /* ── ACTION LOG ─────────────────────────────────────────────── */
+
+    function logAction(action) {
+      const log = JSON.parse(localStorage.getItem('earl-log') || '[]');
+      log.unshift({
+        label:   action.label,
+        detail:  action.detail,
+        service: action.service,
+        time:    new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+      });
+      localStorage.setItem('earl-log', JSON.stringify(log.slice(0, 5)));
+    }
+
+    function renderLog() {
+      const log = JSON.parse(localStorage.getItem('earl-log') || '[]');
+      if (!log.length) {
+        actionLog.innerHTML = '<p class="log-empty">No actions yet.</p>';
+        return;
+      }
+      actionLog.innerHTML = log.map(entry => {
+        const icon = ICON_MAP[entry.service] || ICON_MAP.earl;
+        return `<div class="log-item">
+          <div class="log-icon ${icon.c}">${icon.e}</div>
+          <div class="log-text">${entry.label}<span>${entry.detail}</span></div>
+          <div class="log-time">${entry.time}</div>
+        </div>`;
+      }).join('');
+    }
+
+    /* ── THEME SWATCHES ─────────────────────────────────────────── */
+
+    function markActiveSwatch(theme) {
+      document.querySelectorAll('.swatch').forEach(b =>
+        b.classList.toggle('active', b.dataset.theme === theme)
+      );
+    }
+
+    document.querySelectorAll('.swatch').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const theme = btn.dataset.theme;
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('earl-theme', theme);
+        markActiveSwatch(theme);
+      });
+    });
+
     /* ── INIT ───────────────────────────────────────────────────── */
 
     setMode(activeMode);
+    markActiveSwatch(localStorage.getItem('earl-theme') || 'slate');
 
     /* ── SERVICE WORKER ─────────────────────────────────────────── */
 
