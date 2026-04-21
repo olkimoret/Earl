@@ -101,7 +101,7 @@ async function routeIntent(intent) {
       case 'draft_email': {
         const { createDraft } = await import('./gmail.js');
         await createDraft(params);
-        return [{ service: 'gmail', label: 'Draft created', detail: confirmation }];
+        return [{ service: 'gmail', label: 'Email drafted', detail: confirmation }];
       }
       case 'create_event':
       case 'set_reminder':

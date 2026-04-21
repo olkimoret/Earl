@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Earl" />
@@ -33,8 +34,6 @@
       --bg-gradient-angle: 170deg;
       --bloom-color:       rgba(200,194,223,0.09);
       --orb-color:         200,194,223;
-      --orb-alpha-idle:    0.11;
-      --orb-alpha-listen:  0.82;
       --text-primary:      #EDE8F2;
       --text-mid:          rgba(237,232,242,0.65);
       --text-soft:         rgba(237,232,242,0.38);
@@ -42,12 +41,13 @@
       --card-bg:           rgba(36,35,50,0.95);
       --btn-bg:            rgba(255,255,255,0.05);
       --btn-border:        rgba(237,232,242,0.09);
-      --mic-bg:            rgba(200,194,223,0.10);
-      --mic-border:        rgba(200,194,223,0.26);
-      --mic-active-bg:     #C8C2DF;
-      --mic-active-glow:   rgba(200,194,223,0.30);
-      --mic-icon:          #C8C2DF;
-      --mic-icon-active:   #2A2938;
+      --input-bg:          rgba(255,255,255,0.06);
+      --input-border:      rgba(200,194,223,0.22);
+      --send-bg:           rgba(200,194,223,0.12);
+      --send-border:       rgba(200,194,223,0.28);
+      --send-active-bg:    #C8C2DF;
+      --send-icon:         #C8C2DF;
+      --send-icon-active:  #2A2938;
       --danger:            #E08888;
       --icon-gmail:        rgba(234,67,53,0.16);
       --icon-calendar:     rgba(100,149,237,0.16);
@@ -66,8 +66,6 @@
       --bg-gradient-angle: 160deg;
       --bloom-color:       rgba(180,160,130,0.12);
       --orb-color:         120,100,80;
-      --orb-alpha-idle:    0.10;
-      --orb-alpha-listen:  0.75;
       --text-primary:      #2A2520;
       --text-mid:          rgba(42,37,32,0.60);
       --text-soft:         rgba(42,37,32,0.35);
@@ -75,12 +73,13 @@
       --card-bg:           rgba(245,240,232,0.96);
       --btn-bg:            rgba(0,0,0,0.04);
       --btn-border:        rgba(42,37,32,0.10);
-      --mic-bg:            rgba(120,100,80,0.10);
-      --mic-border:        rgba(120,100,80,0.25);
-      --mic-active-bg:     #7A6450;
-      --mic-active-glow:   rgba(120,100,80,0.28);
-      --mic-icon:          #7A6450;
-      --mic-icon-active:   #F0EBE0;
+      --input-bg:          rgba(0,0,0,0.04);
+      --input-border:      rgba(120,100,80,0.22);
+      --send-bg:           rgba(120,100,80,0.10);
+      --send-border:       rgba(120,100,80,0.25);
+      --send-active-bg:    #7A6450;
+      --send-icon:         #7A6450;
+      --send-icon-active:  #F0EBE0;
       --danger:            #C05050;
       --icon-gmail:        rgba(234,67,53,0.12);
       --icon-calendar:     rgba(66,133,244,0.12);
@@ -99,8 +98,6 @@
       --bg-gradient-angle: 180deg;
       --bloom-color:       rgba(255,255,255,0.04);
       --orb-color:         220,220,220;
-      --orb-alpha-idle:    0.09;
-      --orb-alpha-listen:  0.78;
       --text-primary:      #E8E8E8;
       --text-mid:          rgba(232,232,232,0.55);
       --text-soft:         rgba(232,232,232,0.30);
@@ -108,12 +105,13 @@
       --card-bg:           rgba(18,18,18,0.97);
       --btn-bg:            rgba(255,255,255,0.04);
       --btn-border:        rgba(255,255,255,0.07);
-      --mic-bg:            rgba(220,220,220,0.08);
-      --mic-border:        rgba(220,220,220,0.18);
-      --mic-active-bg:     #D0D0D0;
-      --mic-active-glow:   rgba(220,220,220,0.20);
-      --mic-icon:          #AAAAAA;
-      --mic-icon-active:   #0A0A0A;
+      --input-bg:          rgba(255,255,255,0.05);
+      --input-border:      rgba(220,220,220,0.18);
+      --send-bg:           rgba(220,220,220,0.08);
+      --send-border:       rgba(220,220,220,0.18);
+      --send-active-bg:    #D0D0D0;
+      --send-icon:         #AAAAAA;
+      --send-icon-active:  #0A0A0A;
       --danger:            #E06060;
       --icon-gmail:        rgba(234,67,53,0.14);
       --icon-calendar:     rgba(100,149,237,0.14);
@@ -132,8 +130,6 @@
       --bg-gradient-angle: 165deg;
       --bloom-color:       rgba(220,170,100,0.10);
       --orb-color:         220,185,140;
-      --orb-alpha-idle:    0.11;
-      --orb-alpha-listen:  0.80;
       --text-primary:      #F2E8DC;
       --text-mid:          rgba(242,232,220,0.62);
       --text-soft:         rgba(242,232,220,0.36);
@@ -141,12 +137,13 @@
       --card-bg:           rgba(38,26,18,0.95);
       --btn-bg:            rgba(255,255,255,0.05);
       --btn-border:        rgba(242,232,220,0.09);
-      --mic-bg:            rgba(220,185,140,0.10);
-      --mic-border:        rgba(220,185,140,0.26);
-      --mic-active-bg:     #DDB978;
-      --mic-active-glow:   rgba(220,185,140,0.30);
-      --mic-icon:          #DDB978;
-      --mic-icon-active:   #2E2018;
+      --input-bg:          rgba(255,255,255,0.06);
+      --input-border:      rgba(220,185,140,0.24);
+      --send-bg:           rgba(220,185,140,0.10);
+      --send-border:       rgba(220,185,140,0.26);
+      --send-active-bg:    #DDB978;
+      --send-icon:         #DDB978;
+      --send-icon-active:  #2E2018;
       --danger:            #E08070;
       --icon-gmail:        rgba(234,67,53,0.16);
       --icon-calendar:     rgba(100,149,237,0.16);
@@ -165,8 +162,6 @@
       --bg-gradient-angle: 168deg;
       --bloom-color:       rgba(140,200,160,0.09);
       --orb-color:         160,210,175;
-      --orb-alpha-idle:    0.10;
-      --orb-alpha-listen:  0.78;
       --text-primary:      #E8F2EC;
       --text-mid:          rgba(232,242,236,0.62);
       --text-soft:         rgba(232,242,236,0.36);
@@ -174,12 +169,13 @@
       --card-bg:           rgba(20,32,24,0.95);
       --btn-bg:            rgba(255,255,255,0.05);
       --btn-border:        rgba(232,242,236,0.09);
-      --mic-bg:            rgba(160,210,175,0.10);
-      --mic-border:        rgba(160,210,175,0.26);
-      --mic-active-bg:     #90C8A0;
-      --mic-active-glow:   rgba(160,210,175,0.28);
-      --mic-icon:          #90C8A0;
-      --mic-icon-active:   #1A2820;
+      --input-bg:          rgba(255,255,255,0.05);
+      --input-border:      rgba(160,210,175,0.22);
+      --send-bg:           rgba(160,210,175,0.10);
+      --send-border:       rgba(160,210,175,0.26);
+      --send-active-bg:    #90C8A0;
+      --send-icon:         #90C8A0;
+      --send-icon-active:  #1A2820;
       --danger:            #E08888;
       --icon-gmail:        rgba(234,67,53,0.16);
       --icon-calendar:     rgba(100,149,237,0.16);
@@ -198,12 +194,12 @@
     html {
       height: 100%;
       -webkit-text-size-adjust: 100%;
-      background: var(--bg-gradient-end); /* fill safe-area gaps with gradient end color */
+      background: var(--bg-gradient-end);
     }
 
     body {
       height: 100%;
-      height: 100dvh; /* iOS standalone: cover full screen including safe areas */
+      height: 100dvh;
       font-family: var(--font-body);
       color: var(--text-primary);
       background: linear-gradient(
@@ -295,7 +291,7 @@
       transition: color 0.3s ease;
     }
 
-    .app.listening .status-text {
+    .app.processing .status-text {
       font-style: normal;
       color: var(--text-primary);
     }
@@ -306,16 +302,16 @@
       flex: none;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px 24px;
-      padding-bottom: calc(48px + env(safe-area-inset-bottom));
+      gap: 12px;
+      padding: 16px 20px;
+      padding-bottom: calc(32px + env(safe-area-inset-bottom));
     }
 
     .ctrl-btn {
       display: flex;
       align-items: center;
       justify-content: center;
+      flex: none;
       border: none;
       border-radius: 50%;
       cursor: pointer;
@@ -326,106 +322,37 @@
 
     .ctrl-btn:active { transform: scale(0.93); }
 
-    /* cancel */
     .ctrl-btn.cancel {
-      width: 54px;
-      height: 54px;
+      width: 44px;
+      height: 44px;
       background: var(--btn-bg);
       border: 1px solid var(--btn-border);
-      opacity: 0.4;
+      opacity: 0.42;
     }
 
     .ctrl-btn.cancel svg { stroke: var(--text-soft); transition: stroke 0.2s ease; }
-    .ctrl-btn.cancel:active { border-color: var(--danger); }
+    .ctrl-btn.cancel:active { border-color: var(--danger); opacity: 1; }
     .ctrl-btn.cancel:active svg { stroke: var(--danger); }
 
-    .app.listening .ctrl-btn.cancel,
     .app.processing .ctrl-btn.cancel,
     .app.result .ctrl-btn.cancel { opacity: 1; }
 
-    /* mode buttons — mic + text */
-    .ctrl-btn.mode-btn {
-      width: 76px;
-      height: 76px;
-      background: var(--mic-bg);
-      border: 1px solid var(--mic-border);
-      opacity: 0.42;
-      transition: background 0.25s ease, border-color 0.25s ease,
-                  box-shadow 0.25s ease, transform 0.15s ease, opacity 0.25s ease;
-    }
-
-    .ctrl-btn.mode-btn svg * { stroke: var(--mic-icon); transition: stroke 0.25s ease; }
-
-    .ctrl-btn.mode-btn.active {
-      background: var(--mic-active-bg);
-      border-color: var(--mic-active-bg);
-      box-shadow: 0 0 32px var(--mic-active-glow), 0 0 8px var(--mic-active-glow);
-      opacity: 1;
-    }
-
-    .ctrl-btn.mode-btn.active svg * { stroke: var(--mic-icon-active); }
-
-    .app.text-open .ctrl-btn.cancel { opacity: 1; }
-
-    /* ── TEXT INPUT MODE ─────────────────────────────────────────── */
-
-    .ctrl-side {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .text-input-row {
-      display: none;
-      flex: 1;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* When text mode is active, controls re-layout */
-    .controls.text-mode {
-      justify-content: flex-start;
-      gap: 12px;
-    }
-
-    .controls.text-mode .ctrl-side {
-      flex-direction: column;
-      gap: 8px;
-      align-self: stretch;
-      justify-content: center;
-    }
-
-    .controls.text-mode .ctrl-btn.cancel,
-    .controls.text-mode .ctrl-btn.mic-btn {
-      width: 42px;
-      height: 42px;
-      opacity: 0.75;
-    }
-
-    .controls.text-mode .ctrl-btn.cancel svg { width: 14px; height: 14px; }
-    .controls.text-mode .ctrl-btn.mic-btn svg { width: 17px; height: 17px; }
-
-    .controls.text-mode .text-btn { display: none; }
-
-    .controls.text-mode .text-input-row { display: flex; }
-
     #textInput {
       flex: 1;
-      background: var(--btn-bg);
-      border: 1px solid var(--border);
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
       border-radius: 22px;
-      padding: 10px 16px;
+      padding: 11px 18px;
       outline: none;
       font-family: var(--font-body);
       font-size: 0.95rem;
       color: var(--text-primary);
-      caret-color: var(--mic-icon);
+      caret-color: var(--send-icon);
       transition: border-color 0.2s ease;
+      -webkit-appearance: none;
     }
 
-    #textInput:focus { border-color: var(--mic-border); }
-
+    #textInput:focus { border-color: var(--send-border); }
     #textInput::placeholder { color: var(--text-soft); }
 
     .send-btn {
@@ -433,28 +360,25 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: var(--mic-bg);
-      border: 1px solid var(--mic-border);
+      background: var(--send-bg);
+      border: 1px solid var(--send-border);
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
       transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
     }
 
-    .send-btn:disabled { opacity: 0.28; cursor: default; }
+    .send-btn:disabled { opacity: 0.25; cursor: default; }
+    .send-btn svg * { stroke: var(--send-icon); transition: stroke 0.2s ease; }
 
-    .send-btn svg * { stroke: var(--mic-icon); transition: stroke 0.2s ease; }
-
-    .send-btn:not(:disabled):hover,
     .send-btn:not(:disabled):active {
-      background: var(--mic-active-bg);
-      border-color: var(--mic-active-bg);
+      background: var(--send-active-bg);
+      border-color: var(--send-active-bg);
     }
 
-    .send-btn:not(:disabled):hover svg *,
-    .send-btn:not(:disabled):active svg * { stroke: var(--mic-icon-active); }
+    .send-btn:not(:disabled):active svg * { stroke: var(--send-icon-active); }
 
     /* ── RESULT CARD ────────────────────────────────────────────── */
 
@@ -652,8 +576,6 @@
       margin-bottom: 14px;
     }
 
-    /* connected apps */
-
     .connected-apps { display: flex; gap: 16px; }
 
     .connected-app {
@@ -695,8 +617,6 @@
       font-size: 0.70rem;
       color: var(--text-soft);
     }
-
-    /* action log */
 
     .action-log { display: flex; flex-direction: column; gap: 12px; }
 
@@ -748,8 +668,6 @@
       font-size: 0.70rem;
       color: var(--text-soft);
     }
-
-    /* theme swatches */
 
     .theme-grid {
       display: flex;
@@ -808,44 +726,23 @@
     </main>
 
     <div class="controls" id="controls">
-      <div class="ctrl-side">
-        <button class="ctrl-btn cancel" id="cancelBtn" aria-label="Cancel">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-               stroke-linecap="round" stroke-linejoin="round">
-            <line x1="4"  y1="4"  x2="14" y2="14" stroke-width="1.8"/>
-            <line x1="14" y1="4"  x2="4"  y2="14" stroke-width="1.8"/>
-          </svg>
-        </button>
-
-        <button class="ctrl-btn mode-btn mic-btn" id="micBtn" aria-label="Hold to speak">
-          <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
-               stroke-linecap="round" stroke-linejoin="round">
-            <rect x="9" y="2" width="8" height="13" rx="4" fill="none" stroke-width="1.75"/>
-            <path d="M4.5 13.5C4.5 18.2 8.3 22 13 22s8.5-3.8 8.5-8.5" stroke-width="1.75"/>
-            <line x1="13" y1="22"   x2="13" y2="25.5" stroke-width="1.75"/>
-            <line x1="9"  y1="25.5" x2="17" y2="25.5" stroke-width="1.75"/>
-          </svg>
-        </button>
-      </div>
-
-      <button class="ctrl-btn mode-btn text-btn" id="textBtn" aria-label="Text mode" type="button">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+      <button class="ctrl-btn cancel" id="cancelBtn" aria-label="Cancel">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
              stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H7l-4 3V4z"
-                stroke-width="1.5"/>
+          <line x1="3" y1="3" x2="13" y2="13" stroke-width="1.8"/>
+          <line x1="13" y1="3" x2="3" y2="13" stroke-width="1.8"/>
         </svg>
       </button>
 
-      <div class="text-input-row" id="textInputRow">
-        <input type="text" id="textInput" placeholder="Ask Earl anything…"
-               autocomplete="off" enterkeyhint="send" />
-        <button class="send-btn" id="sendBtn" aria-label="Send" type="button" disabled>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M8 13V3M4 7l4-4 4 4" stroke-width="1.5"/>
-          </svg>
-        </button>
-      </div>
+      <input type="text" id="textInput" placeholder="Ask Earl anything…"
+             autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="send" />
+
+      <button class="send-btn" id="sendBtn" aria-label="Send" type="button" disabled>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 13V3M4 7l4-4 4 4" stroke-width="1.5"/>
+        </svg>
+      </button>
     </div>
 
   </div><!-- #app -->
@@ -929,47 +826,19 @@
     /* ── STATE ──────────────────────────────────────────────────── */
 
     let appState = 'idle';
-    let permissionPending = false;
     const app        = document.getElementById('app');
     const statusEl   = document.getElementById('statusText');
-    const controls   = document.getElementById('controls');
-    const micBtn     = document.getElementById('micBtn');
     const cancelBtn  = document.getElementById('cancelBtn');
-    const textBtn    = document.getElementById('textBtn');
     const textInput  = document.getElementById('textInput');
     const sendBtn    = document.getElementById('sendBtn');
     const resultCard = document.getElementById('resultCard');
     const actionList = document.getElementById('actionList');
 
-    /* ── MODE ───────────────────────────────────────────────────── */
-
-    let activeMode = 'voice';
-
-    function setMode(mode) {
-      activeMode = mode;
-      micBtn.classList.toggle('active', mode === 'voice');
-      textBtn.classList.toggle('active', mode === 'text');
-    }
-
-    function openTextInput() {
-      controls.classList.add('text-mode');
-      app.classList.add('text-open');
-      setTimeout(() => textInput.focus(), 50);
-    }
-
-    function closeTextInput() {
-      controls.classList.remove('text-mode');
-      app.classList.remove('text-open');
-      textInput.value = '';
-      sendBtn.disabled = true;
-    }
-
     function setState(s) {
       appState = s;
-      const textOpen = app.classList.contains('text-open');
-      app.className  = 'app' + (s !== 'idle' ? ' ' + s : '') + (textOpen ? ' text-open' : '');
+      app.className  = 'app' + (s !== 'idle' ? ' ' + s : '');
       if (s === 'idle')       statusEl.textContent = 'Ready when you are.';
-      if (s === 'processing') statusEl.textContent = 'On it\u2026';
+      if (s === 'processing') statusEl.textContent = 'On it…';
       if (s === 'result')     statusEl.textContent = 'Done.';
     }
 
@@ -981,37 +850,37 @@
 
     const ORB_CONFIGS = {
       idle: {
-        rings: 4,  baseR: 95,  gap: 24,
-        amp: 18,   speed: 0.0008, ns: 1.4, lw: 1.3
-      },
-      listening: {
-        rings: 7,  baseR: 118, gap: 21,
-        amp: 36,   speed: 0.0019,  ns: 2.6, lw: 1.6
+        rings: 5,  baseR: 96,  gap: 24,
+        amp: 30,   speed: 0.0016, ns: 2.4, lw: 2.2, alpha: 0.52
       },
       processing: {
-        rings: 5,  baseR: 104, gap: 22,
-        amp: 18,   speed: 0.0010,  ns: 1.6, lw: 1.4
+        rings: 7,  baseR: 102, gap: 20,
+        amp: 52,   speed: 0.0034, ns: 3.8, lw: 2.6, alpha: 0.86
       }
     };
 
-    const cur = { rings: 4, baseR: 95, gap: 24, amp: 10, speed: 0.00042, ns: 1.0, lw: 1.3, alpha: 0.28 };
+    const cur = { rings: 5, baseR: 96, gap: 24, amp: 8, speed: 0.0006, ns: 1.0, lw: 1.2, alpha: 0.08 };
+
+    const MAX_RINGS = 8;
+    const ringPhase = Array.from({ length: MAX_RINGS }, (_, i) => i * 0.9 + Math.random() * 2.5);
+    const ringDrift = Array.from({ length: MAX_RINGS }, () => (Math.random() - 0.5) * 0.0018);
+
+    let energy     = 0;
+    let sizeNoise  = 0;
+    let sizeTarget = 0;
+    let rotSpeed   = 0.00055;
 
     function getOrbColor() {
       return getComputedStyle(document.documentElement).getPropertyValue('--orb-color').trim();
     }
 
-    function getTargetAlpha(key) {
-      if (key === 'processing') return 0.40;
-      const v = key === 'listening' ? '--orb-alpha-listen' : '--orb-alpha-idle';
-      return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(v).trim());
-    }
-
     function noise(a, t, ns, off) {
       return (
-        Math.sin(a * 2.0 + t * 1.1 + off)       * 0.38 +
-        Math.sin(a * 3.5 + t * 0.8 + off * 1.3) * 0.26 +
-        Math.sin(a * 1.2 + t * 1.9 + off * 0.6) * 0.22 +
-        Math.sin(a * 4.8 + t * 0.4 + off * 2.0) * 0.14
+        Math.sin(a * 2.0 + t * 1.3 + off)       * 0.30 +
+        Math.sin(a * 3.7 + t * 0.7 + off * 1.4) * 0.24 +
+        Math.sin(a * 1.3 + t * 2.2 + off * 0.5) * 0.22 +
+        Math.sin(a * 5.2 + t * 0.5 + off * 2.3) * 0.14 +
+        Math.sin(a * 7.5 + t * 1.8 + off * 0.9) * 0.10
       ) * ns;
     }
 
@@ -1021,42 +890,67 @@
     let rotT  = 0;
 
     function drawFrame() {
+      // Random energy spikes — occasional bursts of life
+      if (Math.random() < 0.007) energy = Math.min(1, energy + 0.28 + Math.random() * 0.52);
+      energy *= 0.960;
+
+      // Slow random size drift — not breathing, just wandering
+      if (Math.random() < 0.012) sizeTarget = (Math.random() - 0.5) * 20;
+      sizeNoise  = lerp(sizeNoise, sizeTarget, 0.016);
+      sizeTarget *= 0.993;
+
       const key    = (appState === 'result') ? 'idle' : appState;
       const target = ORB_CONFIGS[key] || ORB_CONFIGS.idle;
-      const tAlpha = getTargetAlpha(key);
-      const F      = 0.038;
+      const tAlpha = target.alpha + energy * 0.22;
+      const F      = 0.044;
 
-      // Slow breathing pulse at rest (~4.5s cycle), fades out during active states
-      const breathe     = (key === 'idle') ? Math.sin(Date.now() * 0.0014) : 0;
-      const tBaseR      = target.baseR + breathe * 9;
-      const tAlphaFinal = tAlpha       + breathe * 0.055;
+      cur.rings = lerp(cur.rings, target.rings, F);
+      cur.baseR = lerp(cur.baseR, target.baseR + sizeNoise, F * 0.38);
+      cur.gap   = lerp(cur.gap,   target.gap,   F);
+      cur.amp   = lerp(cur.amp,   target.amp * (1 + energy * 1.4), F);
+      cur.speed = lerp(cur.speed, target.speed * (1 + energy * 0.8), F);
+      cur.ns    = lerp(cur.ns,    target.ns,    F);
+      cur.lw    = lerp(cur.lw,    target.lw,    F);
+      cur.alpha = lerp(cur.alpha, tAlpha,       F);
 
-      cur.rings  = lerp(cur.rings,  target.rings,  F);
-      cur.baseR  = lerp(cur.baseR,  tBaseR,        F);
-      cur.gap    = lerp(cur.gap,    target.gap,    F);
-      cur.amp    = lerp(cur.amp,    target.amp,    F);
-      cur.speed  = lerp(cur.speed,  target.speed,  F);
-      cur.ns     = lerp(cur.ns,     target.ns,     F);
-      cur.lw     = lerp(cur.lw,     target.lw,     F);
-      cur.alpha  = lerp(cur.alpha,  tAlphaFinal,   F);
+      // Rotation speed wanders — not constant
+      const rotTarget = 0.00036 + Math.sin(animT * 0.28) * 0.00024 + energy * 0.0022;
+      rotSpeed = lerp(rotSpeed, rotTarget, 0.022);
+      rotT    += rotSpeed;
+      animT   += cur.speed;
 
-      animT += cur.speed;
-      rotT  += 0.00055;
+      // Each ring drifts its own phase independently
+      for (let i = 0; i < MAX_RINGS; i++) {
+        ringPhase[i] += ringDrift[i] + energy * 0.008 * (1 - i * 0.1);
+      }
 
       ctx.clearRect(0, 0, 600, 600);
-
       const col   = getOrbColor();
       const rings = Math.round(cur.rings);
 
       for (let i = 0; i < rings; i++) {
-        const r   = cur.baseR + i * cur.gap;
-        const off = i * 1.1;
+        const r = cur.baseR + i * cur.gap;
+
+        // Inner rings react stronger to energy spikes
+        const iEnergy = energy * Math.max(0, 1 - i * 0.16);
+        const amp     = cur.amp * (1 + iEnergy * 0.75);
+
+        // Varying line width: inner thicker, outer thinner, with live wobble
+        const lwBase = cur.lw * (1 + (rings - 1 - i) * 0.32);
+        const lwWob  = Math.sin(animT * 2.3 + i * 1.8 + ringPhase[i]) * 0.42;
+        const lw     = Math.max(0.4, lwBase + lwWob);
+
+        // Each ring has its own slow alpha pulse, independent of others
+        const pulse     = Math.sin(animT * 0.85 + i * 0.75 + ringPhase[i] * 0.55) * 0.11;
+        const ringAlpha = Math.min(0.94, cur.alpha * (1 - i * 0.07) + pulse + iEnergy * 0.16);
+
+        const off = i * 1.1 + ringPhase[i];
 
         ctx.beginPath();
-        const PTS = 180;
+        const PTS = 200;
         for (let j = 0; j <= PTS; j++) {
-          const a  = (j / PTS) * Math.PI * 2 + rotT * (1 + i * 0.22);
-          const pr = r + noise(a, animT, cur.ns, off) * cur.amp;
+          const a  = (j / PTS) * Math.PI * 2 + rotT * (1 + i * 0.20);
+          const pr = r + noise(a, animT, cur.ns, off) * amp;
           const x  = CX + Math.cos(a) * pr;
           const y  = CY + Math.sin(a) * pr;
           j === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
@@ -1064,15 +958,15 @@
         ctx.closePath();
 
         if (i === 0) {
-          const g = ctx.createRadialGradient(CX, CY, 0, CX, CY, r + cur.amp);
-          g.addColorStop(0, `rgba(${col},${(cur.alpha * 0.14).toFixed(3)})`);
+          const g = ctx.createRadialGradient(CX, CY, 0, CX, CY, r + amp);
+          g.addColorStop(0, `rgba(${col},${(ringAlpha * 0.24).toFixed(3)})`);
           g.addColorStop(1, `rgba(${col},0)`);
           ctx.fillStyle = g;
           ctx.fill();
         }
 
-        ctx.strokeStyle = `rgba(${col},${cur.alpha.toFixed(3)})`;
-        ctx.lineWidth   = cur.lw;
+        ctx.strokeStyle = `rgba(${col},${ringAlpha.toFixed(3)})`;
+        ctx.lineWidth   = lw;
         ctx.stroke();
       }
 
@@ -1081,127 +975,21 @@
 
     drawFrame();
 
-    /* ── SPEECH RECOGNITION ─────────────────────────────────────── */
-
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    let recognition = null;
-    let transcript  = '';
-
-    if (SR) {
-      recognition = new SR();
-      recognition.continuous     = false;
-      recognition.interimResults = true;
-      recognition.lang           = 'en-US';
-
-      recognition.onresult = (e) => {
-        transcript = Array.from(e.results).map(r => r[0].transcript).join('');
-        statusEl.textContent = transcript || '\u2026';
-      };
-
-      recognition.onstart = () => {
-        permissionPending = false;
-      };
-
-      recognition.onend = () => {
-        permissionPending = false;
-        if (appState === 'listening') processTranscript();
-      };
-
-      recognition.onerror = (e) => {
-        permissionPending = false;
-        if (e.error === 'not-allowed') {
-          setState('idle');
-          statusEl.textContent = 'Mic access denied';
-          setTimeout(() => { statusEl.textContent = 'Ready when you are.'; }, 2500);
-          return;
-        }
-        if (appState === 'listening') processTranscript();
-      };
-    }
-
-    /* ── HOLD-TO-SPEAK ──────────────────────────────────────────── */
-
-    let holdTimer        = null;
-    let autoTriggerTimer = null;
-
-    function startListening() {
-      closeMenu();
-      transcript = '';
-      setState('listening');
-      statusEl.textContent = '\u2026';
-
-      if (recognition) {
-        permissionPending = true;
-        try { recognition.start(); } catch (_) { permissionPending = false; }
-      }
-
-      autoTriggerTimer = setTimeout(() => {
-        if (appState === 'listening') {
-          if (!transcript) transcript = 'Earl demo';
-          stopListening();
-        }
-      }, 2400);
-    }
-
-    function stopListening() {
-      clearTimeout(autoTriggerTimer);
-      if (appState !== 'listening') return;
-      if (recognition) {
-        recognition.stop();
-      } else {
-        processTranscript();
-      }
-    }
-
-    function onPressStart(e) {
-      e.preventDefault();
-      if (activeMode === 'text') return;
-      if (appState === 'listening' || appState === 'processing') return;
-      clearTimeout(holdTimer);
-      holdTimer = setTimeout(startListening, 100);
-    }
-
-    function onPressEnd(e) {
-      e.preventDefault();
-      clearTimeout(holdTimer);
-      if (permissionPending) return;
-      if (activeMode === 'text') {
-        setMode('voice');
-        closeTextInput();
-        return;
-      }
-      if (appState === 'listening') stopListening();
-    }
-
-    micBtn.addEventListener('mousedown',   onPressStart);
-    micBtn.addEventListener('mouseup',     onPressEnd);
-    micBtn.addEventListener('mouseleave',  onPressEnd);
-    micBtn.addEventListener('touchstart',  onPressStart, { passive: false });
-    micBtn.addEventListener('touchend',    onPressEnd,   { passive: false });
-    micBtn.addEventListener('touchcancel', onPressEnd,   { passive: false });
-
-    /* ── DEMO ACTIONS ───────────────────────────────────────────── */
+    /* ── PROCESS ────────────────────────────────────────────────── */
 
     function demoActions(text) {
       const t = text.toLowerCase();
-      const a = [];
       if (t.includes('email') || t.includes('draft') || t.includes('send'))
-        a.push({ service: 'gmail',    label: 'Draft created', detail: 'Proposal \u2014 3 price points' });
+        return [{ service: 'gmail',    label: 'Email drafted', detail: text.slice(0, 60) }];
       if (t.includes('remind') || t.includes('calendar') || t.includes('meeting'))
-        a.push({ service: 'calendar', label: 'Reminder set',  detail: 'Today at 5:00 PM' });
+        return [{ service: 'calendar', label: 'Event created',  detail: text.slice(0, 60) }];
       if (t.includes('task') || t.includes('todo'))
-        a.push({ service: 'ticktick', label: 'Task added',    detail: 'Work \u2014 send proposal' });
-      if (!a.length)
-        a.push({ service: 'earl', label: 'Noted', detail: text.slice(0, 60) });
-      return a;
+        return [{ service: 'ticktick', label: 'Task added',     detail: text.slice(0, 60) }];
+      return [{ service: 'earl', label: 'Noted', detail: text.slice(0, 60) }];
     }
 
-    /* ── PROCESS ────────────────────────────────────────────────── */
-
-    async function processTranscript() {
-      const text = transcript.trim() || 'Earl demo';
+    async function processTranscript(text) {
       setState('processing');
-
       try {
         const ctrl = new AbortController();
         const tid  = setTimeout(() => ctrl.abort(), 15000);
@@ -1224,11 +1012,11 @@
     /* ── RESULT CARD ────────────────────────────────────────────── */
 
     const ICON_MAP = {
-      gmail:    { e: '\u2709\uFE0F', c: 'gmail' },
-      calendar: { e: '\uD83D\uDCC5', c: 'calendar' },
-      ticktick: { e: '\u2713',       c: 'ticktick' },
-      earl:     { e: '\u25C6',       c: 'earl' },
-      warn:     { e: '\u26A0',       c: 'warn' },
+      gmail:    { e: '✉️', c: 'gmail' },
+      calendar: { e: '📅', c: 'calendar' },
+      ticktick: { e: '✓',       c: 'ticktick' },
+      earl:     { e: '◆',       c: 'earl' },
+      warn:     { e: '⚠',       c: 'warn' },
     };
 
     let dismissTimer = null;
@@ -1277,45 +1065,26 @@
     /* ── CANCEL ─────────────────────────────────────────────────── */
 
     cancelBtn.addEventListener('click', () => {
-      clearTimeout(holdTimer);
-      clearTimeout(autoTriggerTimer);
-      if (recognition && appState === 'listening') try { recognition.abort(); } catch (_) {}
-
-      if (controls.classList.contains('text-mode')) {
+      if (textInput.value.trim()) {
         textInput.value = '';
         sendBtn.disabled = true;
         return;
       }
-
       if (appState === 'result') {
         dismissCard();
       } else {
-        resultCard.classList.remove('visible');
         setState('idle');
       }
     });
 
-    /* ── MODE SWITCHING ─────────────────────────────────────────── */
-
-    micBtn.addEventListener('click', () => {
-      if (activeMode !== 'voice') {
-        setMode('voice');
-        closeTextInput();
-      }
-    });
-
-    textBtn.addEventListener('click', () => {
-      setMode('text');
-      openTextInput();
-    });
+    /* ── TEXT INPUT ─────────────────────────────────────────────── */
 
     function sendTextInput() {
       const text = textInput.value.trim();
-      if (!text) return;
+      if (!text || appState === 'processing') return;
       textInput.value = '';
       sendBtn.disabled = true;
-      transcript = text;
-      processTranscript();
+      processTranscript(text);
     }
 
     sendBtn.addEventListener('click', sendTextInput);
@@ -1412,8 +1181,8 @@
 
     /* ── INIT ───────────────────────────────────────────────────── */
 
-    setMode(activeMode);
     markActiveSwatch(localStorage.getItem('earl-theme') || 'slate');
+    textInput.focus();
 
     /* ── SERVICE WORKER ─────────────────────────────────────────── */
 
