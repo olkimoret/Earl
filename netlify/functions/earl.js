@@ -50,7 +50,11 @@ export const handler = async (event) => {
       ]
     });
 
-    const raw = response.content[0].text.trim();
+    const rawText = response.content[0]?.text;
+    if (!rawText) throw new Error('Claude returned empty content');
+
+    // Strip markdown code fences if Claude wraps the JSON
+    const raw = rawText.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
     console.log('[Earl] Claude raw response:', raw);
 
     const intent = JSON.parse(raw);
@@ -65,9 +69,11 @@ export const handler = async (event) => {
     };
 
   } catch (err) {
-    console.error('[Earl] Error:', err);
+    console.error('[Earl] Error:', err.message);
+    console.error('[Earl] Stack:', err.stack);
     return {
-      statusCode: 500,
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         actions: [{
           service: 'warn',
