@@ -853,6 +853,10 @@
         rings: 5,  baseR: 96,  gap: 24,
         amp: 30,   speed: 0.0016, ns: 2.4, lw: 2.2, alpha: 0.52
       },
+      typing: {
+        rings: 5,  baseR: 108, gap: 24,
+        amp: 38,   speed: 0.0026, ns: 2.6, lw: 2.4, alpha: 0.64
+      },
       processing: {
         rings: 7,  baseR: 102, gap: 20,
         amp: 52,   speed: 0.0034, ns: 3.8, lw: 2.6, alpha: 0.86
@@ -865,7 +869,6 @@
     const ringPhase = Array.from({ length: MAX_RINGS }, (_, i) => i * 0.9 + Math.random() * 2.5);
     const ringDrift = Array.from({ length: MAX_RINGS }, () => (Math.random() - 0.5) * 0.0018);
 
-    let energy     = 0;
     let sizeNoise  = 0;
     let sizeTarget = 0;
     let rotSpeed   = 0.00055;
@@ -890,10 +893,6 @@
     let rotT  = 0;
 
     function drawFrame() {
-      // Random energy spikes — occasional bursts of life
-      if (Math.random() < 0.007) energy = Math.min(1, energy + 0.28 + Math.random() * 0.52);
-      energy *= 0.960;
-
       // Slow random size drift — not breathing, just wandering
       if (Math.random() < 0.012) sizeTarget = (Math.random() - 0.5) * 20;
       sizeNoise  = lerp(sizeNoise, sizeTarget, 0.016);
@@ -901,27 +900,27 @@
 
       const key    = (appState === 'result') ? 'idle' : appState;
       const target = ORB_CONFIGS[key] || ORB_CONFIGS.idle;
-      const tAlpha = target.alpha + energy * 0.22;
+      const tAlpha = target.alpha;
       const F      = 0.044;
 
       cur.rings = lerp(cur.rings, target.rings, F);
       cur.baseR = lerp(cur.baseR, target.baseR + sizeNoise, F * 0.38);
       cur.gap   = lerp(cur.gap,   target.gap,   F);
-      cur.amp   = lerp(cur.amp,   target.amp * (1 + energy * 1.4), F);
-      cur.speed = lerp(cur.speed, target.speed * (1 + energy * 0.8), F);
+      cur.amp   = lerp(cur.amp,   target.amp,   F);
+      cur.speed = lerp(cur.speed, target.speed, F);
       cur.ns    = lerp(cur.ns,    target.ns,    F);
       cur.lw    = lerp(cur.lw,    target.lw,    F);
       cur.alpha = lerp(cur.alpha, tAlpha,       F);
 
       // Rotation speed wanders — not constant
-      const rotTarget = 0.00036 + Math.sin(animT * 0.28) * 0.00024 + energy * 0.0022;
+      const rotTarget = 0.00036 + Math.sin(animT * 0.28) * 0.00024;
       rotSpeed = lerp(rotSpeed, rotTarget, 0.022);
       rotT    += rotSpeed;
       animT   += cur.speed;
 
       // Each ring drifts its own phase independently
       for (let i = 0; i < MAX_RINGS; i++) {
-        ringPhase[i] += ringDrift[i] + energy * 0.008 * (1 - i * 0.1);
+        ringPhase[i] += ringDrift[i];
       }
 
       ctx.clearRect(0, 0, 600, 600);
@@ -931,9 +930,7 @@
       for (let i = 0; i < rings; i++) {
         const r = cur.baseR + i * cur.gap;
 
-        // Inner rings react stronger to energy spikes
-        const iEnergy = energy * Math.max(0, 1 - i * 0.16);
-        const amp     = cur.amp * (1 + iEnergy * 0.75);
+        const amp = cur.amp;
 
         // Varying line width: inner thicker, outer thinner, with live wobble
         const lwBase = cur.lw * (1 + (rings - 1 - i) * 0.32);
@@ -942,7 +939,7 @@
 
         // Each ring has its own slow alpha pulse, independent of others
         const pulse     = Math.sin(animT * 0.85 + i * 0.75 + ringPhase[i] * 0.55) * 0.11;
-        const ringAlpha = Math.min(0.94, cur.alpha * (1 - i * 0.07) + pulse + iEnergy * 0.16);
+        const ringAlpha = Math.min(0.94, cur.alpha * (1 - i * 0.07) + pulse);
 
         const off = i * 1.1 + ringPhase[i];
 
@@ -1094,7 +1091,11 @@
     });
 
     textInput.addEventListener('input', () => {
-      sendBtn.disabled = !textInput.value.trim();
+      const hasText = !!textInput.value.trim();
+      sendBtn.disabled = !hasText;
+      if (appState === 'idle' || appState === 'typing') {
+        setState(hasText ? 'typing' : 'idle');
+      }
     });
 
     /* ── MENU ──────────────────────────────────────────────────── */
