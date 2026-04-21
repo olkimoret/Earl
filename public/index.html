@@ -929,6 +929,7 @@
     /* ── STATE ──────────────────────────────────────────────────── */
 
     let appState = 'idle';
+    let permissionPending = false;
     const app        = document.getElementById('app');
     const statusEl   = document.getElementById('statusText');
     const controls   = document.getElementById('controls');
@@ -1097,11 +1098,23 @@
         statusEl.textContent = transcript || '\u2026';
       };
 
+      recognition.onstart = () => {
+        permissionPending = false;
+      };
+
       recognition.onend = () => {
+        permissionPending = false;
         if (appState === 'listening') processTranscript();
       };
 
-      recognition.onerror = () => {
+      recognition.onerror = (e) => {
+        permissionPending = false;
+        if (e.error === 'not-allowed') {
+          setState('idle');
+          statusEl.textContent = 'Mic access denied';
+          setTimeout(() => { statusEl.textContent = 'Ready when you are.'; }, 2500);
+          return;
+        }
         if (appState === 'listening') processTranscript();
       };
     }
@@ -1118,7 +1131,8 @@
       statusEl.textContent = '\u2026';
 
       if (recognition) {
-        try { recognition.start(); } catch (_) {}
+        permissionPending = true;
+        try { recognition.start(); } catch (_) { permissionPending = false; }
       }
 
       autoTriggerTimer = setTimeout(() => {
@@ -1150,6 +1164,7 @@
     function onPressEnd(e) {
       e.preventDefault();
       clearTimeout(holdTimer);
+      if (permissionPending) return;
       if (activeMode === 'text') {
         setMode('voice');
         closeTextInput();
