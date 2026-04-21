@@ -6,7 +6,9 @@
       "Bash(npx netlify *)",
       "Bash(where netlify *)",
       "Bash(cmd /c \"where netlify\")",
-      "Read(//c/Users/olkim/AppData/Roaming/npm//**)"
+      "Read(//c/Users/olkim/AppData/Roaming/npm//**)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

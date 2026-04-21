@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit -m ' *)",
+      "Bash(curl -s -X POST https://ticktick.com/oauth/token -u xbh66xtc7MmLJAvJL7:7k5I6MsGO6E4wNf330hXg8dTm6L9cOZd -d 'grant_type=authorization_code&code=8evNzJ&redirect_uri=http://localhost')"
+    ]
+  }
+}
