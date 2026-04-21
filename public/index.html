@@ -226,11 +226,12 @@
     /* ── LAYOUT ─────────────────────────────────────────────────── */
 
     #app {
-      position: relative;
+      position: absolute;
+      top: 0; left: 0; right: 0;
       z-index: 1;
       display: flex;
       flex-direction: column;
-      height: 100%;
+      overflow: hidden;
     }
 
     /* ── HEADER ─────────────────────────────────────────────────── */
@@ -838,6 +839,7 @@
       appState = s;
       app.className  = 'app' + (s !== 'idle' ? ' ' + s : '');
       if (s === 'idle')       statusEl.textContent = 'Ready when you are.';
+      if (s === 'listening')  statusEl.textContent = '';
       if (s === 'processing') statusEl.textContent = 'On it…';
       if (s === 'result')     statusEl.textContent = 'Done.';
     }
@@ -853,13 +855,13 @@
         rings: 5,  baseR: 96,  gap: 24,
         amp: 30,   speed: 0.0016, ns: 2.4, lw: 2.2, alpha: 0.52
       },
-      typing: {
-        rings: 5,  baseR: 108, gap: 24,
-        amp: 38,   speed: 0.0026, ns: 2.6, lw: 2.4, alpha: 0.64
+      listening: {
+        rings: 6,  baseR: 108, gap: 22,
+        amp: 44,   speed: 0.0028, ns: 3.0, lw: 2.5, alpha: 0.70
       },
       processing: {
-        rings: 7,  baseR: 102, gap: 20,
-        amp: 52,   speed: 0.0034, ns: 3.8, lw: 2.6, alpha: 0.86
+        rings: 6,  baseR: 100, gap: 22,
+        amp: 28,   speed: 0.0022, ns: 2.6, lw: 2.2, alpha: 0.55
       }
     };
 
@@ -872,6 +874,7 @@
     let sizeNoise  = 0;
     let sizeTarget = 0;
     let rotSpeed   = 0.00055;
+    let fillLevel  = 0;
 
     function getOrbColor() {
       return getComputedStyle(document.documentElement).getPropertyValue('--orb-color').trim();
@@ -923,9 +926,31 @@
         ringPhase[i] += ringDrift[i];
       }
 
+      // Fill progress: grows linearly during processing, jumps to full on result, drains on idle
+      if (appState === 'processing') {
+        fillLevel = Math.min(0.88, fillLevel + 0.0020);
+      } else if (appState === 'result') {
+        fillLevel = lerp(fillLevel, 1.0, 0.15);
+      } else {
+        fillLevel = lerp(fillLevel, 0, 0.045);
+      }
+
       ctx.clearRect(0, 0, 600, 600);
       const col   = getOrbColor();
       const rings = Math.round(cur.rings);
+
+      // Center fill (processing progress / result complete)
+      if (fillLevel > 0.005) {
+        const fillR = cur.baseR * fillLevel;
+        ctx.beginPath();
+        ctx.arc(CX, CY, fillR, 0, Math.PI * 2);
+        const gf = ctx.createRadialGradient(CX, CY, 0, CX, CY, fillR);
+        gf.addColorStop(0,   `rgba(${col},${(cur.alpha * 0.72).toFixed(3)})`);
+        gf.addColorStop(0.6, `rgba(${col},${(cur.alpha * 0.36).toFixed(3)})`);
+        gf.addColorStop(1,   `rgba(${col},0.01)`);
+        ctx.fillStyle = gf;
+        ctx.fill();
+      }
 
       for (let i = 0; i < rings; i++) {
         const r = cur.baseR + i * cur.gap;
@@ -986,6 +1011,7 @@
     }
 
     async function processTranscript(text) {
+      fillLevel = 0;
       setState('processing');
       try {
         const ctrl = new AbortController();
@@ -1054,7 +1080,7 @@
     function dismissCard() {
       clearTimeout(dismissTimer);
       resultCard.classList.remove('visible');
-      setTimeout(() => setState('idle'), 450);
+      setTimeout(() => setState(document.activeElement === textInput ? 'listening' : 'idle'), 450);
     }
 
     resultCard.addEventListener('click', dismissCard);
@@ -1071,6 +1097,7 @@
         dismissCard();
       } else {
         setState('idle');
+        textInput.blur();
       }
     });
 
@@ -1091,11 +1118,15 @@
     });
 
     textInput.addEventListener('input', () => {
-      const hasText = !!textInput.value.trim();
-      sendBtn.disabled = !hasText;
-      if (appState === 'idle' || appState === 'typing') {
-        setState(hasText ? 'typing' : 'idle');
-      }
+      sendBtn.disabled = !textInput.value.trim();
+    });
+
+    textInput.addEventListener('focus', () => {
+      if (appState === 'idle') setState('listening');
+    });
+
+    textInput.addEventListener('blur', () => {
+      if (appState === 'listening') setState('idle');
     });
 
     /* ── MENU ──────────────────────────────────────────────────── */
@@ -1187,17 +1218,20 @@
 
     /* ── VIEWPORT / KEYBOARD ────────────────────────────────────── */
 
-    // Resize #app to the visual viewport (excludes on-screen keyboard).
-    // body { position: fixed } prevents iOS from panning the page;
-    // this shrinks the flex layout so header + controls stay visible.
+    // Keep #app sized to the visual viewport (excludes on-screen keyboard).
+    // Also counteracts any iOS panning via offsetTop so header + controls stay in frame.
     function syncViewport() {
-      const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-      app.style.height = h + 'px';
+      const vv = window.visualViewport;
+      const h  = vv ? vv.height : window.innerHeight;
+      app.style.height    = h + 'px';
+      app.style.transform = vv && vv.offsetTop ? `translateY(-${vv.offsetTop}px)` : '';
     }
 
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', syncViewport);
+      window.visualViewport.addEventListener('scroll', syncViewport);
     }
+    window.addEventListener('resize', syncViewport);
     syncViewport();
 
     /* ── SERVICE WORKER ─────────────────────────────────────────── */
