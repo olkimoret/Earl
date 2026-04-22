@@ -25,6 +25,7 @@ export async function createEvent({ title, date, time, duration = 60 }) {
   });
 
   console.log('[Earl/calendar] createEvent created:', data.id, title);
+  return data;
 }
 
 export async function moveEvent({ meetingTitle, newDate, newTime }) {
@@ -57,4 +58,5 @@ export async function moveEvent({ meetingTitle, newDate, newTime }) {
   });
 
   console.log('[Earl/calendar] moveEvent updated:', updated.id, meetingTitle, '->', newDate, newTime);
+  return updated;
 }

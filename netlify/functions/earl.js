@@ -8,19 +8,20 @@ import { join } from 'path';
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 function buildSystemPrompt() {
-  const brain = readFileSync(join(process.cwd(), 'user/earl-brain.md'), 'utf8');
+  const universal = readFileSync(join(process.cwd(), 'earl-brain-universal.md'), 'utf8');
+  const personal  = readFileSync(join(process.cwd(), 'user/earl-brain-personal.md'), 'utf8');
 
   let memory = '';
   try {
     const raw = readFileSync(join(process.cwd(), 'user/earl-memory.md'), 'utf8').trim();
     if (raw) memory = raw;
   } catch {
-    // memory file missing or unreadable — proceed with brain only
+    // memory file missing or unreadable — proceed without it
   }
 
-  if (!memory) return brain;
-
-  return `${brain}\n\n---\n## Personal instructions (Memory)\n${memory}`;
+  let prompt = `${universal}\n\n---\n\n${personal}`;
+  if (memory) prompt += `\n\n---\n## Runtime memory\n${memory}`;
+  return prompt;
 }
 
 export const handler = async (event) => {
@@ -89,46 +90,49 @@ async function routeIntent(intent) {
   const { action, service, params, confirmation, clarification } = intent;
 
   if (action === 'clarify') {
-    return [{ service: 'warn', label: clarification, detail: '' }];
+    return [{ service: 'warn', label: clarification, detail: '', id: null, fullData: null }];
   }
 
   if (action === 'noted') {
-    return [{ service: 'earl', label: 'Noted', detail: confirmation }];
+    return [{ service: 'earl', label: 'Noted', detail: confirmation, id: null, fullData: params }];
   }
 
   try {
     switch (action) {
       case 'draft_email': {
         const { createDraft } = await import('./gmail.js');
-        await createDraft(params);
-        return [{ service: 'gmail', label: 'Email drafted', detail: confirmation }];
+        const created = await createDraft(params);
+        return [{ service: 'gmail', label: 'Email drafted', detail: confirmation, id: created?.id || null, fullData: params }];
       }
       case 'create_event':
       case 'set_reminder':
       case 'move_meeting': {
         const { createEvent, moveEvent } = await import('./calendar.js');
-        if (action === 'move_meeting') await moveEvent(params);
-        else await createEvent(params);
+        const created = action === 'move_meeting' ? await moveEvent(params) : await createEvent(params);
         return [{
           service: 'calendar',
           label: action === 'move_meeting' ? 'Meeting moved' : 'Event created',
-          detail: confirmation
+          detail: confirmation,
+          id: created?.id || null,
+          fullData: params
         }];
       }
       case 'create_task': {
         const { createTask } = await import('./ticktick.js');
-        await createTask(params);
-        return [{ service: 'ticktick', label: 'Task added', detail: confirmation }];
+        const created = await createTask(params);
+        return [{ service: 'ticktick', label: 'Task added', detail: confirmation, id: created?.id || null, fullData: params }];
       }
       default:
-        return [{ service: 'earl', label: 'Done', detail: confirmation }];
+        return [{ service: 'earl', label: 'Done', detail: confirmation, id: null, fullData: params }];
     }
   } catch (err) {
     console.error('[Earl] Service error:', err);
     return [{
       service: 'warn',
       label: 'Understood, but hit an error',
-      detail: confirmation
+      detail: confirmation,
+      id: null,
+      fullData: params
     }];
   }
 }

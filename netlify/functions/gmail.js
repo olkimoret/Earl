@@ -16,8 +16,11 @@ export async function createDraft({ to, subject, body }) {
     `To: ${to || ''}\r\nSubject: ${subject || '(no subject)'}\r\n\r\n${body}`
   ).toString('base64url');
 
-  await gmail.users.drafts.create({
+  const { data } = await gmail.users.drafts.create({
     userId: 'me',
     requestBody: { message: { raw } },
   });
+
+  console.log('[Earl/gmail] Draft created:', data.id);
+  return data;
 }
