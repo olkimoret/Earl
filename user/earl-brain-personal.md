@@ -25,10 +25,31 @@ Mikael Bonnevie — AI/ops consultant, founder of Noobia. Busy. Values clarity a
 - Personal: mikael.bonnevie@gmail.com — family, personal
 
 ### Google Calendar
-- Work: mikael@noobia.co — client meetings, Noobia business, workshops
-- Personal: mikael.bonnevie@gmail.com — family, kids, personal appointments
 
-Always infer which calendar from context. Family/personal → personal calendar. Work/clients → work calendar. When ambiguous → default to work.
+Mikael has three calendars. Always set `calendarId` to the exact name below:
+
+| Calendar name | When to use |
+|---|---|
+| `In_Person_N` | Any in-person meeting: coffee, lunch, office visit, physical location |
+| `Virtual/Phone` | Any remote meeting: Zoom, phone call, Google Meet, Teams, video call |
+| `Personal` | Family, kids, personal appointments (Jen, Kayla, Liam, personal life) |
+
+**In-person events (`In_Person_N`):**
+- Put the venue name and/or address in `params.location`
+- Keep the title clean: "Meeting with Jessica", not "Meeting with Jessica at Starbucks"
+- No Google Meet link
+
+**Virtual/phone events (`Virtual/Phone`):**
+- Set `location` to null
+- If the platform is known, note it in the event description (e.g., "Google Meet", "Phone call")
+- No physical address needed
+
+**Personal events:**
+- Use for anything involving Jen, Kayla, Liam, or personal life
+- Location if relevant (e.g., school address, restaurant)
+
+**Work events with no clear type (truly ambiguous):**
+- Ask one clarifying question: "Is this a call or in person?"
 
 ### TickTick structure
 Mikael's philosophy: everything must have a home. Backlog exists to catch overflow, not as a dumping ground.
@@ -93,4 +114,14 @@ Mikael's philosophy: everything must have a home. Backlog exists to catch overfl
 
 ## Custom routing (Mikael-specific overrides)
 
-_None yet. Add Mikael-specific exceptions here as they come up._
+### Calendar and task routing examples
+
+| What Mikael says | Action | Notes |
+|---|---|---|
+| "Meeting Jen at Starbucks at 2pm Friday" | Calendar → `In_Person_N` | title: "Meeting with Jen", location: "Starbucks", description: null |
+| "Meet Rose at Travelers Coffee EDH tomorrow at 3, bring iPad to test forms" | Calendar → `In_Person_N` | title: "Meeting with Rose", location: "Travelers Coffee, El Dorado Hills", description: "Bring iPad to test forms" |
+| "Call with Sarah Friday 2pm" | Calendar → `Virtual/Phone` | title: "Call with Sarah", location: null, description: null |
+| "Zoom with ElderPath team Monday 10am" | Calendar → `Virtual/Phone` | title: "Zoom — ElderPath team", description: "Google Meet" |
+| "Meet Steve at Nuggets next week" (no time) | TickTick task → Noobia / To do | title: "Schedule meeting with Steve", content: "Meet at Nuggets, next week" |
+| "Coffee with someone" (no date/time) | TickTick task → Noobia / To do | title: "Schedule coffee", content: null |
+| "Meeting Thursday" (no time, no who) | TickTick task with due date Thursday | |

@@ -28,9 +28,9 @@ export const handler = async (event) => {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
-  let id, title, project, dueDate, priority;
+  let id, title, project, dueDate, priority, content;
   try {
-    ({ id, title, project, dueDate, priority } = JSON.parse(event.body));
+    ({ id, title, project, dueDate, priority, content } = JSON.parse(event.body));
     if (!id) throw new Error('Missing id');
   } catch (err) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Invalid request: ' + err.message }) };
@@ -54,6 +54,7 @@ export const handler = async (event) => {
       ...(projectId && { projectId }),
       ...(priority  && { priority: priorityMap[priority] ?? 0 }),
       ...(dueDate   && { dueDate: new Date(dueDate).toISOString() }),
+      ...(content !== undefined && { content: content || '' }),
     };
 
     console.log('[Earl/update-task] Updating task:', JSON.stringify(body, null, 2));

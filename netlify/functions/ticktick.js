@@ -25,7 +25,7 @@ function findProject(projects, name) {
   return projects.find(p => p.name.toLowerCase().trim() === n) || null;
 }
 
-export async function createTask({ title, project, tags = [], dueDate, priority = 'none' }) {
+export async function createTask({ title, project, tags = [], dueDate, priority = 'none', content }) {
   const headers   = getHeaders();
   const projects  = await getProjects();
   const matched   = findProject(projects, project);
@@ -42,7 +42,8 @@ export async function createTask({ title, project, tags = [], dueDate, priority 
     projectId,
     tags:     Array.isArray(tags) ? tags : [],
     priority: priorityMap[priority] ?? 0,
-    ...(dueDate && { dueDate: new Date(dueDate).toISOString() }),
+    ...(dueDate  && { dueDate: new Date(dueDate).toISOString() }),
+    ...(content  && { content }),
   };
 
   console.log('[Earl/ticktick] createTask:', JSON.stringify(body, null, 2));

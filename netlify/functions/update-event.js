@@ -14,20 +14,33 @@ export const handler = async (event) => {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
-  let id, title, date, time, location, onlineOrInPerson;
+  let id, title, date, time, location, description, onlineOrInPerson, calendarId;
   try {
-    ({ id, title, date, time, location, onlineOrInPerson } = JSON.parse(event.body));
+    ({ id, title, date, time, location, description, onlineOrInPerson, calendarId } = JSON.parse(event.body));
     if (!id) throw new Error('Missing id');
   } catch (err) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Invalid request: ' + err.message }) };
   }
 
   try {
-    const calendar = google.calendar({ version: 'v3', auth: getAuth() });
+    const auth = getAuth();
+    const calendar = google.calendar({ version: 'v3', auth });
+
+    // Resolve friendly calendar name → Google calendar ID
+    let resolvedCalendarId = 'primary';
+    if (calendarId) {
+      const { data: list } = await calendar.calendarList.list();
+      const n = calendarId.toLowerCase().trim();
+      const match = (list.items || []).find(c =>
+        c.summary?.toLowerCase().trim() === n || c.id?.toLowerCase() === n
+      );
+      resolvedCalendarId = match ? match.id : 'primary';
+      if (!match) console.warn(`[Earl/update-event] Calendar "${calendarId}" not found`);
+    }
 
     // Fetch the existing event to preserve fields we're not updating
     const { data: existing } = await calendar.events.get({
-      calendarId: 'primary',
+      calendarId: resolvedCalendarId,
       eventId: id,
     });
 
@@ -56,10 +69,14 @@ export const handler = async (event) => {
       patch.location = '';
     }
 
+    if (description !== undefined) {
+      patch.description = description || '';
+    }
+
     console.log('[Earl/update-event] Updating event:', id, title || existing.summary);
 
     const { data: updated } = await calendar.events.update({
-      calendarId: 'primary',
+      calendarId: resolvedCalendarId,
       eventId: id,
       requestBody: patch,
     });

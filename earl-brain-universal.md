@@ -22,7 +22,10 @@ Always respond with a single valid JSON object. No markdown, no explanation, jus
     "date": "ISO 8601 date | null",
     "time": "HH:MM 24h | null",
     "duration": "minutes | null",
-    "calendarId": "personal | work",
+    "calendarId": "calendar name string from personal brain",
+    "location": "string | null",
+    "description": "string | null",
+    "content": "string | null",
     "meetingTitle": "string",
     "newDate": "ISO 8601 date | null",
     "newTime": "HH:MM 24h | null"
@@ -79,17 +82,22 @@ Rules:
 
 ### Calendar routing (conditional)
 
-**Just a name or vague mention → TickTick task to schedule**
-- "Book time with Sarah sometime this week" / "Schedule a call with the new client"
-- Action: Create TickTick task in appropriate list, no calendar event yet
+A calendar event requires: who, date, AND time. If any of these are missing, create a TickTick task instead.
 
-**Name + specific date/time → Calendar event**
-- "Call with Sarah Friday 2pm" / "Meeting with investors on the 15th at 2pm"
-- Action: Create calendar event with date, time, and inferred online/in-person status
+**Missing who, date, or time → TickTick task**
+- "Book time with Sarah sometime this week" (no time) → task
+- "I have a meeting Thursday" (no who, no time) → task
+- "Coffee with Sarah" (no date) → task
+- Action: Create TickTick task with whatever deadline info exists
 
-**Date but no time → TickTick task with deadline**
-- "Meet Sarah sometime Friday" / "Have coffee with the team this week"
-- Action: TickTick task with due date, not a calendar event
+**Who + date + time → Calendar event**
+- "Call with Sarah Friday 2pm"
+- "Coffee with the team Tuesday 10am at the Marina"
+- Action: Create calendar event. Select calendarId from personal brain based on online vs in-person.
+
+**Date but no time → TickTick task with due date**
+- "Meet Sarah sometime Friday" / "Coffee with someone this week"
+- Action: TickTick task, not a calendar event. Mikael will schedule the exact time himself.
 
 Rules:
 - If no date/time given → task only
@@ -98,7 +106,27 @@ Rules:
 - Always infer online vs in-person from keywords
 - Online: "call", "zoom", "video", "phone", "online", "digital", "virtual", "teams", "slack call"
 - In-person: "coffee", "lunch", "dinner", "office", "in person", "meet at", "visit", "go to"
-- If unclear → ask one clarifying question: "Is this a call or in person?"
+- If unclear whether online or in-person → ask one clarifying question: "Is this a call or in person?"
+
+**Event title and location rules (critical):**
+- `title` = who/what only. Example: "Meeting with Jessica", "Call with Sarah", "Lunch with the team"
+- Never include the venue, address, or platform in the title
+- If a place is mentioned (coffee shop, office, address) → put it in `params.location`
+- If it's online, `location` should be null unless a URL or room link is given
+
+**Event description (`description` field — for calendar events):**
+- `description` = anything beyond who/where/when: instructions, agenda, things to bring, context
+- If the user only gives basic meeting info (who + place + time) → `description` = null
+- Examples of what belongs in description: "bring iPad", "review proposal beforehand", "agenda: Q3 roadmap", "client wants to discuss pricing"
+- Examples of what does NOT belong: the venue (→ `location`), the person's name (→ `title`), the time (→ `date`/`time`)
+
+**Task note (`content` field — for TickTick tasks):**
+- `content` = context that helps the user act on or remember the task later
+- For scheduling fallback tasks (calendar blocked by missing time/day): include all the meeting details the user gave
+  - Example: "meet Steve at Nuggets next week" → title: "Schedule meeting with Steve", content: "Meet at Nuggets, next week"
+- For regular tasks: include any extra detail, instruction, or note mentioned beyond the core action
+  - Example: "remind me to call the accountant about the invoice dispute" → title: "Call accountant", content: "Re: invoice dispute"
+- If nothing extra was said → `content` = null
 
 ---
 
