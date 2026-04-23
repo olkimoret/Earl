@@ -7,1833 +7,1277 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Earl" />
-  <meta name="theme-color" content="#2A2938" />
+  <meta name="theme-color" content="#060d1c" />
   <title>Earl</title>
   <link rel="manifest" href="/manifest.json" />
   <link rel="apple-touch-icon" href="/icons/icon-192.png" />
 
+  <!-- Apply saved theme before paint to avoid flash -->
   <script>
-    (function () {
-      var t = localStorage.getItem('earl-theme') || 'slate';
+    (function() {
+      var t = localStorage.getItem('earl-theme') || 'navy';
       document.documentElement.setAttribute('data-theme', t);
     }());
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
 
   <style>
-    /* ── THEMES ─────────────────────────────────────────────────── */
+    /* ── THEMES ────────────────────────────────────────────── */
 
-    :root,
-    :root[data-theme="slate"] {
-      --bg-gradient-start: #6B6880;
-      --bg-gradient-mid:   #52506B;
-      --bg-gradient-end:   #2A2938;
-      --bg-gradient-angle: 170deg;
-      --bloom-color:       rgba(200,194,223,0.09);
-      --orb-color:         200,194,223;
-      --text-primary:      #EDE8F2;
-      --text-mid:          rgba(237,232,242,0.65);
-      --text-soft:         rgba(237,232,242,0.38);
-      --border:            rgba(237,232,242,0.09);
-      --card-bg:           rgba(36,35,50,0.95);
-      --btn-bg:            rgba(255,255,255,0.05);
-      --btn-border:        rgba(237,232,242,0.09);
-      --input-bg:          rgba(255,255,255,0.06);
-      --input-border:      rgba(200,194,223,0.22);
-      --send-bg:           rgba(200,194,223,0.12);
-      --send-border:       rgba(200,194,223,0.28);
-      --send-active-bg:    #C8C2DF;
-      --send-icon:         #C8C2DF;
-      --send-icon-active:  #2A2938;
-      --danger:            #E08888;
-      --icon-gmail:        rgba(234,67,53,0.16);
-      --icon-calendar:     rgba(100,149,237,0.16);
-      --icon-ticktick:     rgba(80,200,120,0.16);
-      --icon-earl:         rgba(200,194,223,0.14);
-      --icon-warn:         rgba(255,200,80,0.16);
-      --font-body:         'DM Sans', sans-serif;
-      --font-display:      'DM Sans', sans-serif;
-      --wordmark-tracking: 0.34em;
+    :root, [data-theme="navy"] {
+      --bg0: #060d1c; --bg1: #0c1630; --bg2: #182450;
+      --bg-angle: 170deg;
+      --bloom: rgba(50,100,220,.13);
+      --orb: 120,168,255;
+      --acc: #4a8ee0; --acc-dim: rgba(74,142,224,.14); --acc-hi: rgba(74,142,224,.30);
+      --txt: #d4e2ff; --txt-mid: rgba(212,226,255,.56); --txt-faint: rgba(212,226,255,.28);
+      --line: rgba(212,226,255,.08); --line-hi: rgba(212,226,255,.15);
+      --glass: rgba(8,14,30,.90); --glass-hi: rgba(12,20,42,.97);
+      --pill: rgba(255,255,255,.05);
+      --send-active-bg: #4a8ee0; --send-icon-active: #fff;
+      --danger: #e07070;
+      --icon-gmail: rgba(234,67,53,.16); --icon-calendar: rgba(80,140,240,.16);
+      --icon-ticktick: rgba(70,190,110,.16); --icon-earl: rgba(120,168,255,.14);
+      --icon-warn: rgba(240,185,50,.16);
+      --font-body: 'Inter', sans-serif; --font-display: 'DM Mono', monospace;
     }
 
-    :root[data-theme="parchment"] {
-      --bg-gradient-start: #F0EBE0;
-      --bg-gradient-mid:   #E5DDD0;
-      --bg-gradient-end:   #C8BFB0;
-      --bg-gradient-angle: 160deg;
-      --bloom-color:       rgba(180,160,130,0.12);
-      --orb-color:         120,100,80;
-      --text-primary:      #2A2520;
-      --text-mid:          rgba(42,37,32,0.60);
-      --text-soft:         rgba(42,37,32,0.35);
-      --border:            rgba(42,37,32,0.10);
-      --card-bg:           rgba(245,240,232,0.96);
-      --btn-bg:            rgba(0,0,0,0.04);
-      --btn-border:        rgba(42,37,32,0.10);
-      --input-bg:          rgba(0,0,0,0.04);
-      --input-border:      rgba(120,100,80,0.22);
-      --send-bg:           rgba(120,100,80,0.10);
-      --send-border:       rgba(120,100,80,0.25);
-      --send-active-bg:    #7A6450;
-      --send-icon:         #7A6450;
-      --send-icon-active:  #F0EBE0;
-      --danger:            #C05050;
-      --icon-gmail:        rgba(234,67,53,0.12);
-      --icon-calendar:     rgba(66,133,244,0.12);
-      --icon-ticktick:     rgba(52,168,83,0.12);
-      --icon-earl:         rgba(120,100,80,0.12);
-      --icon-warn:         rgba(230,170,0,0.12);
-      --font-body:         'DM Sans', sans-serif;
-      --font-display:      'DM Sans', sans-serif;
-      --wordmark-tracking: 0.34em;
+    [data-theme="chalk"] {
+      --bg0: #ddd6cc; --bg1: #e8e3db; --bg2: #f0ede7;
+      --bg-angle: 160deg;
+      --bloom: rgba(60,80,160,.06);
+      --orb: 34,52,108;
+      --acc: #2855b0; --acc-dim: rgba(40,85,176,.10); --acc-hi: rgba(40,85,176,.22);
+      --txt: #18202e; --txt-mid: rgba(24,32,46,.58); --txt-faint: rgba(24,32,46,.30);
+      --line: rgba(24,32,46,.10); --line-hi: rgba(24,32,46,.18);
+      --glass: rgba(242,239,233,.92); --glass-hi: rgba(250,248,244,.97);
+      --pill: rgba(0,0,0,.04);
+      --send-active-bg: #2855b0; --send-icon-active: #fff;
+      --danger: #b04040;
+      --icon-gmail: rgba(200,50,40,.12); --icon-calendar: rgba(40,100,220,.12);
+      --icon-ticktick: rgba(40,160,80,.12); --icon-earl: rgba(34,52,108,.10);
+      --icon-warn: rgba(180,140,0,.12);
+      --font-body: 'Inter', sans-serif; --font-display: 'DM Mono', monospace;
     }
 
-    :root[data-theme="noir"] {
-      --bg-gradient-start: #1A1A1A;
-      --bg-gradient-mid:   #111111;
-      --bg-gradient-end:   #050505;
-      --bg-gradient-angle: 180deg;
-      --bloom-color:       rgba(255,255,255,0.04);
-      --orb-color:         220,220,220;
-      --text-primary:      #E8E8E8;
-      --text-mid:          rgba(232,232,232,0.55);
-      --text-soft:         rgba(232,232,232,0.30);
-      --border:            rgba(255,255,255,0.07);
-      --card-bg:           rgba(18,18,18,0.97);
-      --btn-bg:            rgba(255,255,255,0.04);
-      --btn-border:        rgba(255,255,255,0.07);
-      --input-bg:          rgba(255,255,255,0.05);
-      --input-border:      rgba(220,220,220,0.18);
-      --send-bg:           rgba(220,220,220,0.08);
-      --send-border:       rgba(220,220,220,0.18);
-      --send-active-bg:    #D0D0D0;
-      --send-icon:         #AAAAAA;
-      --send-icon-active:  #0A0A0A;
-      --danger:            #E06060;
-      --icon-gmail:        rgba(234,67,53,0.14);
-      --icon-calendar:     rgba(100,149,237,0.14);
-      --icon-ticktick:     rgba(80,200,120,0.14);
-      --icon-earl:         rgba(200,200,200,0.10);
-      --icon-warn:         rgba(255,200,80,0.14);
-      --font-body:         'DM Sans', sans-serif;
-      --font-display:      'DM Sans', sans-serif;
-      --wordmark-tracking: 0.38em;
+    [data-theme="olive"] {
+      --bg0: #121408; --bg1: #1a1e0a; --bg2: #22280c;
+      --bg-angle: 168deg;
+      --bloom: rgba(100,120,30,.14);
+      --orb: 175,188,92;
+      --acc: #8a9438; --acc-dim: rgba(138,148,56,.14); --acc-hi: rgba(138,148,56,.28);
+      --txt: #d4daa8; --txt-mid: rgba(212,218,168,.56); --txt-faint: rgba(212,218,168,.28);
+      --line: rgba(212,218,168,.08); --line-hi: rgba(212,218,168,.15);
+      --glass: rgba(14,16,6,.90); --glass-hi: rgba(20,22,8,.97);
+      --pill: rgba(255,255,255,.04);
+      --send-active-bg: #8a9438; --send-icon-active: #fff;
+      --danger: #d07060;
+      --icon-gmail: rgba(234,67,53,.16); --icon-calendar: rgba(80,140,240,.16);
+      --icon-ticktick: rgba(70,190,110,.16); --icon-earl: rgba(175,188,92,.14);
+      --icon-warn: rgba(240,185,50,.16);
+      --font-body: 'Inter', sans-serif; --font-display: 'DM Mono', monospace;
     }
 
-    :root[data-theme="dusk"] {
-      --bg-gradient-start: #8B6A50;
-      --bg-gradient-mid:   #6B4E3A;
-      --bg-gradient-end:   #2E2018;
-      --bg-gradient-angle: 165deg;
-      --bloom-color:       rgba(220,170,100,0.10);
-      --orb-color:         220,185,140;
-      --text-primary:      #F2E8DC;
-      --text-mid:          rgba(242,232,220,0.62);
-      --text-soft:         rgba(242,232,220,0.36);
-      --border:            rgba(242,232,220,0.09);
-      --card-bg:           rgba(38,26,18,0.95);
-      --btn-bg:            rgba(255,255,255,0.05);
-      --btn-border:        rgba(242,232,220,0.09);
-      --input-bg:          rgba(255,255,255,0.06);
-      --input-border:      rgba(220,185,140,0.24);
-      --send-bg:           rgba(220,185,140,0.10);
-      --send-border:       rgba(220,185,140,0.26);
-      --send-active-bg:    #DDB978;
-      --send-icon:         #DDB978;
-      --send-icon-active:  #2E2018;
-      --danger:            #E08070;
-      --icon-gmail:        rgba(234,67,53,0.16);
-      --icon-calendar:     rgba(100,149,237,0.16);
-      --icon-ticktick:     rgba(80,200,120,0.16);
-      --icon-earl:         rgba(220,185,140,0.14);
-      --icon-warn:         rgba(255,200,80,0.16);
-      --font-body:         'DM Sans', sans-serif;
-      --font-display:      'DM Sans', sans-serif;
-      --wordmark-tracking: 0.34em;
+    [data-theme="graphite"] {
+      --bg0: #131110; --bg1: #1c1916; --bg2: #26221d;
+      --bg-angle: 172deg;
+      --bloom: rgba(170,140,90,.10);
+      --orb: 210,198,176;
+      --acc: #b09470; --acc-dim: rgba(176,148,112,.13); --acc-hi: rgba(176,148,112,.26);
+      --txt: #ece0cc; --txt-mid: rgba(236,224,204,.56); --txt-faint: rgba(236,224,204,.28);
+      --line: rgba(236,224,204,.08); --line-hi: rgba(236,224,204,.15);
+      --glass: rgba(14,12,10,.90); --glass-hi: rgba(22,18,14,.97);
+      --pill: rgba(255,255,255,.04);
+      --send-active-bg: #b09470; --send-icon-active: #fff;
+      --danger: #d07060;
+      --icon-gmail: rgba(234,67,53,.16); --icon-calendar: rgba(80,140,240,.16);
+      --icon-ticktick: rgba(70,190,110,.16); --icon-earl: rgba(210,198,176,.14);
+      --icon-warn: rgba(240,185,50,.16);
+      --font-body: 'Inter', sans-serif; --font-display: 'DM Mono', monospace;
     }
 
-    :root[data-theme="sage"] {
-      --bg-gradient-start: #4A6B58;
-      --bg-gradient-mid:   #354D40;
-      --bg-gradient-end:   #1A2820;
-      --bg-gradient-angle: 168deg;
-      --bloom-color:       rgba(140,200,160,0.09);
-      --orb-color:         160,210,175;
-      --text-primary:      #E8F2EC;
-      --text-mid:          rgba(232,242,236,0.62);
-      --text-soft:         rgba(232,242,236,0.36);
-      --border:            rgba(232,242,236,0.09);
-      --card-bg:           rgba(20,32,24,0.95);
-      --btn-bg:            rgba(255,255,255,0.05);
-      --btn-border:        rgba(232,242,236,0.09);
-      --input-bg:          rgba(255,255,255,0.05);
-      --input-border:      rgba(160,210,175,0.22);
-      --send-bg:           rgba(160,210,175,0.10);
-      --send-border:       rgba(160,210,175,0.26);
-      --send-active-bg:    #90C8A0;
-      --send-icon:         #90C8A0;
-      --send-icon-active:  #1A2820;
-      --danger:            #E08888;
-      --icon-gmail:        rgba(234,67,53,0.16);
-      --icon-calendar:     rgba(100,149,237,0.16);
-      --icon-ticktick:     rgba(80,200,120,0.16);
-      --icon-earl:         rgba(160,210,175,0.14);
-      --icon-warn:         rgba(255,200,80,0.16);
-      --font-body:         'DM Sans', sans-serif;
-      --font-display:      'DM Sans', sans-serif;
-      --wordmark-tracking: 0.34em;
+    [data-theme="oxblood"] {
+      --bg0: #110a0c; --bg1: #1c1012; --bg2: #28141a;
+      --bg-angle: 168deg;
+      --bloom: rgba(160,50,70,.13);
+      --orb: 232,160,172;
+      --acc: #b85068; --acc-dim: rgba(184,80,104,.14); --acc-hi: rgba(184,80,104,.28);
+      --txt: #f0d8dc; --txt-mid: rgba(240,216,220,.56); --txt-faint: rgba(240,216,220,.28);
+      --line: rgba(240,216,220,.08); --line-hi: rgba(240,216,220,.15);
+      --glass: rgba(14,8,10,.90); --glass-hi: rgba(22,12,16,.97);
+      --pill: rgba(255,255,255,.04);
+      --send-active-bg: #b85068; --send-icon-active: #fff;
+      --danger: #e06060;
+      --icon-gmail: rgba(234,67,53,.16); --icon-calendar: rgba(80,140,240,.16);
+      --icon-ticktick: rgba(70,190,110,.16); --icon-earl: rgba(232,160,172,.14);
+      --icon-warn: rgba(240,185,50,.16);
+      --font-body: 'Inter', sans-serif; --font-display: 'DM Mono', monospace;
     }
 
-    /* ── RESET ──────────────────────────────────────────────────── */
-
+    /* ── RESET ─────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    button { background: none; border: none; cursor: pointer; font: inherit; -webkit-tap-highlight-color: transparent; }
+    input  { -webkit-appearance: none; }
 
-    html {
-      -webkit-text-size-adjust: 100%;
-      background: var(--bg-gradient-end);
-    }
+    html { -webkit-text-size-adjust: 100%; background: var(--bg0); }
 
     body {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       font-family: var(--font-body);
-      color: var(--text-primary);
-      background: linear-gradient(
-        var(--bg-gradient-angle),
-        var(--bg-gradient-start)  0%,
-        var(--bg-gradient-mid)   50%,
-        var(--bg-gradient-end)  100%
-      );
+      color: var(--txt);
+      background: linear-gradient(var(--bg-angle), var(--bg2) 0%, var(--bg1) 45%, var(--bg0) 100%);
       overflow: hidden;
     }
 
     body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(
-        ellipse 60% 50% at 50% 38%,
-        var(--bloom-color) 0%,
-        transparent 68%
-      );
-      pointer-events: none;
-      z-index: 0;
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse 65% 50% at 50% 38%, var(--bloom) 0%, transparent 70%);
     }
 
-    /* ── LAYOUT ─────────────────────────────────────────────────── */
-
+    /* ── LAYOUT ─────────────────────────────────────────────── */
     #app {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+      position: absolute; top: 0; left: 0; right: 0;
+      z-index: 1; display: flex; flex-direction: column; overflow: hidden;
     }
 
-    /* ── HEADER ─────────────────────────────────────────────────── */
-
+    /* ── HEADER ─────────────────────────────────────────────── */
     .header {
-      flex: none;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 24px;
+      flex: none; display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 22px;
       padding-top: calc(20px + env(safe-area-inset-top));
     }
 
     .wordmark {
-      display: inline-block;
       font-family: var(--font-display);
-      font-size: 0.75rem;
-      font-weight: 400;
-      letter-spacing: var(--wordmark-tracking);
-      text-transform: uppercase;
-      color: var(--text-primary);
-      background: var(--btn-bg);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 6px 16px;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      font-size: .68rem; font-weight: 300; letter-spacing: .42em;
+      text-transform: uppercase; color: var(--txt);
+      background: var(--pill);
+      border: 1px solid var(--line);
+      border-radius: 100px; padding: 7px 16px 7px 20px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     }
 
-    /* ── STAGE ──────────────────────────────────────────────────── */
+    .menu-toggle {
+      width: 38px; height: 38px;
+      background: var(--pill); border: 1px solid var(--line);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--txt-mid); opacity: .55;
+      transition: opacity .2s, transform .14s;
+    }
+    .menu-toggle:active { transform: scale(.91); opacity: 1; }
 
+    /* ── STAGE ──────────────────────────────────────────────── */
     .stage {
-      flex: 1;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 38px;
-      overflow: hidden;
+      flex: 1; min-height: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 28px; overflow: hidden;
     }
 
-    #orbCanvas {
-      width: 300px;
-      height: 300px;
-      display: block;
+    #orbCanvas { width: 280px; height: 280px; display: block; }
+
+    .status-block {
+      display: flex; flex-direction: column; align-items: center; gap: 9px;
+      min-height: 44px;
     }
+
+    .state-bar { display: flex; gap: 4px; align-items: center; }
+    .seg {
+      height: 2px; border-radius: 2px; background: var(--line-hi);
+      transition: width .5s cubic-bezier(.4,0,.2,1), background .4s;
+    }
+    .seg.s0 { width: 20px; } .seg.s1 { width: 10px; } .seg.s2 { width: 10px; }
+    .seg.lit { background: var(--acc); }
+    #app[data-state="listening"] .seg.s0 { width: 10px; }
+    #app[data-state="listening"] .seg.s1 { width: 24px; }
+    #app[data-state="working"]   .seg.s0 { width: 8px; }
+    #app[data-state="working"]   .seg.s1 { width: 8px; }
+    #app[data-state="working"]   .seg.s2 { width: 24px; }
+    #app[data-state="result"]    .seg.s0 { width: 8px; }
+    #app[data-state="result"]    .seg.s1 { width: 8px; }
+    #app[data-state="result"]    .seg.s2 { width: 24px; }
 
     .status-text {
-      font-size: 1rem;
-      font-weight: 300;
-      font-style: italic;
-      color: var(--text-mid);
-      letter-spacing: 0.01em;
-      text-align: center;
-      max-width: 280px;
-      min-height: 1.4em;
-      transition: color 0.3s ease;
+      font-size: .90rem; font-weight: 300; font-style: italic;
+      color: var(--txt-mid); letter-spacing: .01em;
+      text-align: center; min-height: 1.3em;
+      transition: opacity .25s, transform .25s;
     }
+    .status-text.fade { opacity: 0; transform: translateY(4px); }
+    #app[data-state="working"] .status-text,
+    #app[data-state="result"]  .status-text { font-style: normal; color: var(--txt); }
 
-    .app.processing .status-text {
-      font-style: normal;
-      color: var(--text-primary);
-    }
-
-    /* ── CONTROLS ───────────────────────────────────────────────── */
-
+    /* ── CONTROLS ───────────────────────────────────────────── */
     .controls {
-      flex: none;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 20px;
-      padding-bottom: calc(32px + env(safe-area-inset-bottom));
+      flex: none; display: flex; align-items: center; gap: 8px;
+      padding: 10px 18px;
+      padding-bottom: calc(28px + env(safe-area-inset-bottom));
     }
 
-    .ctrl-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: none;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-      transition: transform 0.15s ease, opacity 0.25s ease;
+    .cancel-btn {
+      flex: none; width: 42px; height: 42px; border-radius: 50%;
+      background: var(--pill); border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--txt-faint);
+      opacity: 0; pointer-events: none;
+      transition: opacity .28s, color .18s, border-color .18s, transform .14s;
     }
+    .cancel-btn.show { opacity: 1; pointer-events: auto; }
+    .cancel-btn:active { transform: scale(.9); color: var(--danger); border-color: rgba(220,90,90,.35); }
 
-    .ctrl-btn:active { transform: scale(0.93); }
-
-    .ctrl-btn.cancel {
-      width: 44px;
-      height: 44px;
-      background: var(--btn-bg);
-      border: 1px solid var(--btn-border);
-      opacity: 0.42;
+    .input-capsule {
+      flex: 1; display: flex; align-items: center;
+      background: var(--pill);
+      border: 1px solid var(--line-hi);
+      border-radius: 100px;
+      padding: 4px 4px 4px 20px;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      transition: border-color .2s;
     }
-
-    .ctrl-btn.cancel svg { stroke: var(--text-soft); transition: stroke 0.2s ease; }
-    .ctrl-btn.cancel:active { border-color: var(--danger); opacity: 1; }
-    .ctrl-btn.cancel:active svg { stroke: var(--danger); }
-
-    .app.processing .ctrl-btn.cancel,
-    .app.result .ctrl-btn.cancel { opacity: 1; }
+    .input-capsule:focus-within { border-color: var(--acc-hi); }
 
     #textInput {
-      flex: 1;
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      border-radius: 22px;
-      padding: 11px 18px;
-      outline: none;
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      color: var(--text-primary);
-      caret-color: var(--send-icon);
-      transition: border-color 0.2s ease;
-      -webkit-appearance: none;
+      flex: 1; background: none; border: none; outline: none;
+      font-family: var(--font-body); font-size: .90rem; font-weight: 300;
+      color: var(--txt); caret-color: var(--acc);
+      padding: 10px 0;
     }
-
-    #textInput:focus { border-color: var(--send-border); }
-    #textInput::placeholder { color: var(--text-soft); }
+    #textInput::placeholder { color: var(--txt-faint); }
 
     .send-btn {
-      flex: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--send-bg);
-      border: 1px solid var(--send-border);
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+      flex: none; width: 38px; height: 38px; border-radius: 50%;
+      background: var(--acc);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      transition: opacity .2s, transform .14s;
     }
+    .send-btn:disabled { background: var(--line-hi); color: var(--txt-faint); cursor: default; }
+    .send-btn:not(:disabled):active { transform: scale(.9); opacity: .85; }
 
-    .send-btn:disabled { opacity: 0.25; cursor: default; }
-    .send-btn svg * { stroke: var(--send-icon); transition: stroke 0.2s ease; }
-
-    .send-btn:not(:disabled):active {
-      background: var(--send-active-bg);
-      border-color: var(--send-active-bg);
-    }
-
-    .send-btn:not(:disabled):active svg * { stroke: var(--send-icon-active); }
-
-    /* ── RESULT CARD ────────────────────────────────────────────── */
-
+    /* ── RESULT CARD ────────────────────────────────────────── */
     .result-card {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      min-height: 25vh;
-      background: var(--card-bg);
-      border-top: 1px solid var(--border);
-      border-radius: 20px 20px 0 0;
-      padding: 12px 24px calc(48px + env(safe-area-inset-bottom));
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+      background: var(--glass);
+      border-top: 1px solid var(--line-hi);
+      border-radius: 24px 24px 0 0;
+      padding: 14px 22px calc(44px + env(safe-area-inset-bottom));
+      backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
       transform: translateY(110%);
-      transition: transform 0.52s cubic-bezier(0.34, 1.48, 0.64, 1);
+      transition: transform .52s cubic-bezier(.34,1.48,.64,1);
       cursor: pointer;
     }
-
     .result-card.visible { transform: translateY(0); }
 
     .card-handle {
-      width: 36px;
-      height: 4px;
-      background: var(--border);
-      border-radius: 2px;
-      margin: 0 auto 16px;
+      width: 28px; height: 3px; border-radius: 2px;
+      background: var(--line-hi); margin: 0 auto 16px;
     }
-
     .card-label {
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-soft);
-      margin-bottom: 14px;
+      font-size: .60rem; font-weight: 500; letter-spacing: .11em;
+      text-transform: uppercase; color: var(--txt-faint); margin-bottom: 14px;
     }
-
-    .action-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .action-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
 
     @keyframes slideUp {
-      from { opacity: 0; transform: translateY(14px); }
+      from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
     .action-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      animation: slideUp 0.38s cubic-bezier(0.34, 1.48, 0.64, 1) both;
+      display: flex; align-items: center; gap: 12px;
+      animation: slideUp .36s cubic-bezier(.34,1.48,.64,1) both;
     }
-
     .action-icon {
-      flex: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
+      flex: none; width: 38px; height: 38px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
     }
-
     .action-icon.gmail    { background: var(--icon-gmail); }
     .action-icon.calendar { background: var(--icon-calendar); }
     .action-icon.ticktick { background: var(--icon-ticktick); }
     .action-icon.earl     { background: var(--icon-earl); }
     .action-icon.warn     { background: var(--icon-warn); }
-
-    .action-text {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      font-size: 0.9rem;
-      font-weight: 400;
-      color: var(--text-primary);
-    }
-
-    .action-text span {
-      font-size: 0.78rem;
-      font-weight: 300;
-      color: var(--text-soft);
-    }
-
-    /* ── MENU TOGGLE ────────────────────────────────────────── */
-
-    .menu-toggle {
-      flex: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      background: var(--btn-bg);
-      border: 1px solid var(--btn-border);
-      border-radius: 50%;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      transition: opacity 0.2s ease, transform 0.15s ease;
-      opacity: 0.5;
-    }
-
-    .menu-toggle:active { transform: scale(0.92); opacity: 1; }
-    .menu-toggle svg line { stroke: var(--text-mid); }
+    .action-text { display: flex; flex-direction: column; gap: 2px; font-size: .86rem; font-weight: 400; color: var(--txt); }
+    .action-text span { font-size: .73rem; font-weight: 300; color: var(--txt-faint); }
 
     /* ── SIDE MENU ──────────────────────────────────────────── */
-
     .menu-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 40;
+      position: fixed; inset: 0; z-index: 40;
       pointer-events: none;
     }
-
     .menu-overlay.open { pointer-events: auto; }
 
     .side-menu {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: min(290px, 85vw);
-      z-index: 50;
-      background: var(--card-bg);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-left: 1px solid var(--border);
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: min(300px, 86vw); z-index: 50;
+      background: var(--glass-hi);
+      backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
+      border-left: 1px solid var(--line);
       transform: translateX(100%);
-      transition: transform 0.52s cubic-bezier(0.34, 1.48, 0.64, 1);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+      transition: transform .50s cubic-bezier(.34,1.48,.64,1);
+      display: flex; flex-direction: column; overflow: hidden;
     }
-
     .side-menu.open { transform: translateX(0); }
 
     .menu-header {
-      flex: none;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: calc(22px + env(safe-area-inset-top)) 20px 16px;
-      border-bottom: 1px solid var(--border);
+      flex: none; display: flex; align-items: center; justify-content: space-between;
+      padding: calc(22px + env(safe-area-inset-top)) 18px 14px;
+      border-bottom: 1px solid var(--line);
     }
-
     .menu-title {
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-soft);
+      font-size: .60rem; font-weight: 500; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--txt-faint);
     }
-
     .menu-close {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      background: var(--btn-bg);
-      border: 1px solid var(--btn-border);
-      border-radius: 50%;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      transition: transform 0.15s ease;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--pill); border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--txt-faint); transition: transform .14s;
     }
+    .menu-close:active { transform: scale(.88); }
 
-    .menu-close:active { transform: scale(0.9); }
-    .menu-close svg line { stroke: var(--text-soft); }
+    .menu-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 
-    .menu-body {
-      flex: 1;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .menu-section {
-      padding: 20px 20px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .menu-section:last-child {
-      border-bottom: none;
-      padding-bottom: calc(32px + env(safe-area-inset-bottom));
-    }
+    .menu-section { padding: 16px 18px; border-bottom: 1px solid var(--line); }
+    .menu-section:last-child { border-bottom: none; padding-bottom: calc(28px + env(safe-area-inset-bottom)); }
 
     .menu-section-label {
-      font-size: 0.66rem;
-      font-weight: 500;
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-      color: var(--text-soft);
-      margin-bottom: 14px;
+      font-size: .58rem; font-weight: 500; letter-spacing: .11em;
+      text-transform: uppercase; color: var(--txt-faint); margin-bottom: 13px;
     }
 
     .connected-apps { display: flex; gap: 16px; }
-
     .connected-app {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      position: relative; display: flex; flex-direction: column;
+      align-items: center; gap: 5px;
     }
-
     .app-status-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--line);
     }
-
     .app-status-icon.gmail    { background: var(--icon-gmail); }
     .app-status-icon.calendar { background: var(--icon-calendar); }
     .app-status-icon.ticktick { background: var(--icon-ticktick); }
-
     .status-dot {
-      position: absolute;
-      top: -3px;
-      right: -3px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(128,128,128,0.4);
-      border: 1.5px solid var(--card-bg);
+      position: absolute; top: -2px; right: -2px;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: rgba(100,100,100,.4); border: 1.5px solid var(--glass-hi);
     }
+    .status-dot.connected { background: #4ecb71; }
+    .app-name { font-size: .63rem; color: var(--txt-faint); }
 
-    .status-dot.connected { background: #50C878; }
-
-    .app-name {
-      font-size: 0.70rem;
-      color: var(--text-soft);
-    }
-
-    .action-log { display: flex; flex-direction: column; gap: 12px; }
-
-    .log-empty {
-      font-size: 0.82rem;
-      color: var(--text-soft);
-      font-style: italic;
-    }
+    .action-log { display: flex; flex-direction: column; gap: 11px; }
+    .log-empty  { font-size: .82rem; color: var(--txt-faint); font-style: italic; }
 
     .log-item { display: flex; align-items: center; gap: 10px; }
-
     .log-icon {
-      flex: none;
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
+      flex: none; width: 30px; height: 30px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--line);
     }
-
     .log-icon.gmail    { background: var(--icon-gmail); }
     .log-icon.calendar { background: var(--icon-calendar); }
     .log-icon.ticktick { background: var(--icon-ticktick); }
     .log-icon.earl     { background: var(--icon-earl); }
     .log-icon.warn     { background: var(--icon-warn); }
-
-    .log-text {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-      font-size: 0.82rem;
-      color: var(--text-primary);
-    }
-
+    .log-text { flex: 1; min-width: 0; font-size: .80rem; font-weight: 400; color: var(--txt); }
     .log-text span {
-      font-size: 0.72rem;
-      color: var(--text-soft);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      display: block; font-size: .70rem; font-weight: 300; color: var(--txt-faint);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-
-    .log-time {
-      flex: none;
-      font-size: 0.70rem;
-      color: var(--text-soft);
-    }
+    .log-time { flex: none; font-size: .64rem; color: var(--txt-faint); }
 
     .log-item--editable {
-      cursor: pointer;
-      border-radius: 8px;
-      margin: -6px;
-      padding: 6px;
-      transition: background 0.15s ease;
+      cursor: pointer; border-radius: 8px;
+      margin: -5px; padding: 5px;
+      transition: background .15s;
     }
+    .log-item--editable:active { background: var(--pill); }
+    .log-edit-hint { flex: none; font-size: .65rem; color: var(--txt-faint); opacity: .6; }
 
-    .log-item--editable:active { background: var(--btn-bg); }
-
-    .log-item--editable .log-edit-hint {
-      flex: none;
-      font-size: 0.65rem;
-      color: var(--text-soft);
-      opacity: 0.6;
+    /* Theme swatches */
+    .theme-grid { display: flex; justify-content: space-between; }
+    .swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0; }
+    .swatch-circle {
+      display: block; width: 34px; height: 34px; border-radius: 50%;
+      outline: 2px solid transparent; outline-offset: 2.5px;
+      transition: outline-color .2s, transform .14s;
     }
+    .swatch:active .swatch-circle { transform: scale(.88); }
+    .swatch.active .swatch-circle { outline-color: var(--txt); }
+    .swatch-label { font-size: .60rem; color: var(--txt-faint); }
 
-    /* ── EDIT DRAWER ────────────────────────────────────────────── */
-
+    /* ── EDIT DRAWER ────────────────────────────────────────── */
     .edit-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 60;
+      position: fixed; inset: 0; z-index: 60;
       pointer-events: none;
-      background: rgba(0,0,0,0.35);
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      background: rgba(0,0,0,.35);
+      opacity: 0; transition: opacity .3s ease;
     }
-
     .edit-overlay.open { pointer-events: auto; opacity: 1; }
 
     .edit-drawer {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: min(340px, 94vw);
-      z-index: 70;
-      background: var(--card-bg);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-left: 1px solid var(--border);
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: min(340px, 94vw); z-index: 70;
+      background: var(--glass-hi);
+      backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+      border-left: 1px solid var(--line);
       transform: translateX(100%);
-      transition: transform 0.52s cubic-bezier(0.34, 1.48, 0.64, 1);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+      transition: transform .52s cubic-bezier(.34,1.48,.64,1);
+      display: flex; flex-direction: column; overflow: hidden;
     }
-
     .edit-drawer.open { transform: translateX(0); }
 
     .edit-drawer-header {
-      flex: none;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: calc(22px + env(safe-area-inset-top)) 20px 16px;
-      border-bottom: 1px solid var(--border);
+      flex: none; display: flex; align-items: center; justify-content: space-between;
+      padding: calc(22px + env(safe-area-inset-top)) 18px 14px;
+      border-bottom: 1px solid var(--line);
     }
-
     .edit-drawer-title {
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-soft);
+      font-size: .60rem; font-weight: 500; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--txt-faint);
     }
-
     .edit-drawer-close {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      background: var(--btn-bg);
-      border: 1px solid var(--btn-border);
-      border-radius: 50%;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      transition: transform 0.15s ease;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--pill); border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--txt-faint); transition: transform .14s;
     }
-
-    .edit-drawer-close:active { transform: scale(0.9); }
-    .edit-drawer-close svg line { stroke: var(--text-soft); }
+    .edit-drawer-close:active { transform: scale(.9); }
+    .edit-drawer-close svg line { stroke: var(--txt-faint); }
 
     .edit-drawer-body {
-      flex: 1;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+      padding: 18px; display: flex; flex-direction: column; gap: 14px;
     }
 
-    .edit-view { display: none; flex-direction: column; gap: 16px; }
+    .edit-view { display: none; flex-direction: column; gap: 14px; }
     .edit-view.active { display: flex; }
 
-    .edit-field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
+    .edit-field { display: flex; flex-direction: column; gap: 5px; }
     .edit-field label {
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-soft);
+      font-size: .62rem; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--txt-faint);
     }
-
     .edit-field input,
     .edit-field select,
     .edit-field textarea {
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      color: var(--text-primary);
-      outline: none;
-      width: 100%;
-      -webkit-appearance: none;
-      transition: border-color 0.2s ease;
+      background: var(--pill); border: 1px solid var(--line-hi);
+      border-radius: 10px; padding: 10px 13px;
+      font-family: var(--font-body); font-size: .88rem; font-weight: 300;
+      color: var(--txt); outline: none; width: 100%;
+      -webkit-appearance: none; transition: border-color .2s;
     }
-
     .edit-field input:focus,
     .edit-field select:focus,
-    .edit-field textarea:focus { border-color: var(--send-border); }
-
+    .edit-field textarea:focus { border-color: var(--acc-hi); }
     .edit-field select {
       cursor: pointer;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: 34px;
+      background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;
     }
+    .edit-field textarea { min-height: 110px; resize: vertical; line-height: 1.55; }
 
-    .edit-field textarea {
-      min-height: 110px;
-      resize: vertical;
-      line-height: 1.55;
-    }
-
-    .edit-toggle {
-      display: flex;
-      gap: 8px;
-    }
-
+    .edit-toggle { display: flex; gap: 7px; }
     .edit-toggle-btn {
-      flex: 1;
-      padding: 9px 0;
-      font-family: var(--font-body);
-      font-size: 0.82rem;
-      font-weight: 400;
-      color: var(--text-soft);
-      background: var(--btn-bg);
-      border: 1px solid var(--btn-border);
-      border-radius: 8px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      flex: 1; padding: 9px 0;
+      font-family: var(--font-body); font-size: .82rem; font-weight: 300;
+      color: var(--txt-faint);
+      background: var(--pill); border: 1px solid var(--line);
+      border-radius: 8px; transition: color .15s, background .15s, border-color .15s;
     }
-
     .edit-toggle-btn.active {
-      color: var(--text-primary);
-      background: var(--send-bg);
-      border-color: var(--send-border);
+      color: var(--txt); background: var(--acc-dim); border-color: var(--acc-hi);
     }
 
     .edit-drawer-footer {
-      flex: none;
-      display: flex;
-      gap: 10px;
-      padding: 16px 20px;
-      padding-bottom: calc(20px + env(safe-area-inset-bottom));
-      border-top: 1px solid var(--border);
+      flex: none; display: flex; gap: 9px;
+      padding: 14px 18px;
+      padding-bottom: calc(18px + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--line);
     }
-
     .edit-cancel-btn {
-      flex: 1;
-      padding: 12px 0;
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      font-weight: 400;
-      color: var(--text-soft);
-      background: var(--btn-bg);
-      border: 1px solid var(--btn-border);
-      border-radius: 12px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      transition: opacity 0.15s ease;
+      flex: 1; padding: 12px 0;
+      font-family: var(--font-body); font-size: .88rem; font-weight: 300;
+      color: var(--txt-faint); background: var(--pill); border: 1px solid var(--line);
+      border-radius: 100px; transition: opacity .15s;
     }
-
     .edit-update-btn {
-      flex: 2;
-      padding: 12px 0;
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--send-icon-active);
-      background: var(--send-active-bg);
+      flex: 2; padding: 12px 0;
+      font-family: var(--font-body); font-size: .88rem; font-weight: 500;
+      color: var(--send-icon-active); background: var(--send-active-bg);
       border: 1px solid var(--send-active-bg);
-      border-radius: 12px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      transition: opacity 0.15s ease;
+      border-radius: 100px; transition: opacity .15s;
     }
+    .edit-cancel-btn:active, .edit-update-btn:active { opacity: .7; }
+    .edit-update-btn.loading { opacity: .5; pointer-events: none; }
+    .edit-cancel-btn:disabled { opacity: .3; pointer-events: none; }
 
-    .edit-cancel-btn:active,
-    .edit-update-btn:active { opacity: 0.7; }
-
-    .edit-update-btn.loading {
-      opacity: 0.55;
-      pointer-events: none;
-    }
-
-    .edit-cancel-btn:disabled {
-      opacity: 0.3;
-      pointer-events: none;
-    }
-
-    .edit-error {
-      display: none;
-      font-size: 0.80rem;
-      color: var(--danger);
-      text-align: center;
-      padding: 2px 0 6px;
-    }
-
+    .edit-error { display: none; font-size: .78rem; color: var(--danger); text-align: center; padding: 2px 0 4px; }
     .edit-error.visible { display: block; }
 
-    .theme-grid {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .swatch {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 7px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .swatch-circle {
-      display: block;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      outline: 2.5px solid transparent;
-      outline-offset: 2.5px;
-      transition: outline-color 0.2s ease, transform 0.15s ease;
-    }
-
-    .swatch:active .swatch-circle { transform: scale(0.9); }
-    .swatch.active .swatch-circle { outline-color: var(--text-primary); }
-
-    .swatch-label {
-      font-size: 0.66rem;
-      color: var(--text-soft);
-    }
   </style>
 </head>
 <body>
 
-  <div id="app" class="app">
+<div id="app" data-state="idle">
 
-    <header class="header">
-      <div class="wordmark">Earl</div>
-      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
-        <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
-          <line x1="0" y1="1"  x2="18" y2="1"  stroke-width="1.8" stroke-linecap="round"/>
-          <line x1="0" y1="7"  x2="18" y2="7"  stroke-width="1.8" stroke-linecap="round"/>
-          <line x1="0" y1="13" x2="18" y2="13" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>
-      </button>
-    </header>
+  <header class="header">
+    <div class="wordmark">Earl</div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <line x1="0" y1="1.5"  x2="17" y2="1.5"/>
+        <line x1="0" y1="6"    x2="13" y2="6"/>
+        <line x1="0" y1="10.5" x2="17" y2="10.5"/>
+      </svg>
+    </button>
+  </header>
 
-    <main class="stage">
-      <canvas id="orbCanvas" width="600" height="600"></canvas>
+  <main class="stage">
+    <canvas id="orbCanvas" width="560" height="560"></canvas>
+    <div class="status-block">
+      <div class="state-bar">
+        <div class="seg s0 lit"></div>
+        <div class="seg s1"></div>
+        <div class="seg s2"></div>
+      </div>
       <p class="status-text" id="statusText">Ready when you are.</p>
-    </main>
+    </div>
+  </main>
 
-    <div class="controls" id="controls">
-      <button class="ctrl-btn cancel" id="cancelBtn" aria-label="Cancel">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-             stroke-linecap="round" stroke-linejoin="round">
-          <line x1="3" y1="3" x2="13" y2="13" stroke-width="1.8"/>
-          <line x1="13" y1="3" x2="3" y2="13" stroke-width="1.8"/>
-        </svg>
-      </button>
-
+  <div class="controls" id="controls">
+    <button class="cancel-btn" id="cancelBtn" aria-label="Cancel">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <line x1="2" y1="2" x2="10" y2="10"/>
+        <line x1="10" y1="2" x2="2" y2="10"/>
+      </svg>
+    </button>
+    <div class="input-capsule">
       <input type="text" id="textInput" placeholder="Ask Earl anything…"
              autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="send" />
-
-      <button class="send-btn" id="sendBtn" aria-label="Send" type="button" disabled>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-             stroke-linecap="round" stroke-linejoin="round">
-          <path d="M8 13V3M4 7l4-4 4 4" stroke-width="1.5"/>
+      <button class="send-btn" id="sendBtn" type="button" disabled>
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6.5 11V2M3 5.5l3.5-3.5 3.5 3.5"/>
         </svg>
       </button>
-    </div>
-
-  </div><!-- #app -->
-
-  <div class="menu-overlay" id="menuOverlay"></div>
-
-  <div class="side-menu" id="sideMenu" aria-hidden="true">
-    <div class="menu-header">
-      <span class="menu-title">Settings</span>
-      <button class="menu-close" id="menuClose" aria-label="Close menu">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-             stroke-linecap="round" stroke-linejoin="round">
-          <line x1="3" y1="3" x2="13" y2="13" stroke-width="1.7"/>
-          <line x1="13" y1="3" x2="3" y2="13" stroke-width="1.7"/>
-        </svg>
-      </button>
-    </div>
-
-    <div class="menu-body">
-      <div class="menu-section">
-        <div class="menu-section-label">Connected</div>
-        <div class="connected-apps">
-          <div class="connected-app">
-            <div class="app-status-icon gmail">✉️</div>
-            <div class="status-dot connected"></div>
-            <span class="app-name">Gmail</span>
-          </div>
-          <div class="connected-app">
-            <div class="app-status-icon calendar">📅</div>
-            <div class="status-dot connected"></div>
-            <span class="app-name">Calendar</span>
-          </div>
-          <div class="connected-app">
-            <div class="app-status-icon ticktick">✓</div>
-            <div class="status-dot connected"></div>
-            <span class="app-name">TickTick</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="menu-section">
-        <div class="menu-section-label">Recent</div>
-        <div class="action-log" id="actionLog"></div>
-      </div>
-
-      <div class="menu-section">
-        <div class="menu-section-label">Appearance</div>
-        <div class="theme-grid">
-          <button class="swatch" data-theme="slate" aria-label="Slate">
-            <span class="swatch-circle" style="background:#6B6880"></span>
-            <span class="swatch-label">Slate</span>
-          </button>
-          <button class="swatch" data-theme="parchment" aria-label="Parchment">
-            <span class="swatch-circle" style="background:#E8E2D5"></span>
-            <span class="swatch-label">Parchment</span>
-          </button>
-          <button class="swatch" data-theme="noir" aria-label="Noir">
-            <span class="swatch-circle" style="background:#111111"></span>
-            <span class="swatch-label">Noir</span>
-          </button>
-          <button class="swatch" data-theme="dusk" aria-label="Dusk">
-            <span class="swatch-circle" style="background:#8B6A50"></span>
-            <span class="swatch-label">Dusk</span>
-          </button>
-          <button class="swatch" data-theme="sage" aria-label="Sage">
-            <span class="swatch-circle" style="background:#4A6B58"></span>
-            <span class="swatch-label">Sage</span>
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 
-  <div class="edit-overlay" id="editOverlay"></div>
+</div><!-- #app -->
 
-  <div class="edit-drawer" id="editDrawer" aria-hidden="true">
-    <div class="edit-drawer-header">
-      <span class="edit-drawer-title">Edit</span>
-      <button class="edit-drawer-close" id="editDrawerClose" aria-label="Close">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-             stroke-linecap="round" stroke-linejoin="round">
-          <line x1="3" y1="3" x2="13" y2="13" stroke-width="1.7"/>
-          <line x1="13" y1="3" x2="3" y2="13" stroke-width="1.7"/>
-        </svg>
-      </button>
-    </div>
+<div class="menu-overlay" id="menuOverlay"></div>
 
-    <div class="edit-drawer-body">
-
-      <!-- TickTick view -->
-      <div class="edit-view" id="editViewTicktick">
-        <div class="edit-field">
-          <label for="editTtTitle">Title</label>
-          <input type="text" id="editTtTitle" autocomplete="off" />
-        </div>
-        <div class="edit-field">
-          <label for="editTtProject">Project</label>
-          <select id="editTtProject">
-            <optgroup label="Noobia">
-              <option value="To do">To do</option>
-              <option value="Backlog - work">Backlog - work</option>
-              <option value="Admin">Admin</option>
-              <option value="Client Pings">Client Pings</option>
-              <option value="Outreach">Outreach</option>
-            </optgroup>
-            <optgroup label="Home">
-              <option value="Kids">Kids</option>
-              <option value="House">House</option>
-            </optgroup>
-            <optgroup label="Me 2.0">
-              <option value="Sports goals">Sports goals</option>
-              <option value="Relationships">Relationships</option>
-            </optgroup>
-            <optgroup label="Other projects">
-              <option value="GOLD">GOLD</option>
-              <option value="BigFoot">BigFoot</option>
-              <option value="ElderPath">ElderPath</option>
-            </optgroup>
-            <optgroup label="Standalone">
-              <option value="Backlog">Backlog</option>
-              <option value="Weekly planning">Weekly planning</option>
-            </optgroup>
-          </select>
-        </div>
-        <div class="edit-field">
-          <label for="editTtDue">Due date</label>
-          <input type="date" id="editTtDue" />
-        </div>
-        <div class="edit-field">
-          <label for="editTtPriority">Priority</label>
-          <select id="editTtPriority">
-            <option value="none">None</option>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Calendar view -->
-      <div class="edit-view" id="editViewCalendar">
-        <div class="edit-field">
-          <label for="editCalTitle">Title</label>
-          <input type="text" id="editCalTitle" autocomplete="off" />
-        </div>
-        <div class="edit-field">
-          <label for="editCalDate">Date</label>
-          <input type="date" id="editCalDate" />
-        </div>
-        <div class="edit-field">
-          <label for="editCalTime">Time</label>
-          <input type="time" id="editCalTime" />
-        </div>
-        <div class="edit-field">
-          <label for="editCalLocation">Location</label>
-          <input type="text" id="editCalLocation" autocomplete="off" placeholder="Optional" />
-        </div>
-        <div class="edit-field">
-          <label>Type</label>
-          <div class="edit-toggle">
-            <button class="edit-toggle-btn active" id="editCalOnline" type="button">Online</button>
-            <button class="edit-toggle-btn" id="editCalInPerson" type="button">In person</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Gmail view -->
-      <div class="edit-view" id="editViewGmail">
-        <div class="edit-field">
-          <label for="editGmailTo">To</label>
-          <input type="text" id="editGmailTo" autocomplete="off" />
-        </div>
-        <div class="edit-field">
-          <label for="editGmailSubject">Subject</label>
-          <input type="text" id="editGmailSubject" autocomplete="off" />
-        </div>
-        <div class="edit-field">
-          <label for="editGmailBody">Body</label>
-          <textarea id="editGmailBody" readonly></textarea>
-        </div>
-      </div>
-
-      <p class="edit-error" id="editError"></p>
-
-    </div><!-- .edit-drawer-body -->
-
-    <div class="edit-drawer-footer">
-      <button class="edit-cancel-btn" id="editCancelBtn" type="button">Cancel</button>
-      <button class="edit-update-btn" id="editUpdateBtn" type="button">Update</button>
-    </div>
-  </div><!-- .edit-drawer -->
-
-  <div class="result-card" id="resultCard" role="status" aria-live="polite">
-    <div class="card-handle"></div>
-    <p class="card-label">Earl did</p>
-    <ul class="action-list" id="actionList"></ul>
+<div class="side-menu" id="sideMenu" aria-hidden="true">
+  <div class="menu-header">
+    <span class="menu-title">Settings</span>
+    <button class="menu-close" id="menuClose" aria-label="Close">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <line x1="2" y1="2" x2="10" y2="10"/>
+        <line x1="10" y1="2" x2="2" y2="10"/>
+      </svg>
+    </button>
   </div>
+  <div class="menu-body">
 
-  <script>
-    /* ── STATE ──────────────────────────────────────────────────── */
+    <div class="menu-section">
+      <div class="menu-section-label">Connected</div>
+      <div class="connected-apps">
+        <div class="connected-app">
+          <div class="app-status-icon gmail">
+            <svg width="20" height="16" viewBox="0 0 20 16" fill="none" stroke="rgba(224,80,70,.85)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="1" width="18" height="14" rx="2"/>
+              <path d="M1 4l9 5.5L19 4"/>
+            </svg>
+          </div>
+          <div class="status-dot connected"></div>
+          <span class="app-name">Gmail</span>
+        </div>
+        <div class="connected-app">
+          <div class="app-status-icon calendar">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="rgba(80,140,240,.85)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="16" height="14" rx="2"/>
+              <line x1="5" y1="1" x2="5" y2="5"/>
+              <line x1="13" y1="1" x2="13" y2="5"/>
+              <line x1="1" y1="8" x2="17" y2="8"/>
+              <rect x="5.5" y="11" width="2" height="2" rx=".4" fill="rgba(80,140,240,.85)" stroke="none"/>
+              <rect x="10"  y="11" width="2" height="2" rx=".4" fill="rgba(80,140,240,.85)" stroke="none"/>
+            </svg>
+          </div>
+          <div class="status-dot connected"></div>
+          <span class="app-name">Calendar</span>
+        </div>
+        <div class="connected-app">
+          <div class="app-status-icon ticktick">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="rgba(70,190,110,.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="9" r="7.5"/>
+              <path d="M5.5 9l2.5 2.5 4.5-4.5"/>
+            </svg>
+          </div>
+          <div class="status-dot connected"></div>
+          <span class="app-name">TickTick</span>
+        </div>
+      </div>
+    </div>
 
-    let appState = 'idle';
-    let cachedLog = [];
-    let currentEditEntry = null;
-    let currentEditIndex = null;
+    <div class="menu-section">
+      <div class="menu-section-label">Recent</div>
+      <div class="action-log" id="actionLog"></div>
+    </div>
 
-    const app        = document.getElementById('app');
-    const statusEl   = document.getElementById('statusText');
-    const cancelBtn  = document.getElementById('cancelBtn');
-    const textInput  = document.getElementById('textInput');
-    const sendBtn    = document.getElementById('sendBtn');
-    const resultCard = document.getElementById('resultCard');
-    const actionList = document.getElementById('actionList');
+    <div class="menu-section">
+      <div class="menu-section-label">Appearance</div>
+      <div class="theme-grid">
+        <button class="swatch" data-theme="navy">
+          <span class="swatch-circle" style="background:linear-gradient(145deg,#182450,#060d1c)"></span>
+          <span class="swatch-label">Navy</span>
+        </button>
+        <button class="swatch" data-theme="chalk">
+          <span class="swatch-circle" style="background:linear-gradient(145deg,#e8e3db,#ddd6cc)"></span>
+          <span class="swatch-label">Chalk</span>
+        </button>
+        <button class="swatch" data-theme="olive">
+          <span class="swatch-circle" style="background:linear-gradient(145deg,#22280c,#121408)"></span>
+          <span class="swatch-label">Olive</span>
+        </button>
+        <button class="swatch" data-theme="graphite">
+          <span class="swatch-circle" style="background:linear-gradient(145deg,#26221d,#131110)"></span>
+          <span class="swatch-label">Graphite</span>
+        </button>
+        <button class="swatch" data-theme="oxblood">
+          <span class="swatch-circle" style="background:linear-gradient(145deg,#28141a,#110a0c)"></span>
+          <span class="swatch-label">Oxblood</span>
+        </button>
+      </div>
+    </div>
 
-    function setState(s) {
-      appState = s;
-      app.className  = 'app' + (s !== 'idle' ? ' ' + s : '');
-      if (s === 'idle')       statusEl.textContent = 'Ready when you are.';
-      if (s === 'listening')  statusEl.textContent = '';
-      if (s === 'processing') statusEl.textContent = 'On it…';
-      if (s === 'result')     statusEl.textContent = 'Done.';
-    }
+  </div>
+</div>
 
-    /* ── ORB ────────────────────────────────────────────────────── */
+<div class="edit-overlay" id="editOverlay"></div>
 
-    const canvas = document.getElementById('orbCanvas');
-    const ctx    = canvas.getContext('2d');
-    const CX = 300, CY = 300;
+<div class="edit-drawer" id="editDrawer" aria-hidden="true">
+  <div class="edit-drawer-header">
+    <span class="edit-drawer-title">Edit</span>
+    <button class="edit-drawer-close" id="editDrawerClose" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="2.5" y1="2.5" x2="11.5" y2="11.5" stroke-width="1.7"/>
+        <line x1="11.5" y1="2.5" x2="2.5" y2="11.5" stroke-width="1.7"/>
+      </svg>
+    </button>
+  </div>
+  <div class="edit-drawer-body">
 
-    const ORB_CONFIGS = {
-      idle: {
-        rings: 5,  baseR: 96,  gap: 24,
-        amp: 30,   speed: 0.0016, ns: 2.4, lw: 2.2, alpha: 0.52
-      },
-      listening: {
-        rings: 6,  baseR: 108, gap: 22,
-        amp: 44,   speed: 0.0028, ns: 3.0, lw: 2.5, alpha: 0.70
-      },
-      processing: {
-        rings: 6,  baseR: 100, gap: 22,
-        amp: 28,   speed: 0.0022, ns: 2.6, lw: 2.2, alpha: 0.55
-      }
+    <div class="edit-view" id="editViewTicktick">
+      <div class="edit-field">
+        <label for="editTtTitle">Title</label>
+        <input type="text" id="editTtTitle" autocomplete="off" />
+      </div>
+      <div class="edit-field">
+        <label for="editTtProject">Project</label>
+        <select id="editTtProject">
+          <optgroup label="Noobia">
+            <option value="To do">To do</option>
+            <option value="Backlog - work">Backlog - work</option>
+            <option value="Admin">Admin</option>
+            <option value="Client Pings">Client Pings</option>
+            <option value="Outreach">Outreach</option>
+          </optgroup>
+          <optgroup label="Home">
+            <option value="Kids">Kids</option>
+            <option value="House">House</option>
+          </optgroup>
+          <optgroup label="Me 2.0">
+            <option value="Sports goals">Sports goals</option>
+            <option value="Relationships">Relationships</option>
+          </optgroup>
+          <optgroup label="Other projects">
+            <option value="GOLD">GOLD</option>
+            <option value="BigFoot">BigFoot</option>
+            <option value="ElderPath">ElderPath</option>
+          </optgroup>
+          <optgroup label="Standalone">
+            <option value="Backlog">Backlog</option>
+            <option value="Weekly planning">Weekly planning</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="edit-field">
+        <label for="editTtDue">Due date</label>
+        <input type="date" id="editTtDue" />
+      </div>
+      <div class="edit-field">
+        <label for="editTtPriority">Priority</label>
+        <select id="editTtPriority">
+          <option value="none">None</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="edit-view" id="editViewCalendar">
+      <div class="edit-field">
+        <label for="editCalTitle">Title</label>
+        <input type="text" id="editCalTitle" autocomplete="off" />
+      </div>
+      <div class="edit-field">
+        <label for="editCalDate">Date</label>
+        <input type="date" id="editCalDate" />
+      </div>
+      <div class="edit-field">
+        <label for="editCalTime">Time</label>
+        <input type="time" id="editCalTime" />
+      </div>
+      <div class="edit-field">
+        <label for="editCalLocation">Location</label>
+        <input type="text" id="editCalLocation" autocomplete="off" placeholder="Optional" />
+      </div>
+      <div class="edit-field">
+        <label>Type</label>
+        <div class="edit-toggle">
+          <button class="edit-toggle-btn active" id="editCalOnline" type="button">Online</button>
+          <button class="edit-toggle-btn" id="editCalInPerson" type="button">In person</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="edit-view" id="editViewGmail">
+      <div class="edit-field">
+        <label for="editGmailTo">To</label>
+        <input type="text" id="editGmailTo" autocomplete="off" />
+      </div>
+      <div class="edit-field">
+        <label for="editGmailSubject">Subject</label>
+        <input type="text" id="editGmailSubject" autocomplete="off" />
+      </div>
+      <div class="edit-field">
+        <label for="editGmailBody">Body</label>
+        <textarea id="editGmailBody" readonly></textarea>
+      </div>
+    </div>
+
+    <p class="edit-error" id="editError"></p>
+  </div>
+  <div class="edit-drawer-footer">
+    <button class="edit-cancel-btn" id="editCancelBtn" type="button">Cancel</button>
+    <button class="edit-update-btn" id="editUpdateBtn" type="button">Update</button>
+  </div>
+</div>
+
+<!-- Result card (outside #app so it overlays everything) -->
+<div class="result-card" id="resultCard" role="status" aria-live="polite">
+  <div class="card-handle"></div>
+  <p class="card-label">Earl did</p>
+  <ul class="action-list" id="actionList"></ul>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════════════════ */
+let appState = 'idle';
+let cachedLog = [];
+let currentEditEntry = null;
+let currentEditIndex = null;
+
+const appEl      = document.getElementById('app');
+const statusEl   = document.getElementById('statusText');
+const cancelBtn  = document.getElementById('cancelBtn');
+const textInput  = document.getElementById('textInput');
+const sendBtn    = document.getElementById('sendBtn');
+const resultCard = document.getElementById('resultCard');
+const actionList = document.getElementById('actionList');
+const segs       = document.querySelectorAll('.seg');
+
+const STATUS_MSGS = {
+  idle:      'Ready when you are.',
+  listening: '',
+  working:   'On it…',
+  result:    'Done.',
+};
+
+function setState(s) {
+  appState = s;
+  appEl.dataset.state = s;
+
+  // Fade status text
+  statusEl.classList.add('fade');
+  setTimeout(() => {
+    statusEl.textContent  = STATUS_MSGS[s] || '';
+    statusEl.style.fontStyle = s === 'idle' ? 'italic' : 'normal';
+    statusEl.classList.remove('fade');
+  }, 180);
+
+  // Segment bar
+  segs.forEach(sg => sg.classList.remove('lit'));
+  if      (s === 'idle')      segs[0].classList.add('lit');
+  else if (s === 'listening') segs[1].classList.add('lit');
+  else                        segs[2].classList.add('lit');
+
+  cancelBtn.classList.toggle('show', s !== 'idle');
+}
+
+/* ════════════════════════════════════════════════════════
+   CONSTELLATION ORB
+════════════════════════════════════════════════════════ */
+const canvas = document.getElementById('orbCanvas');
+const ctx    = canvas.getContext('2d');
+const SIZE   = 280, DPR = Math.min(window.devicePixelRatio || 1, 2);
+canvas.width  = SIZE * DPR;
+canvas.height = SIZE * DPR;
+ctx.scale(DPR, DPR);
+const C = SIZE / 2;
+
+const ORB_STATES = {
+  idle:      { gather:.028, sphereR:52, scatter:3.40, alpha:.18, rotSpeed:.00020, connDist:.06, coreGlow:.04, spinRing:0 },
+  listening: { gather:.44,  sphereR:54, scatter:.92,  alpha:.76, rotSpeed:.00130, connDist:.46, coreGlow:.40, spinRing:0 },
+  working:   { gather:.96,  sphereR:50, scatter:.52,  alpha:.98, rotSpeed:.00400, connDist:.70, coreGlow:.88, spinRing:1 },
+};
+
+const L = { gather:.028, sphereR:52, scatter:3.4, alpha:.05, rotSpeed:.0002, connDist:.06, coreGlow:.02, spinRing:0 };
+
+let N = 60;
+function makePts(n) {
+  return Array.from({length:n}, (_,i) => {
+    const theta = Math.acos(1 - 2*(i+.5)/n);
+    const phi   = Math.PI*(1+Math.sqrt(5))*i;
+    return {
+      tx: Math.sin(theta)*Math.cos(phi), ty: Math.sin(theta)*Math.sin(phi), tz: Math.cos(theta),
+      cx: (Math.random()-.5)*2.8, cy: (Math.random()-.5)*2.8, cz: (Math.random()-.5)*2.8,
+      sz: .7+Math.random()*.9, sp: .006+Math.random()*.006,
+      nt: Math.random()*80, nf: .35+Math.random()*.4, np: Math.random()*Math.PI*2,
     };
+  });
+}
+let pts = makePts(N);
+let rotY=0, spinRingA=0, animT=0;
 
-    const cur = { rings: 5, baseR: 96, gap: 24, amp: 8, speed: 0.0006, ns: 1.0, lw: 1.2, alpha: 0.08 };
+function lerpN(a,b,f){ return a+(b-a)*f; }
+function clampN(v,lo,hi){ return Math.max(lo,Math.min(hi,v)); }
+function n1(t,f,p){ return Math.sin(t*f+p)*.44+Math.sin(t*f*1.7+p*1.3)*.32+Math.sin(t*f*3.1+p*.7)*.24; }
+function getOrbCol(){ return getComputedStyle(document.documentElement).getPropertyValue('--orb').trim()||'120,168,255'; }
 
-    const MAX_RINGS = 8;
-    const ringPhase = Array.from({ length: MAX_RINGS }, (_, i) => i * 0.9 + Math.random() * 2.5);
-    const ringDrift = Array.from({ length: MAX_RINGS }, () => (Math.random() - 0.5) * 0.0018);
+function drawFrame() {
+  const cfg = ORB_STATES[appState==='result'?'working':appState] || ORB_STATES.idle;
+  const F   = .020;
+  L.gather   = lerpN(L.gather,   cfg.gather,   F);
+  L.sphereR  = lerpN(L.sphereR,  cfg.sphereR,  F);
+  L.scatter  = lerpN(L.scatter,  cfg.scatter,  F*.7);
+  L.alpha    = lerpN(L.alpha,    cfg.alpha,    F*.9);
+  L.rotSpeed = lerpN(L.rotSpeed, cfg.rotSpeed, F*.5);
+  L.connDist = lerpN(L.connDist, cfg.connDist, F);
+  L.coreGlow = lerpN(L.coreGlow, cfg.coreGlow, F);
+  L.spinRing = lerpN(L.spinRing, cfg.spinRing, F);
+  rotY      += L.rotSpeed*16;
+  spinRingA += .020;
+  animT     += .001*16;
 
-    let sizeNoise  = 0;
-    let sizeTarget = 0;
-    let rotSpeed   = 0.00055;
-    let fillLevel  = 0;
+  pts.forEach(p => {
+    p.nt += .007;
+    const sc = L.scatter*.35;
+    p.cx = lerpN(p.cx, p.tx+n1(p.nt,p.nf,p.np)*sc,    p.sp*L.gather*2.4);
+    p.cy = lerpN(p.cy, p.ty+n1(p.nt,p.nf,p.np+1.5)*sc, p.sp*L.gather*2.4);
+    p.cz = lerpN(p.cz, p.tz+n1(p.nt,p.nf,p.np+3.0)*sc, p.sp*L.gather*2.4);
+  });
 
-    function getOrbColor() {
-      return getComputedStyle(document.documentElement).getPropertyValue('--orb-color').trim();
-    }
+  const cosY=Math.cos(rotY), sinY=Math.sin(rotY);
+  const proj = pts.map(p => {
+    const x3= p.cx*cosY+p.cz*sinY, z3=-p.cx*sinY+p.cz*cosY;
+    const sc= L.sphereR*(1+z3*.15);
+    return { x:C+x3*sc, y:C+p.cy*sc, z:z3, sz:p.sz };
+  }).sort((a,b)=>a.z-b.z);
 
-    function noise(a, t, ns, off) {
-      return (
-        Math.sin(a * 2.0 + t * 1.3 + off)       * 0.30 +
-        Math.sin(a * 3.7 + t * 0.7 + off * 1.4) * 0.24 +
-        Math.sin(a * 1.3 + t * 2.2 + off * 0.5) * 0.22 +
-        Math.sin(a * 5.2 + t * 0.5 + off * 2.3) * 0.14 +
-        Math.sin(a * 7.5 + t * 1.8 + off * 0.9) * 0.10
-      ) * ns;
-    }
+  ctx.clearRect(0,0,SIZE,SIZE);
+  const col = getOrbCol();
 
-    function lerp(a, b, f) { return a + (b - a) * f; }
+  // Haze
+  if (L.coreGlow>.05) {
+    const hz=ctx.createRadialGradient(C,C,L.sphereR*.4,C,C,L.sphereR*2.1);
+    hz.addColorStop(0,`rgba(${col},${(L.coreGlow*.18).toFixed(3)})`);
+    hz.addColorStop(1,`rgba(${col},0)`);
+    ctx.beginPath(); ctx.arc(C,C,L.sphereR*2.1,0,Math.PI*2);
+    ctx.fillStyle=hz; ctx.fill();
+  }
 
-    let animT = 0;
-    let rotT  = 0;
-
-    function drawFrame() {
-      // Slow random size drift — not breathing, just wandering
-      if (Math.random() < 0.012) sizeTarget = (Math.random() - 0.5) * 20;
-      sizeNoise  = lerp(sizeNoise, sizeTarget, 0.016);
-      sizeTarget *= 0.993;
-
-      const key    = (appState === 'result') ? 'idle' : appState;
-      const target = ORB_CONFIGS[key] || ORB_CONFIGS.idle;
-      const tAlpha = target.alpha;
-      const F      = 0.044;
-
-      cur.rings = lerp(cur.rings, target.rings, F);
-      cur.baseR = lerp(cur.baseR, target.baseR + sizeNoise, F * 0.38);
-      cur.gap   = lerp(cur.gap,   target.gap,   F);
-      cur.amp   = lerp(cur.amp,   target.amp,   F);
-      cur.speed = lerp(cur.speed, target.speed, F);
-      cur.ns    = lerp(cur.ns,    target.ns,    F);
-      cur.lw    = lerp(cur.lw,    target.lw,    F);
-      cur.alpha = lerp(cur.alpha, tAlpha,       F);
-
-      // Rotation speed wanders — not constant
-      const rotTarget = 0.00036 + Math.sin(animT * 0.28) * 0.00024;
-      rotSpeed = lerp(rotSpeed, rotTarget, 0.022);
-      rotT    += rotSpeed;
-      animT   += cur.speed;
-
-      // Each ring drifts its own phase independently
-      for (let i = 0; i < MAX_RINGS; i++) {
-        ringPhase[i] += ringDrift[i];
-      }
-
-      // Fill progress: grows linearly during processing, jumps to full on result, drains on idle
-      if (appState === 'processing') {
-        fillLevel = Math.min(0.88, fillLevel + 0.0020);
-      } else if (appState === 'result') {
-        fillLevel = lerp(fillLevel, 1.0, 0.15);
-      } else {
-        fillLevel = lerp(fillLevel, 0, 0.045);
-      }
-
-      ctx.clearRect(0, 0, 600, 600);
-      const col   = getOrbColor();
-      const rings = Math.round(cur.rings);
-
-      // Center fill (processing progress / result complete)
-      if (fillLevel > 0.005) {
-        const fillR = cur.baseR * fillLevel;
+  // Connections
+  const ct = L.connDist*L.sphereR*2.4;
+  if (ct>4) {
+    ctx.lineWidth=.55;
+    for (let i=0;i<proj.length;i++) for (let j=i+1;j<proj.length;j++) {
+      const dx=proj[i].x-proj[j].x, dy=proj[i].y-proj[j].y, d=Math.sqrt(dx*dx+dy*dy);
+      if (d<ct) {
         ctx.beginPath();
-        ctx.arc(CX, CY, fillR, 0, Math.PI * 2);
-        const gf = ctx.createRadialGradient(CX, CY, 0, CX, CY, fillR);
-        gf.addColorStop(0,   `rgba(${col},${(cur.alpha * 0.72).toFixed(3)})`);
-        gf.addColorStop(0.6, `rgba(${col},${(cur.alpha * 0.36).toFixed(3)})`);
-        gf.addColorStop(1,   `rgba(${col},0.01)`);
-        ctx.fillStyle = gf;
-        ctx.fill();
-      }
-
-      for (let i = 0; i < rings; i++) {
-        const r = cur.baseR + i * cur.gap;
-
-        const amp = cur.amp;
-
-        // Varying line width: inner thicker, outer thinner, with live wobble
-        const lwBase = cur.lw * (1 + (rings - 1 - i) * 0.32);
-        const lwWob  = Math.sin(animT * 2.3 + i * 1.8 + ringPhase[i]) * 0.42;
-        const lw     = Math.max(0.4, lwBase + lwWob);
-
-        // Each ring has its own slow alpha pulse, independent of others
-        const pulse     = Math.sin(animT * 0.85 + i * 0.75 + ringPhase[i] * 0.55) * 0.11;
-        const ringAlpha = Math.min(0.94, cur.alpha * (1 - i * 0.07) + pulse);
-
-        const off = i * 1.1 + ringPhase[i];
-
-        ctx.beginPath();
-        const PTS = 200;
-        for (let j = 0; j <= PTS; j++) {
-          const a  = (j / PTS) * Math.PI * 2 + rotT * (1 + i * 0.20);
-          const pr = r + noise(a, animT, cur.ns, off) * amp;
-          const x  = CX + Math.cos(a) * pr;
-          const y  = CY + Math.sin(a) * pr;
-          j === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-        }
-        ctx.closePath();
-
-        if (i === 0) {
-          const g = ctx.createRadialGradient(CX, CY, 0, CX, CY, r + amp);
-          g.addColorStop(0, `rgba(${col},${(ringAlpha * 0.24).toFixed(3)})`);
-          g.addColorStop(1, `rgba(${col},0)`);
-          ctx.fillStyle = g;
-          ctx.fill();
-        }
-
-        ctx.strokeStyle = `rgba(${col},${ringAlpha.toFixed(3)})`;
-        ctx.lineWidth   = lw;
-        ctx.stroke();
-      }
-
-      requestAnimationFrame(drawFrame);
-    }
-
-    drawFrame();
-
-    /* ── PROCESS ────────────────────────────────────────────────── */
-
-    function demoActions(text) {
-      const t = text.toLowerCase();
-      if (t.includes('email') || t.includes('draft') || t.includes('send'))
-        return [{ service: 'gmail',    label: 'Email drafted', detail: text.slice(0, 60) }];
-      if (t.includes('remind') || t.includes('calendar') || t.includes('meeting'))
-        return [{ service: 'calendar', label: 'Event created',  detail: text.slice(0, 60) }];
-      if (t.includes('task') || t.includes('todo'))
-        return [{ service: 'ticktick', label: 'Task added',     detail: text.slice(0, 60) }];
-      return [{ service: 'earl', label: 'Noted', detail: text.slice(0, 60) }];
-    }
-
-    async function processTranscript(text) {
-      fillLevel = 0;
-      setState('processing');
-      try {
-        const ctrl = new AbortController();
-        const tid  = setTimeout(() => ctrl.abort(), 15000);
-        const res  = await fetch('/api/earl', {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({ transcript: text }),
-          signal:  ctrl.signal
-        });
-        clearTimeout(tid);
-        if (!res.ok) throw new Error('not ok');
-        const data = await res.json();
-        showResult(data.actions || demoActions(text));
-      } catch (_) {
-        await new Promise(r => setTimeout(r, 700));
-        showResult(demoActions(text));
+        ctx.moveTo(proj[i].x,proj[i].y); ctx.lineTo(proj[j].x,proj[j].y);
+        ctx.strokeStyle=`rgba(${col},${(L.alpha*(1-d/ct)*.40).toFixed(3)})`; ctx.stroke();
       }
     }
+  }
 
-    /* ── RESULT CARD ────────────────────────────────────────────── */
+  // Particles
+  proj.forEach(p => {
+    const zN=(p.z+1)*.5, a=Math.min(1,L.alpha*(.38+zN*.62)), sz=p.sz*(.55+zN*.5);
+    const pg=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,sz*4.5);
+    pg.addColorStop(0,`rgba(${col},${(a*.65).toFixed(3)})`);
+    pg.addColorStop(.4,`rgba(${col},${(a*.18).toFixed(3)})`);
+    pg.addColorStop(1,`rgba(${col},0)`);
+    ctx.beginPath(); ctx.arc(p.x,p.y,sz*4.5,0,Math.PI*2); ctx.fillStyle=pg; ctx.fill();
+    ctx.beginPath(); ctx.arc(p.x,p.y,Math.max(.5,sz*.9),0,Math.PI*2);
+    ctx.fillStyle=`rgba(${col},${Math.min(1,a*1.1).toFixed(3)})`; ctx.fill();
+  });
 
-    const ICON_MAP = {
-      gmail:    { e: '✉️', c: 'gmail' },
-      calendar: { e: '📅', c: 'calendar' },
-      ticktick: { e: '✓',       c: 'ticktick' },
-      earl:     { e: '◆',       c: 'earl' },
-      warn:     { e: '⚠',       c: 'warn' },
-    };
-
-    let dismissTimer = null;
-
-    function showResult(actions) {
-      setState('result');
-      actionList.innerHTML = '';
-
-      actions.forEach((action, i) => {
-        logAction(action);
-        const icon = ICON_MAP[action.service] || ICON_MAP.earl;
-        const li   = document.createElement('li');
-        li.className = 'action-item';
-        li.style.animationDelay = (i * 70) + 'ms';
-
-        const iconEl = document.createElement('div');
-        iconEl.className = 'action-icon ' + icon.c;
-        iconEl.textContent = icon.e;
-
-        const textEl = document.createElement('div');
-        textEl.className = 'action-text';
-        textEl.textContent = action.label;
-
-        const sub = document.createElement('span');
-        sub.textContent = action.detail;
-        textEl.appendChild(sub);
-
-        li.appendChild(iconEl);
-        li.appendChild(textEl);
-        actionList.appendChild(li);
-      });
-
-      resultCard.classList.add('visible');
-      clearTimeout(dismissTimer);
-      dismissTimer = setTimeout(dismissCard, 6500);
+  // Spin ring
+  if (L.spinRing>.01) {
+    const rr=L.sphereR*1.52, sw=L.spinRing;
+    const as=spinRingA*1.1, ae=as+Math.PI*1.28;
+    for (let s=0;s<52;s++) {
+      const t0=as+(ae-as)*(s/52), t1=as+(ae-as)*((s+1)/52), prog=s/52;
+      ctx.beginPath(); ctx.arc(C,C,rr,t0,t1);
+      ctx.strokeStyle=`rgba(${col},${(prog*prog*L.alpha*.85*sw).toFixed(3)})`;
+      ctx.lineWidth=(.4+prog*2.8)*sw; ctx.lineCap='round'; ctx.stroke();
     }
+    const hx=C+Math.cos(ae)*rr, hy=C+Math.sin(ae)*rr;
+    const hg=ctx.createRadialGradient(hx,hy,0,hx,hy,10*sw);
+    hg.addColorStop(0,`rgba(${col},${(.96*sw).toFixed(3)})`); hg.addColorStop(1,`rgba(${col},0)`);
+    ctx.beginPath(); ctx.arc(hx,hy,10*sw,0,Math.PI*2); ctx.fillStyle=hg; ctx.fill();
+  }
 
-    function dismissCard() {
-      clearTimeout(dismissTimer);
-      resultCard.classList.remove('visible');
-      setTimeout(() => setState(document.activeElement === textInput ? 'listening' : 'idle'), 450);
-    }
+  // Core
+  if (L.coreGlow>.04) {
+    const r=(L.sphereR*.38)*(1+Math.sin(animT*.75)*.03)*L.coreGlow;
+    const og=ctx.createRadialGradient(C,C,r*.4,C,C,r*2.8);
+    og.addColorStop(0,`rgba(${col},${(L.coreGlow*.52).toFixed(3)})`);
+    og.addColorStop(.5,`rgba(${col},${(L.coreGlow*.15).toFixed(3)})`);
+    og.addColorStop(1,`rgba(${col},0)`);
+    ctx.beginPath(); ctx.arc(C,C,r*2.8,0,Math.PI*2); ctx.fillStyle=og; ctx.fill();
+    const body=ctx.createRadialGradient(C-r*.28,C-r*.28,0,C,C,r);
+    const ca=clampN(L.coreGlow*.92+.08,0,1);
+    body.addColorStop(0,`rgba(${col},${ca.toFixed(3)})`);
+    body.addColorStop(.8,`rgba(${col},${(ca*.38).toFixed(3)})`);
+    body.addColorStop(1,`rgba(${col},${(ca*.12).toFixed(3)})`);
+    ctx.beginPath(); ctx.arc(C,C,r,0,Math.PI*2); ctx.fillStyle=body; ctx.fill();
+    const sp=ctx.createRadialGradient(C-r*.28,C-r*.28,0,C-r*.28,C-r*.28,r*.52);
+    sp.addColorStop(0,`rgba(255,255,255,${(.42*ca).toFixed(3)})`); sp.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.beginPath(); ctx.arc(C,C,r,0,Math.PI*2); ctx.fillStyle=sp; ctx.fill();
+  }
 
-    resultCard.addEventListener('click', dismissCard);
+  requestAnimationFrame(drawFrame);
+}
+drawFrame();
 
-    /* ── CANCEL ─────────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════
+   PROCESS (real API call)
+════════════════════════════════════════════════════════ */
+function demoActions(text) {
+  const t = text.toLowerCase();
+  if (t.includes('email') || t.includes('draft') || t.includes('send'))
+    return [{ service:'gmail',    label:'Email drafted', detail:text.slice(0,60) }];
+  if (t.includes('remind') || t.includes('calendar') || t.includes('meeting'))
+    return [{ service:'calendar', label:'Event created',  detail:text.slice(0,60) }];
+  if (t.includes('task') || t.includes('todo'))
+    return [{ service:'ticktick', label:'Task added',     detail:text.slice(0,60) }];
+  return [{ service:'earl', label:'Noted', detail:text.slice(0,60) }];
+}
 
-    cancelBtn.addEventListener('click', () => {
-      if (textInput.value.trim()) {
-        textInput.value = '';
-        sendBtn.disabled = true;
-        return;
-      }
-      if (appState === 'result') {
-        dismissCard();
-      } else {
-        setState('idle');
-        textInput.blur();
-      }
+async function processTranscript(text) {
+  setState('working');
+  try {
+    const ctrl = new AbortController();
+    const tid  = setTimeout(() => ctrl.abort(), 15000);
+    const res  = await fetch('/api/earl', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ transcript: text }), signal: ctrl.signal
     });
+    clearTimeout(tid);
+    if (!res.ok) throw new Error('not ok');
+    const data = await res.json();
+    showResult(data.actions || demoActions(text));
+  } catch (_) {
+    await new Promise(r => setTimeout(r, 700));
+    showResult(demoActions(text));
+  }
+}
 
-    /* ── TEXT INPUT ─────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════
+   RESULT CARD
+════════════════════════════════════════════════════════ */
+const SVG_ICONS = {
+  gmail:    `<svg width="16" height="13" viewBox="0 0 20 16" fill="none" stroke="rgba(224,80,70,.85)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="1" width="18" height="14" rx="2"/><path d="M1 4l9 5.5L19 4"/></svg>`,
+  calendar: `<svg width="15" height="15" viewBox="0 0 18 18" fill="none" stroke="rgba(80,140,240,.85)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="16" height="14" rx="2"/><line x1="5" y1="1" x2="5" y2="5"/><line x1="13" y1="1" x2="13" y2="5"/><line x1="1" y1="8" x2="17" y2="8"/></svg>`,
+  ticktick: `<svg width="15" height="15" viewBox="0 0 18 18" fill="none" stroke="rgba(70,190,110,.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7.5"/><path d="M5.5 9l2.5 2.5 4.5-4.5"/></svg>`,
+  earl:     `<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" fill="rgba(120,168,255,.45)"/><circle cx="6.5" cy="6.5" r="2.2" fill="rgba(120,168,255,.9)"/></svg>`,
+  warn:     `<svg width="15" height="14" viewBox="0 0 18 16" fill="none" stroke="rgba(240,185,50,.85)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 1L17 15H1L9 1z"/><line x1="9" y1="6" x2="9" y2="10"/><circle cx="9" cy="12.5" r=".6" fill="rgba(240,185,50,.85)" stroke="none"/></svg>`,
+};
 
-    function sendTextInput() {
-      const text = textInput.value.trim();
-      if (!text || appState === 'processing') return;
-      textInput.value = '';
-      sendBtn.disabled = true;
-      processTranscript(text);
-    }
+// Also used for the log
+const ICON_MAP = {
+  gmail:    { svg: SVG_ICONS.gmail,    c: 'gmail' },
+  calendar: { svg: SVG_ICONS.calendar, c: 'calendar' },
+  ticktick: { svg: SVG_ICONS.ticktick, c: 'ticktick' },
+  earl:     { svg: SVG_ICONS.earl,     c: 'earl' },
+  warn:     { svg: SVG_ICONS.warn,     c: 'warn' },
+};
 
-    sendBtn.addEventListener('click', sendTextInput);
+let dismissTimer = null;
 
-    textInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') sendTextInput();
-    });
+function showResult(actions) {
+  setState('result');
+  actionList.innerHTML = '';
+  actions.forEach((action, i) => {
+    logAction(action);
+    const icon = ICON_MAP[action.service] || ICON_MAP.earl;
+    const li   = document.createElement('li');
+    li.className = 'action-item';
+    li.style.animationDelay = (i * 70) + 'ms';
+    li.innerHTML = `
+      <div class="action-icon ${icon.c}">${icon.svg}</div>
+      <div class="action-text">${action.label}<span>${action.detail}</span></div>`;
+    actionList.appendChild(li);
+  });
+  resultCard.classList.add('visible');
+  clearTimeout(dismissTimer);
+  dismissTimer = setTimeout(dismissCard, 6500);
+}
 
-    textInput.addEventListener('input', () => {
-      sendBtn.disabled = !textInput.value.trim();
-    });
+function dismissCard() {
+  clearTimeout(dismissTimer);
+  resultCard.classList.remove('visible');
+  setTimeout(() => setState(document.activeElement === textInput ? 'listening' : 'idle'), 450);
+}
+resultCard.addEventListener('click', dismissCard);
 
-    textInput.addEventListener('focus', () => {
-      if (appState === 'idle') setState('listening');
-    });
+/* ════════════════════════════════════════════════════════
+   CANCEL + INPUT
+════════════════════════════════════════════════════════ */
+cancelBtn.addEventListener('click', () => {
+  if (textInput.value.trim()) { textInput.value=''; sendBtn.disabled=true; return; }
+  if (appState==='result') dismissCard();
+  else { setState('idle'); textInput.blur(); }
+});
 
-    textInput.addEventListener('blur', () => {
-      if (appState === 'listening') setState('idle');
-    });
+function sendTextInput() {
+  const text = textInput.value.trim();
+  if (!text || appState==='working') return;
+  textInput.value=''; sendBtn.disabled=true;
+  processTranscript(text);
+}
 
-    /* ── MENU ──────────────────────────────────────────────────── */
+sendBtn.addEventListener('click', sendTextInput);
+textInput.addEventListener('keydown', e => { if (e.key==='Enter') sendTextInput(); });
+textInput.addEventListener('input',   () => { sendBtn.disabled = !textInput.value.trim(); });
+textInput.addEventListener('focus',   () => { if (appState==='idle') setState('listening'); });
+textInput.addEventListener('blur',    () => { if (appState==='listening') setState('idle'); });
 
-    const menuToggle  = document.getElementById('menuToggle');
-    const menuClose   = document.getElementById('menuClose');
-    const menuOverlay = document.getElementById('menuOverlay');
-    const sideMenu    = document.getElementById('sideMenu');
-    const actionLog   = document.getElementById('actionLog');
+/* ════════════════════════════════════════════════════════
+   MENU
+════════════════════════════════════════════════════════ */
+const menuToggle  = document.getElementById('menuToggle');
+const menuClose   = document.getElementById('menuClose');
+const menuOverlay = document.getElementById('menuOverlay');
+const sideMenu    = document.getElementById('sideMenu');
+const actionLog   = document.getElementById('actionLog');
 
-    function openMenu() {
-      renderLog();
-      sideMenu.classList.add('open');
-      menuOverlay.classList.add('open');
-      sideMenu.setAttribute('aria-hidden', 'false');
-    }
+function openMenu()  { renderLog(); sideMenu.classList.add('open'); menuOverlay.classList.add('open'); sideMenu.setAttribute('aria-hidden','false'); }
+function closeMenu() { sideMenu.classList.remove('open'); menuOverlay.classList.remove('open'); sideMenu.setAttribute('aria-hidden','true'); }
 
-    function closeMenu() {
-      sideMenu.classList.remove('open');
-      menuOverlay.classList.remove('open');
-      sideMenu.setAttribute('aria-hidden', 'true');
-    }
+menuToggle.addEventListener('click', openMenu);
+menuClose.addEventListener('click',  closeMenu);
+menuOverlay.addEventListener('click', closeMenu);
 
-    menuToggle.addEventListener('click', openMenu);
-    menuClose.addEventListener('click',  closeMenu);
-    menuOverlay.addEventListener('click', closeMenu);
+let swipeStartX=null;
+sideMenu.addEventListener('touchstart', e => { swipeStartX=e.touches[0].clientX; }, {passive:true});
+sideMenu.addEventListener('touchend',   e => {
+  if (swipeStartX===null) return;
+  const dx=e.changedTouches[0].clientX-swipeStartX; swipeStartX=null;
+  if (dx>60) closeMenu();
+}, {passive:true});
 
-    let swipeStartX = null;
-    sideMenu.addEventListener('touchstart', (e) => {
-      swipeStartX = e.touches[0].clientX;
-    }, { passive: true });
-    sideMenu.addEventListener('touchend', (e) => {
-      if (swipeStartX === null) return;
-      const dx = e.changedTouches[0].clientX - swipeStartX;
-      swipeStartX = null;
-      if (dx > 60) closeMenu();
-    }, { passive: true });
+/* ════════════════════════════════════════════════════════
+   ACTION LOG
+════════════════════════════════════════════════════════ */
+function logAction(action) {
+  const log = JSON.parse(localStorage.getItem('earl-log')||'[]');
+  log.unshift({
+    label:    action.label,
+    detail:   action.detail,
+    service:  action.service,
+    time:     new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}),
+    id:       action.id       || null,
+    fullData: action.fullData || null,
+  });
+  localStorage.setItem('earl-log', JSON.stringify(log.slice(0,5)));
+}
 
-    /* ── ACTION LOG ─────────────────────────────────────────────── */
+function renderLog() {
+  cachedLog = JSON.parse(localStorage.getItem('earl-log')||'[]');
+  if (!cachedLog.length) { actionLog.innerHTML='<p class="log-empty">No actions yet.</p>'; return; }
+  actionLog.innerHTML = cachedLog.map((entry, i) => {
+    const icon     = ICON_MAP[entry.service] || ICON_MAP.earl;
+    const editable = entry.fullData && entry.service !== 'warn';
+    const ec       = editable ? ' log-item--editable' : '';
+    const ei       = editable ? ` data-index="${i}"` : '';
+    const hint     = editable ? '<span class="log-edit-hint">›</span>' : '';
+    return `<div class="log-item${ec}"${ei}>
+      <div class="log-icon ${icon.c}">${icon.svg}</div>
+      <div class="log-text">${entry.label}<span>${entry.detail}</span></div>
+      <div class="log-time">${entry.time}</div>${hint}
+    </div>`;
+  }).join('');
+}
 
-    function logAction(action) {
-      const log = JSON.parse(localStorage.getItem('earl-log') || '[]');
-      log.unshift({
-        label:    action.label,
-        detail:   action.detail,
-        service:  action.service,
-        time:     new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
-        id:       action.id   || null,
-        fullData: action.fullData || null,
-      });
-      localStorage.setItem('earl-log', JSON.stringify(log.slice(0, 5)));
-    }
+actionLog.addEventListener('click', e => {
+  const item = e.target.closest('.log-item--editable'); if (!item) return;
+  const idx   = parseInt(item.dataset.index, 10);
+  const entry = cachedLog[idx]; if (!entry) return;
+  closeMenu(); openEditDrawer(entry, idx);
+});
 
-    function renderLog() {
-      cachedLog = JSON.parse(localStorage.getItem('earl-log') || '[]');
-      if (!cachedLog.length) {
-        actionLog.innerHTML = '<p class="log-empty">No actions yet.</p>';
-        return;
-      }
-      actionLog.innerHTML = cachedLog.map((entry, i) => {
-        const icon      = ICON_MAP[entry.service] || ICON_MAP.earl;
-        const editable  = entry.fullData && entry.service !== 'warn';
-        const editClass = editable ? ' log-item--editable' : '';
-        const editIdx   = editable ? ` data-index="${i}"` : '';
-        const hint      = editable ? '<span class="log-edit-hint">›</span>' : '';
-        return `<div class="log-item${editClass}"${editIdx}>
-          <div class="log-icon ${icon.c}">${icon.e}</div>
-          <div class="log-text">${entry.label}<span>${entry.detail}</span></div>
-          <div class="log-time">${entry.time}</div>
-          ${hint}
-        </div>`;
-      }).join('');
-    }
+/* ════════════════════════════════════════════════════════
+   EDIT DRAWER
+════════════════════════════════════════════════════════ */
+const editDrawer      = document.getElementById('editDrawer');
+const editOverlay     = document.getElementById('editOverlay');
+const editDrawerClose = document.getElementById('editDrawerClose');
+const editCancelBtn   = document.getElementById('editCancelBtn');
+const editUpdateBtn   = document.getElementById('editUpdateBtn');
+const editCalOnline   = document.getElementById('editCalOnline');
+const editCalInPerson = document.getElementById('editCalInPerson');
 
-    actionLog.addEventListener('click', (e) => {
-      const item = e.target.closest('.log-item--editable');
-      if (!item) return;
-      const idx   = parseInt(item.dataset.index, 10);
-      const entry = cachedLog[idx];
-      if (!entry) return;
-      closeMenu();
-      openEditDrawer(entry, idx);
-    });
+function openEditDrawer(entry, index) {
+  currentEditEntry = entry; currentEditIndex = index ?? null;
+  showEditError('');
+  document.querySelectorAll('.edit-view').forEach(v => v.classList.remove('active'));
+  if      (entry.service==='ticktick') { document.getElementById('editViewTicktick').classList.add('active'); populateTicktick(entry.fullData); }
+  else if (entry.service==='calendar') { document.getElementById('editViewCalendar').classList.add('active'); populateCalendar(entry.fullData); }
+  else if (entry.service==='gmail')    { document.getElementById('editViewGmail').classList.add('active');    populateGmail(entry.fullData); }
+  editDrawer.classList.add('open'); editOverlay.classList.add('open');
+  editDrawer.setAttribute('aria-hidden','false');
+}
 
-    /* ── EDIT DRAWER ────────────────────────────────────────────── */
+function closeEditDrawer() {
+  editDrawer.classList.remove('open'); editOverlay.classList.remove('open');
+  editDrawer.setAttribute('aria-hidden','true');
+  currentEditEntry=null; currentEditIndex=null;
+}
 
-    const editDrawer     = document.getElementById('editDrawer');
-    const editOverlay    = document.getElementById('editOverlay');
-    const editDrawerClose = document.getElementById('editDrawerClose');
-    const editCancelBtn  = document.getElementById('editCancelBtn');
-    const editUpdateBtn  = document.getElementById('editUpdateBtn');
-    const editCalOnline  = document.getElementById('editCalOnline');
-    const editCalInPerson = document.getElementById('editCalInPerson');
+function populateTicktick(data) {
+  document.getElementById('editTtTitle').value    = data?.title    || '';
+  document.getElementById('editTtPriority').value = data?.priority || 'none';
+  document.getElementById('editTtDue').value       = data?.dueDate ? data.dueDate.split('T')[0] : '';
+  const sel = document.getElementById('editTtProject');
+  if (data?.project) { const m=[...sel.options].find(o=>o.value.toLowerCase()===data.project.toLowerCase()); if(m) sel.value=m.value; }
+}
+function populateCalendar(data) {
+  document.getElementById('editCalTitle').value    = data?.title    || '';
+  document.getElementById('editCalDate').value     = data?.date     || '';
+  document.getElementById('editCalTime').value     = data?.time     || '';
+  document.getElementById('editCalLocation').value = data?.location || '';
+  const ip = !!(data?.location);
+  editCalOnline.classList.toggle('active', !ip); editCalInPerson.classList.toggle('active', ip);
+}
+function populateGmail(data) {
+  document.getElementById('editGmailTo').value      = data?.to      || '';
+  document.getElementById('editGmailSubject').value = data?.subject || '';
+  document.getElementById('editGmailBody').value    = data?.body    || '';
+}
 
-    function openEditDrawer(entry, index) {
-      currentEditEntry = entry;
-      currentEditIndex = index ?? null;
-      showEditError('');
+editCalOnline.addEventListener('click',   () => { editCalOnline.classList.add('active');   editCalInPerson.classList.remove('active'); });
+editCalInPerson.addEventListener('click', () => { editCalInPerson.classList.add('active'); editCalOnline.classList.remove('active'); });
+editDrawerClose.addEventListener('click', closeEditDrawer);
+editCancelBtn.addEventListener('click',   closeEditDrawer);
+editOverlay.addEventListener('click',     closeEditDrawer);
 
-      document.querySelectorAll('.edit-view').forEach(v => v.classList.remove('active'));
+function showEditError(msg) {
+  const el=document.getElementById('editError'); el.textContent=msg; el.classList.toggle('visible',!!msg);
+}
+function setEditLoading(on) {
+  editUpdateBtn.classList.toggle('loading',on);
+  editUpdateBtn.textContent = on ? 'Updating…' : 'Update';
+  editCancelBtn.disabled    = on;
+  editDrawerClose.disabled  = on;
+}
 
-      if (entry.service === 'ticktick') {
-        document.getElementById('editViewTicktick').classList.add('active');
-        populateTicktick(entry.fullData);
-      } else if (entry.service === 'calendar') {
-        document.getElementById('editViewCalendar').classList.add('active');
-        populateCalendar(entry.fullData);
-      } else if (entry.service === 'gmail') {
-        document.getElementById('editViewGmail').classList.add('active');
-        populateGmail(entry.fullData);
-      }
+function collectTicktick() { return { id:currentEditEntry.id, title:document.getElementById('editTtTitle').value.trim(), project:document.getElementById('editTtProject').value, dueDate:document.getElementById('editTtDue').value||null, priority:document.getElementById('editTtPriority').value }; }
+function collectCalendar()  { return { id:currentEditEntry.id, title:document.getElementById('editCalTitle').value.trim(), date:document.getElementById('editCalDate').value||null, time:document.getElementById('editCalTime').value||null, location:document.getElementById('editCalLocation').value.trim(), onlineOrInPerson:editCalOnline.classList.contains('active')?'online':'in-person' }; }
+function collectGmail()     { return { id:currentEditEntry.id, subject:document.getElementById('editGmailSubject').value.trim(), body:document.getElementById('editGmailBody').value }; }
 
-      editDrawer.classList.add('open');
-      editOverlay.classList.add('open');
-      editDrawer.setAttribute('aria-hidden', 'false');
-    }
+function buildUpdateRequest() {
+  const svc = currentEditEntry.service;
+  if (svc==='ticktick') { const p=collectTicktick(); return { endpoint:'/.netlify/functions/update-task',  payload:p, newDetail:p.title }; }
+  if (svc==='calendar') { const p=collectCalendar(); return { endpoint:'/.netlify/functions/update-event', payload:p, newDetail:[p.title,p.date,p.time].filter(Boolean).join(' · ') }; }
+  if (svc==='gmail')    { const p=collectGmail();    return { endpoint:'/.netlify/functions/update-draft', payload:p, newDetail:p.subject }; }
+  throw new Error('Unknown service: '+svc);
+}
 
-    function closeEditDrawer() {
-      editDrawer.classList.remove('open');
-      editOverlay.classList.remove('open');
-      editDrawer.setAttribute('aria-hidden', 'true');
-      currentEditEntry = null;
-      currentEditIndex = null;
-    }
+function updateCachedLogEntry(newData, newDetail) {
+  const log=JSON.parse(localStorage.getItem('earl-log')||'[]'), entry=log[currentEditIndex];
+  if(!entry) return;
+  entry.fullData={...entry.fullData,...newData}; if(newDetail) entry.detail=newDetail;
+  localStorage.setItem('earl-log',JSON.stringify(log)); cachedLog=log;
+}
 
-    function populateTicktick(data) {
-      document.getElementById('editTtTitle').value    = data?.title    || '';
-      document.getElementById('editTtPriority').value = data?.priority || 'none';
+editUpdateBtn.addEventListener('click', async () => {
+  if (!currentEditEntry) return;
+  showEditError(''); setEditLoading(true);
+  let req;
+  try { req=buildUpdateRequest(); } catch(err) { showEditError(err.message); setEditLoading(false); return; }
+  try {
+    const res  = await fetch(req.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(req.payload)});
+    const data = await res.json();
+    if (data.info) { showEditError(data.info); setEditLoading(false); return; }
+    if (data.error||!res.ok) throw new Error(data.error||`Server error ${res.status}`);
+    updateCachedLogEntry(req.payload, req.newDetail);
+    editUpdateBtn.classList.remove('loading'); editUpdateBtn.textContent='Done ✓';
+    setTimeout(() => { setEditLoading(false); closeEditDrawer(); }, 750);
+  } catch(err) { console.error('[Earl/edit]',err); showEditError(err.message||'Something went wrong'); setEditLoading(false); }
+});
 
-      const dueRaw = data?.dueDate || '';
-      document.getElementById('editTtDue').value = dueRaw ? dueRaw.split('T')[0] : '';
+/* ════════════════════════════════════════════════════════
+   THEMES
+════════════════════════════════════════════════════════ */
+function markActiveSwatch(theme) {
+  document.querySelectorAll('.swatch').forEach(b => b.classList.toggle('active', b.dataset.theme===theme));
+}
+document.querySelectorAll('.swatch').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const t=btn.dataset.theme;
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('earl-theme', t);
+    markActiveSwatch(t);
+  });
+});
 
-      const sel = document.getElementById('editTtProject');
-      if (data?.project) {
-        const match = [...sel.options].find(o =>
-          o.value.toLowerCase() === data.project.toLowerCase()
-        );
-        if (match) sel.value = match.value;
-      }
-    }
+/* ════════════════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════════════ */
+markActiveSwatch(localStorage.getItem('earl-theme') || 'navy');
+textInput.focus();
 
-    function populateCalendar(data) {
-      document.getElementById('editCalTitle').value    = data?.title    || '';
-      document.getElementById('editCalDate').value     = data?.date     || '';
-      document.getElementById('editCalTime').value     = data?.time     || '';
-      document.getElementById('editCalLocation').value = data?.location || '';
+/* ════════════════════════════════════════════════════════
+   VIEWPORT / KEYBOARD (keeps layout above iOS keyboard)
+════════════════════════════════════════════════════════ */
+function syncViewport() {
+  const vv = window.visualViewport;
+  const h  = vv ? vv.height : window.innerHeight;
+  appEl.style.height    = h + 'px';
+  appEl.style.transform = vv && vv.offsetTop ? `translateY(-${vv.offsetTop}px)` : '';
+}
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', syncViewport);
+  window.visualViewport.addEventListener('scroll', syncViewport);
+}
+window.addEventListener('resize', syncViewport);
+syncViewport();
 
-      const isInPerson = !!(data?.location);
-      editCalOnline.classList.toggle('active', !isInPerson);
-      editCalInPerson.classList.toggle('active',  isInPerson);
-    }
-
-    function populateGmail(data) {
-      document.getElementById('editGmailTo').value      = data?.to      || '';
-      document.getElementById('editGmailSubject').value = data?.subject || '';
-      document.getElementById('editGmailBody').value    = data?.body    || '';
-    }
-
-    editCalOnline.addEventListener('click', () => {
-      editCalOnline.classList.add('active');
-      editCalInPerson.classList.remove('active');
-    });
-
-    editCalInPerson.addEventListener('click', () => {
-      editCalInPerson.classList.add('active');
-      editCalOnline.classList.remove('active');
-    });
-
-    editDrawerClose.addEventListener('click', closeEditDrawer);
-    editCancelBtn.addEventListener('click', closeEditDrawer);
-    editOverlay.addEventListener('click', closeEditDrawer);
-
-    function showEditError(msg) {
-      const el = document.getElementById('editError');
-      el.textContent = msg;
-      el.classList.toggle('visible', !!msg);
-    }
-
-    function setEditLoading(on) {
-      editUpdateBtn.classList.toggle('loading', on);
-      editUpdateBtn.textContent  = on ? 'Updating…' : 'Update';
-      editCancelBtn.disabled     = on;
-      editDrawerClose.disabled   = on;
-    }
-
-    function collectTicktick() {
-      return {
-        id:       currentEditEntry.id,
-        title:    document.getElementById('editTtTitle').value.trim(),
-        project:  document.getElementById('editTtProject').value,
-        dueDate:  document.getElementById('editTtDue').value || null,
-        priority: document.getElementById('editTtPriority').value,
-      };
-    }
-
-    function collectCalendar() {
-      return {
-        id:               currentEditEntry.id,
-        title:            document.getElementById('editCalTitle').value.trim(),
-        date:             document.getElementById('editCalDate').value   || null,
-        time:             document.getElementById('editCalTime').value   || null,
-        location:         document.getElementById('editCalLocation').value.trim(),
-        onlineOrInPerson: editCalOnline.classList.contains('active') ? 'online' : 'in-person',
-      };
-    }
-
-    function collectGmail() {
-      return {
-        id:      currentEditEntry.id,
-        subject: document.getElementById('editGmailSubject').value.trim(),
-        body:    document.getElementById('editGmailBody').value,
-      };
-    }
-
-    function buildUpdateRequest() {
-      const svc = currentEditEntry.service;
-      if (svc === 'ticktick') {
-        const payload = collectTicktick();
-        return {
-          endpoint:  '/.netlify/functions/update-task',
-          payload,
-          newDetail: payload.title,
-        };
-      }
-      if (svc === 'calendar') {
-        const payload = collectCalendar();
-        const parts   = [payload.title, payload.date, payload.time].filter(Boolean);
-        return {
-          endpoint:  '/.netlify/functions/update-event',
-          payload,
-          newDetail: parts.join(' · '),
-        };
-      }
-      if (svc === 'gmail') {
-        const payload = collectGmail();
-        return {
-          endpoint:  '/.netlify/functions/update-draft',
-          payload,
-          newDetail: payload.subject,
-        };
-      }
-      throw new Error('Unknown service: ' + svc);
-    }
-
-    function updateCachedLogEntry(newFullData, newDetail) {
-      const log = JSON.parse(localStorage.getItem('earl-log') || '[]');
-      const entry = log[currentEditIndex];
-      if (!entry) return;
-      entry.fullData = { ...entry.fullData, ...newFullData };
-      if (newDetail) entry.detail = newDetail;
-      localStorage.setItem('earl-log', JSON.stringify(log));
-      cachedLog = log;
-    }
-
-    editUpdateBtn.addEventListener('click', async () => {
-      if (!currentEditEntry) return;
-      showEditError('');
-      setEditLoading(true);
-
-      let req;
-      try {
-        req = buildUpdateRequest();
-      } catch (err) {
-        showEditError(err.message);
-        setEditLoading(false);
-        return;
-      }
-
-      try {
-        const res  = await fetch(req.endpoint, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify(req.payload),
-        });
-        const data = await res.json();
-
-        if (data.info) {
-          // Stub response (e.g. Gmail draft not yet supported)
-          showEditError(data.info);
-          setEditLoading(false);
-          return;
-        }
-
-        if (data.error || !res.ok) {
-          throw new Error(data.error || `Server error ${res.status}`);
-        }
-
-        // Persist changes into localStorage and sync cachedLog
-        updateCachedLogEntry(req.payload, req.newDetail);
-
-        // Brief success flash then close
-        editUpdateBtn.classList.remove('loading');
-        editUpdateBtn.textContent = 'Done ✓';
-        setTimeout(() => {
-          setEditLoading(false);
-          closeEditDrawer();
-        }, 750);
-
-      } catch (err) {
-        console.error('[Earl/edit] Update failed:', err);
-        showEditError(err.message || 'Something went wrong');
-        setEditLoading(false);
-      }
-    });
-
-    /* ── THEME SWATCHES ─────────────────────────────────────────── */
-
-    function markActiveSwatch(theme) {
-      document.querySelectorAll('.swatch').forEach(b =>
-        b.classList.toggle('active', b.dataset.theme === theme)
-      );
-    }
-
-    document.querySelectorAll('.swatch').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const theme = btn.dataset.theme;
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('earl-theme', theme);
-        markActiveSwatch(theme);
-      });
-    });
-
-    /* ── INIT ───────────────────────────────────────────────────── */
-
-    markActiveSwatch(localStorage.getItem('earl-theme') || 'slate');
-    textInput.focus();
-
-    /* ── VIEWPORT / KEYBOARD ────────────────────────────────────── */
-
-    // Keep #app sized to the visual viewport (excludes on-screen keyboard).
-    // Also counteracts any iOS panning via offsetTop so header + controls stay in frame.
-    function syncViewport() {
-      const vv = window.visualViewport;
-      const h  = vv ? vv.height : window.innerHeight;
-      app.style.height    = h + 'px';
-      app.style.transform = vv && vv.offsetTop ? `translateY(-${vv.offsetTop}px)` : '';
-    }
-
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', syncViewport);
-      window.visualViewport.addEventListener('scroll', syncViewport);
-    }
-    window.addEventListener('resize', syncViewport);
-    syncViewport();
-
-    /* ── SERVICE WORKER ─────────────────────────────────────────── */
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js');
-    }
-  </script>
+/* ════════════════════════════════════════════════════════
+   SERVICE WORKER
+════════════════════════════════════════════════════════ */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
+</script>
 </body>
 </html>
