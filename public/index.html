@@ -15,7 +15,7 @@
   <!-- Apply saved theme before paint to avoid flash -->
   <script>
     (function() {
-      var t = localStorage.getItem('earl-theme') || 'navy';
+      var t = localStorage.getItem('earl-theme') || 'cream';
       document.documentElement.setAttribute('data-theme', t);
     }());
   </script>
@@ -63,23 +63,7 @@
       --font-body: 'Inter', sans-serif; --font-display: 'DM Mono', monospace;
     }
 
-    [data-theme="olive"] {
-      --bg0: #121408; --bg1: #1a1e0a; --bg2: #22280c;
-      --bg-angle: 168deg;
-      --bloom: rgba(100,120,30,.14);
-      --orb: 175,188,92;
-      --acc: #8a9438; --acc-dim: rgba(138,148,56,.14); --acc-hi: rgba(138,148,56,.28);
-      --txt: #d4daa8; --txt-mid: rgba(212,218,168,.56); --txt-faint: rgba(212,218,168,.28);
-      --line: rgba(212,218,168,.08); --line-hi: rgba(212,218,168,.15);
-      --glass: rgba(14,16,6,.90); --glass-hi: rgba(20,22,8,.97);
-      --pill: rgba(255,255,255,.04);
-      --send-active-bg: #8a9438; --send-icon-active: #fff;
-      --danger: #d07060;
-      --icon-gmail: rgba(234,67,53,.16); --icon-calendar: rgba(80,140,240,.16);
-      --icon-ticktick: rgba(70,190,110,.16); --icon-earl: rgba(175,188,92,.14);
-      --icon-warn: rgba(240,185,50,.16);
-      --font-body: 'Inter', sans-serif; --font-display: 'DM Mono', monospace;
-    }
+
 
     [data-theme="graphite"] {
       --bg0: #131110; --bg1: #1c1916; --bg2: #26221d;
@@ -96,6 +80,24 @@
       --icon-gmail: rgba(234,67,53,.16); --icon-calendar: rgba(80,140,240,.16);
       --icon-ticktick: rgba(70,190,110,.16); --icon-earl: rgba(210,198,176,.14);
       --icon-warn: rgba(240,185,50,.16);
+      --font-body: 'Inter', sans-serif; --font-display: 'DM Mono', monospace;
+    }
+
+    [data-theme="cream"] {
+      --bg0: #f5f0e8; --bg1: #ede8df; --bg2: #e6e0d5;
+      --bg-angle: 165deg;
+      --bloom: rgba(26,20,16,.04);
+      --orb: 26,20,16;
+      --acc: #2a2420; --acc-dim: rgba(26,20,16,.07); --acc-hi: rgba(26,20,16,.16);
+      --txt: #1a1410; --txt-mid: rgba(26,20,16,.52); --txt-faint: rgba(26,20,16,.28);
+      --line: rgba(26,20,16,.08); --line-hi: rgba(26,20,16,.14);
+      --glass: rgba(245,240,232,.94); --glass-hi: rgba(249,246,241,.98);
+      --pill: rgba(0,0,0,.04);
+      --send-active-bg: #2a2420; --send-icon-active: #fff;
+      --danger: #b04040;
+      --icon-gmail: rgba(200,50,40,.10); --icon-calendar: rgba(40,100,220,.10);
+      --icon-ticktick: rgba(40,160,80,.10); --icon-earl: rgba(26,20,16,.08);
+      --icon-warn: rgba(160,120,0,.10);
       --font-body: 'Inter', sans-serif; --font-display: 'DM Mono', monospace;
     }
 
@@ -154,10 +156,7 @@
       font-family: var(--font-display);
       font-size: .68rem; font-weight: 300; letter-spacing: .42em;
       text-transform: uppercase; color: var(--txt);
-      background: var(--pill);
-      border: 1px solid var(--line);
-      border-radius: 100px; padding: 7px 16px 7px 20px;
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      padding: 7px 16px 7px 20px;
     }
 
     .menu-toggle {
@@ -408,7 +407,10 @@
     }
     .swatch:active .swatch-circle { transform: scale(.88); }
     .swatch.active .swatch-circle { outline-color: var(--txt); }
-    .swatch-label { font-size: .60rem; color: var(--txt-faint); }
+    .swatch-label { font-size: .60rem; color: rgba(20,20,16,.55); }
+      html[data-theme="navy"] .swatch-label,
+      html[data-theme="graphite"] .swatch-label,
+      html[data-theme="oxblood"] .swatch-label { color: rgba(230,220,205,.55); }
 
     /* ── EDIT DRAWER ────────────────────────────────────────── */
     .edit-overlay {
@@ -630,27 +632,27 @@
     <div class="menu-section">
       <div class="menu-section-label">Appearance</div>
       <div class="theme-grid">
-        <button class="swatch" data-theme="navy">
-          <span class="swatch-circle" style="background:linear-gradient(145deg,#182450,#060d1c)"></span>
-          <span class="swatch-label">Navy</span>
-        </button>
-        <button class="swatch" data-theme="chalk">
-          <span class="swatch-circle" style="background:linear-gradient(145deg,#e8e3db,#ddd6cc)"></span>
-          <span class="swatch-label">Chalk</span>
-        </button>
-        <button class="swatch" data-theme="olive">
-          <span class="swatch-circle" style="background:linear-gradient(145deg,#22280c,#121408)"></span>
-          <span class="swatch-label">Olive</span>
-        </button>
-        <button class="swatch" data-theme="graphite">
-          <span class="swatch-circle" style="background:linear-gradient(145deg,#26221d,#131110)"></span>
-          <span class="swatch-label">Graphite</span>
-        </button>
-        <button class="swatch" data-theme="oxblood">
-          <span class="swatch-circle" style="background:linear-gradient(145deg,#28141a,#110a0c)"></span>
-          <span class="swatch-label">Oxblood</span>
-        </button>
-      </div>
+  <button class="swatch" data-theme="cream">
+    <span class="swatch-circle" style="background:linear-gradient(to right,#f5f0e8 50%,#1a1410 50%)"></span>
+    <span class="swatch-label">Cream</span>
+  </button>
+  <button class="swatch" data-theme="navy">
+    <span class="swatch-circle" style="background:linear-gradient(to right,#060d1c 50%,#4a8ee0 50%)"></span>
+    <span class="swatch-label">Navy</span>
+  </button>
+  <button class="swatch" data-theme="chalk">
+    <span class="swatch-circle" style="background:linear-gradient(to right,#e8e3db 50%,#2855b0 50%)"></span>
+    <span class="swatch-label">Chalk</span>
+  </button>
+  <button class="swatch" data-theme="graphite">
+    <span class="swatch-circle" style="background:linear-gradient(to right,#131110 50%,#b09470 50%)"></span>
+    <span class="swatch-label">Graphite</span>
+  </button>
+  <button class="swatch" data-theme="oxblood">
+    <span class="swatch-circle" style="background:linear-gradient(to right,#110a0c 50%,#b85068 50%)"></span>
+    <span class="swatch-label">Oxblood</span>
+  </button>
+</div>
     </div>
 
   </div>
@@ -1253,7 +1255,7 @@ document.querySelectorAll('.swatch').forEach(btn => {
 /* ════════════════════════════════════════════════════════
    INIT
 ════════════════════════════════════════════════════════ */
-markActiveSwatch(localStorage.getItem('earl-theme') || 'navy');
+markActiveSwatch(localStorage.getItem('earl-theme') || 'cream');
 textInput.focus();
 
 /* ════════════════════════════════════════════════════════
