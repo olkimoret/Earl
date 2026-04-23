@@ -141,7 +141,7 @@
 
     /* ── LAYOUT ─────────────────────────────────────────────── */
     #app {
-      position: absolute; top: 0; left: 0; right: 0;
+      position: fixed; inset: 0;
       z-index: 1; display: flex; flex-direction: column; overflow: hidden;
     }
 
@@ -213,8 +213,8 @@
     /* ── CONTROLS ───────────────────────────────────────────── */
     .controls {
       flex: none; display: flex; align-items: center; gap: 8px;
-      padding: 10px 18px;
-      padding-bottom: calc(28px + env(safe-area-inset-bottom));
+      padding: 12px 22px;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom));
     }
 
     .cancel-btn {
@@ -1263,9 +1263,8 @@ textInput.focus();
 ════════════════════════════════════════════════════════ */
 function syncViewport() {
   const vv = window.visualViewport;
-  const h  = vv ? vv.height : window.innerHeight;
-  appEl.style.height    = h + 'px';
-  appEl.style.transform = vv && vv.offsetTop ? `translateY(-${vv.offsetTop}px)` : '';
+  const kb = vv ? Math.max(0, window.innerHeight - vv.height) : 0;
+  appEl.style.paddingBottom = kb > 0 ? kb + 'px' : '';
 }
 if (window.visualViewport) {
   window.visualViewport.addEventListener('resize', syncViewport);
