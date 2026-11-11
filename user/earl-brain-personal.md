@@ -54,25 +54,32 @@ Mikael has three calendars. Always set `calendarId` to the exact name below:
 ### TickTick structure
 Mikael's philosophy: everything must have a home. Backlog exists to catch overflow, not as a dumping ground.
 
-**Home** (personal life)
+Home, Noobia, Me 2.0 and Other projects are TickTick FOLDERS, not lists. Tasks can only go into lists. Always use the list name only (e.g. "Kids", never "Home / Kids").
+
+**Home** (folder — personal life)
 - Kids — anything involving Kayla or Liam
 - House — home maintenance, errands, domestic tasks
+- Projects
+- Recurrent
 
-**Me 2.0** (personal growth)
+**Noobia** (folder — work, AI/ops consulting)
+- Backlog - work — work tasks with no deadline yet, or unclear scope
+- Admin — invoicing, contracts, admin tasks
+- Client
+- Sell - leads, quote
+- Marketing
+- Learning
+
+**Me 2.0** (folder — personal growth)
 - Sports goals — fitness, training, health goals
 - Relationships — staying in touch, personal relationship maintenance
 
-**Noobia** (work — AI/ops consulting)
-- Backlog - work — work tasks with no deadline yet, or unclear scope
-- Admin — invoicing, contracts, admin tasks
-- To do — active work tasks with a deadline
-- Client Pings — follow-ups, client touchpoints, outreach responses
-- Outreach — new business, cold outreach, proposals
-
-**Other projects**
-- GOLD — (infer from context)
-- BigFoot — (infer from context)
-- ElderPath — (infer from context)
+**Other projects** (folder)
+- GOLD
+- BigFoot
+- ElderPath
+- Leslie
+- In Between Mind
 
 **Standalone**
 - Backlog — personal tasks with no deadline or unclear fit. General overflow.
@@ -85,13 +92,13 @@ Mikael's philosophy: everything must have a home. Backlog exists to catch overfl
 | What Mikael says | Where it goes | Action | Priority | Deadline |
 |---|---|---|---|---|
 | "Email Lexi" | Noobia → Backlog - work | Task | Medium | None |
-| "Email Lexi about the proposal" | Noobia → To do | Draft + task | High | Today |
-| "Email Lexi tomorrow" | Noobia → To do | Task | High | Tomorrow |
-| "Follow up with client" | Noobia → Client Pings | Task | Medium | None |
-| "Send proposal to X by Friday" | Noobia → To do | Task or draft | High | Friday |
+| "Email Lexi about the proposal" | Noobia → Client | Draft + task | High | Today |
+| "Email Lexi tomorrow" | Noobia → Client | Task | High | Tomorrow |
+| "Follow up with client" | Noobia → Client | Task | Medium | None |
+| "Send proposal to X by Friday" | Noobia → Client | Task or draft | High | Friday |
 | "Admin thing — invoice Y" | Noobia → Admin | Task | Medium | As stated |
-| "Reach out to Z about work" | Noobia → Outreach | Task | Medium | None |
-| "Book time with Sarah" | Noobia → To do | Task | Medium | None |
+| "Reach out to Z about work" | Noobia → Sell - leads, quote | Task | Medium | None |
+| "Book time with Sarah" | Noobia → Client | Task | Medium | None |
 | "Book time with Sarah Friday" | Calendar | Event | Medium | Friday |
 | "Something about the house" | Home → House | Task | Medium | As stated |
 | "Something about Kayla / Liam / kids" | Home → Kids | Task | High always | As stated |
@@ -122,6 +129,6 @@ Mikael's philosophy: everything must have a home. Backlog exists to catch overfl
 | "Meet Rose at Travelers Coffee EDH tomorrow at 3, bring iPad to test forms" | Calendar → `In_Person_N` | title: "Meeting with Rose", location: "Travelers Coffee, El Dorado Hills", description: "Bring iPad to test forms" |
 | "Call with Sarah Friday 2pm" | Calendar → `Virtual/Phone` | title: "Call with Sarah", location: null, description: null |
 | "Zoom with ElderPath team Monday 10am" | Calendar → `Virtual/Phone` | title: "Zoom — ElderPath team", description: "Google Meet" |
-| "Meet Steve at Nuggets next week" (no time) | TickTick task → Noobia / To do | title: "Schedule meeting with Steve", content: "Meet at Nuggets, next week" |
-| "Coffee with someone" (no date/time) | TickTick task → Noobia / To do | title: "Schedule coffee", content: null |
+| "Meet Steve at Nuggets next week" (no time) | TickTick task → Noobia / Client | title: "Schedule meeting with Steve", content: "Meet at Nuggets, next week" |
+| "Coffee with someone" (no date/time) | TickTick task → Noobia / Client | title: "Schedule coffee", content: null |
 | "Meeting Thursday" (no time, no who) | TickTick task with due date Thursday | |

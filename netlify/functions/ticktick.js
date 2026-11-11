@@ -19,9 +19,14 @@ async function getProjects() {
   return _projects;
 }
 
+// Folders (Home, Noobia, Me 2.0, Other projects) are not lists; match list name only.
+function listNameOnly(name) {
+  return String(name).split(/\s*(?:\/|→|>|›)\s*/).pop().toLowerCase().trim();
+}
+
 function findProject(projects, name) {
   if (!name) return null;
-  const n = name.toLowerCase().trim();
+  const n = listNameOnly(name);
   return projects.find(p => p.name.toLowerCase().trim() === n) || null;
 }
 
@@ -32,7 +37,7 @@ export async function createTask({ title, project, tags = [], dueDate, priority 
   const projectId = matched?.id || null;
 
   if (project && !matched) {
-    console.warn(`[Earl/ticktick] List "${project}" not found — task will go to inbox`);
+    console.warn(`[Earl/ticktick] No list match for "${listNameOnly(project)}" (tried "${project}") — using Inbox`);
   }
 
   const priorityMap = { none: 0, low: 1, medium: 3, high: 5 };

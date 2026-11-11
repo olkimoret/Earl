@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -124,10 +124,11 @@
     button { background: none; border: none; cursor: pointer; font: inherit; -webkit-tap-highlight-color: transparent; }
     input  { -webkit-appearance: none; }
 
-    html { -webkit-text-size-adjust: 100%; background: var(--bg0); }
+    html { -webkit-text-size-adjust: 100%; background: var(--bg0); width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; }
 
     body {
-      position: fixed; inset: 0;
+      position: fixed; top: 0; left: 0; width: 100%; max-width: 100%; height: 100vh; height: 100dvh;
+      touch-action: manipulation;
       font-family: var(--font-body);
       color: var(--txt);
       background: linear-gradient(var(--bg-angle), var(--bg2) 0%, var(--bg1) 45%, var(--bg0) 100%);
@@ -141,7 +142,7 @@
 
     /* ── LAYOUT ─────────────────────────────────────────────── */
     #app {
-      position: fixed; inset: 0;
+      position: fixed; top: 0; left: 0; width: 100%; max-width: 100%; height: 100vh; height: 100dvh;
       z-index: 1; display: flex; flex-direction: column; overflow: hidden;
     }
 
@@ -177,7 +178,10 @@
       gap: 28px; overflow: hidden;
     }
 
-    #orbCanvas { width: 280px; height: 280px; display: block; }
+    #orbCanvas { width: min(280px, 70vw); height: min(280px, 70vw); display: block; transition: width .25s, height .25s; }
+    #app.kb-open .stage { gap: 10px; }
+    #app.kb-open #orbCanvas { width: min(130px, 30vh); height: min(130px, 30vh); }
+    #app.kb-open .controls { padding-bottom: 12px; }
 
     .status-block {
       display: flex; flex-direction: column; align-items: center; gap: 9px;
@@ -229,7 +233,7 @@
     .cancel-btn:active { transform: scale(.9); color: var(--danger); border-color: rgba(220,90,90,.35); }
 
     .input-capsule {
-      flex: 1; display: flex; align-items: center;
+      flex: 1; min-width: 0; display: flex; align-items: center;
       background: var(--pill);
       border: 1px solid var(--line-hi);
       border-radius: 100px;
@@ -240,8 +244,8 @@
     .input-capsule:focus-within { border-color: var(--acc-hi); }
 
     #textInput {
-      flex: 1; background: none; border: none; outline: none;
-      font-family: var(--font-body); font-size: .90rem; font-weight: 300;
+      flex: 1; min-width: 0; width: 100%; background: none; border: none; outline: none;
+      font-family: var(--font-body); font-size: 16px; font-weight: 300;
       color: var(--txt); caret-color: var(--acc);
       padding: 10px 0;
     }
@@ -259,7 +263,7 @@
 
     /* ── RESULT CARD ────────────────────────────────────────── */
     .result-card {
-      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+      position: fixed; bottom: 0; left: 0; width: 100%; max-width: 100%; z-index: 100;
       background: var(--glass);
       border-top: 1px solid var(--line-hi);
       border-radius: 24px 24px 0 0;
@@ -469,8 +473,8 @@
     .edit-field textarea {
       background: var(--pill); border: 1px solid var(--line-hi);
       border-radius: 10px; padding: 10px 13px;
-      font-family: var(--font-body); font-size: .88rem; font-weight: 300;
-      color: var(--txt); outline: none; width: 100%;
+      font-family: var(--font-body); font-size: 16px; font-weight: 300;
+      color: var(--txt); outline: none; width: 100%; min-width: 0;
       -webkit-appearance: none; transition: border-color .2s;
     }
     .edit-field input:focus,
@@ -1263,8 +1267,13 @@ textInput.focus();
 ════════════════════════════════════════════════════════ */
 function syncViewport() {
   const vv = window.visualViewport;
-  const kb = vv ? Math.max(0, window.innerHeight - vv.height) : 0;
-  appEl.style.paddingBottom = kb > 0 ? kb + 'px' : '';
+  const h = vv ? vv.height : window.innerHeight;
+  const kb = vv ? Math.max(0, window.innerHeight - vv.height - vv.offsetTop) : 0;
+  const open = kb > 80;
+  appEl.classList.toggle('kb-open', open);
+  appEl.style.height = open ? h + 'px' : '';
+  appEl.style.top = open && vv ? vv.offsetTop + 'px' : '';
+  if (open) window.scrollTo(0, 0);
 }
 if (window.visualViewport) {
   window.visualViewport.addEventListener('resize', syncViewport);
