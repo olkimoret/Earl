@@ -130,7 +130,7 @@ async function routeIntent(intent) {
     return [{
       service: 'warn',
       label: 'Understood, but hit an error',
-      detail: confirmation,
+      detail: `${confirmation || ''} [${String(err.message).slice(0, 140)}]`.trim(),
       id: null,
       fullData: params
     }];

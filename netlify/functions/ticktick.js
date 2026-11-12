@@ -40,14 +40,21 @@ export async function createTask({ title, project, tags = [], dueDate, priority 
     console.warn(`[Earl/ticktick] No list match for "${listNameOnly(project)}" (tried "${project}") — using Inbox`);
   }
 
-  const priorityMap = { none: 0, low: 1, medium: 3, high: 5 };
+  let validDue = null;
+  if (dueDate) {
+    const d = new Date(dueDate);
+    if (isNaN(d)) console.warn(`[Earl/ticktick] Ignoring unparseable dueDate "${dueDate}"`);
+    else validDue = d.toISOString();
+  }
+
+  const priorityMap ={ none: 0, low: 1, medium: 3, high: 5 };
 
   const body = {
     title,
     projectId,
     tags:     Array.isArray(tags) ? tags : [],
     priority: priorityMap[priority] ?? 0,
-    ...(dueDate  && { dueDate: new Date(dueDate).toISOString() }),
+    ...(validDue && { dueDate: validDue }),
     ...(content  && { content }),
   };
 
