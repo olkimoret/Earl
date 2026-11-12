@@ -30,9 +30,10 @@ const oAuth2Client = new google.auth.OAuth2(
 const SCOPES = [
   'https://www.googleapis.com/auth/gmail.compose',
   'https://www.googleapis.com/auth/calendar.events',
+  'https://www.googleapis.com/auth/calendar.calendarlist.readonly', // to find In_Person_N / Virtual/Phone / Personal by name
 ];
 
-const authUrl = oAuth2Client.generateAuthUrl({ access_type: 'offline', scope: SCOPES });
+const authUrl = oAuth2Client.generateAuthUrl({ access_type: 'offline', prompt: 'consent', scope: SCOPES });
 
 console.log('\nVisit this URL in your browser:\n');
 console.log(authUrl);

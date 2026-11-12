@@ -1,4 +1,5 @@
 import { google } from 'googleapis';
+import { eventTimes } from '../lib/tz.js';
 
 function getAuth() {
   const auth = new google.auth.OAuth2(
@@ -29,7 +30,10 @@ export const handler = async (event) => {
     // Resolve friendly calendar name → Google calendar ID
     let resolvedCalendarId = 'primary';
     if (calendarId) {
-      const { data: list } = await calendar.calendarList.list();
+      const list = await calendar.calendarList.list().then(r => r.data).catch(err => {
+        console.error('[Earl/update-event] Cannot list calendars (' + err.message + ') — using primary');
+        return { items: [] };
+      });
       const n = calendarId.toLowerCase().trim();
       const match = (list.items || []).find(c =>
         c.summary?.toLowerCase().trim() === n || c.id?.toLowerCase() === n
@@ -51,14 +55,11 @@ export const handler = async (event) => {
     if (date || time) {
       const startDate = date || existing.start.dateTime.split('T')[0];
       const startTime = time || existing.start.dateTime.split('T')[1].slice(0, 5);
-      const start = new Date(`${startDate}T${startTime}:00`);
-
-      const originalDuration =
-        new Date(existing.end.dateTime) - new Date(existing.start.dateTime);
-      const end = new Date(start.getTime() + originalDuration);
-
-      patch.start = { dateTime: start.toISOString(), timeZone: existing.start.timeZone };
-      patch.end   = { dateTime: end.toISOString(),   timeZone: existing.end.timeZone };
+      const durationMin =
+        (new Date(existing.end.dateTime) - new Date(existing.start.dateTime)) / 60000 || 60;
+      const { start, end } = eventTimes(startDate, startTime, durationMin);
+      patch.start = start;
+      patch.end   = end;
     }
 
     if (location !== undefined) {

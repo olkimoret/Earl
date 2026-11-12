@@ -1,4 +1,5 @@
 import { google } from 'googleapis';
+import { eventTimes } from '../lib/tz.js';
 
 function getAuth() {
   const auth = new google.auth.OAuth2(
@@ -14,7 +15,14 @@ let _calendars = null;
 
 async function getCalendars(calendarClient) {
   if (_calendars) return _calendars;
-  const { data } = await calendarClient.calendarList.list();
+  let data;
+  try {
+    ({ data } = await calendarClient.calendarList.list());
+  } catch (err) {
+    // Token lacks calendar-list scope: rerun scripts/get-google-token.js. Fall back to primary meanwhile.
+    console.error('[Earl/calendar] Cannot list calendars (' + err.message + ') — using primary');
+    return [];
+  }
   _calendars = data.items || [];
   console.log('[Earl/calendar] Loaded', _calendars.length, 'calendars:',
     _calendars.map(c => c.summary).join(', '));
@@ -43,13 +51,12 @@ export async function createEvent({ title, date, time, duration = 60, location, 
   const cal        = google.calendar({ version: 'v3', auth });
   const resolvedId = await resolveCalendarId(cal, calendarId);
 
-  const start = new Date(`${date}T${time || '09:00'}:00`);
-  const end   = new Date(start.getTime() + duration * 60000);
+  const { start, end } = eventTimes(String(date).slice(0, 10), time || '09:00', Number(duration) || 60);
 
   const requestBody = {
     summary: title,
-    start: { dateTime: start.toISOString() },
-    end:   { dateTime: end.toISOString() },
+    start,
+    end,
     ...(location    ? { location }    : {}),
     ...(description ? { description } : {}),
   };
@@ -83,18 +90,13 @@ export async function moveEvent({ meetingTitle, newDate, newTime, calendarId }) 
   const event = data.items?.[0];
   if (!event) throw new Error(`Event not found: ${meetingTitle}`);
 
-  const start    = new Date(`${newDate}T${newTime || '09:00'}:00`);
-  const duration = new Date(event.end.dateTime) - new Date(event.start.dateTime);
-  const end      = new Date(start.getTime() + duration);
+  const durationMin = (new Date(event.end.dateTime) - new Date(event.start.dateTime)) / 60000 || 60;
+  const { start, end } = eventTimes(String(newDate).slice(0, 10), newTime || '09:00', durationMin);
 
   const { data: updated } = await cal.events.update({
     calendarId: resolvedId,
     eventId: event.id,
-    requestBody: {
-      ...event,
-      start: { dateTime: start.toISOString() },
-      end:   { dateTime: end.toISOString() },
-    },
+    requestBody: { ...event, start, end },
   });
 
   console.log('[Earl/calendar] moveEvent updated:', updated.id, meetingTitle, '->', newDate, newTime);
