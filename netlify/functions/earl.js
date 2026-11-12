@@ -120,7 +120,7 @@ async function routeIntent(intent) {
       case 'create_task': {
         const { createTask } = await import('./ticktick.js');
         const created = await createTask(params);
-        return [{ service: 'ticktick', label: 'Task added', detail: confirmation, id: created?.id || null, fullData: params }];
+        return [{ service: 'ticktick', label: 'Task added', detail: confirmation, id: created?.id || null, fullData: { ...params, projectId: created?.projectId || null } }];
       }
       default:
         return [{ service: 'earl', label: 'Done', detail: confirmation, id: null, fullData: params }];

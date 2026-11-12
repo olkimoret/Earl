@@ -1216,7 +1216,7 @@ function setEditLoading(on) {
   editDrawerClose.disabled  = on;
 }
 
-function collectTicktick() { return { id:currentEditEntry.id, title:document.getElementById('editTtTitle').value.trim(), project:document.getElementById('editTtProject').value, dueDate:document.getElementById('editTtDue').value||null, priority:document.getElementById('editTtPriority').value }; }
+function collectTicktick() { return { id:currentEditEntry.id, projectId:currentEditEntry.fullData?.projectId||null,title:document.getElementById('editTtTitle').value.trim(), project:document.getElementById('editTtProject').value, dueDate:document.getElementById('editTtDue').value||null, priority:document.getElementById('editTtPriority').value }; }
 function collectCalendar()  { return { id:currentEditEntry.id, title:document.getElementById('editCalTitle').value.trim(), date:document.getElementById('editCalDate').value||null, time:document.getElementById('editCalTime').value||null, location:document.getElementById('editCalLocation').value.trim(), onlineOrInPerson:editCalOnline.classList.contains('active')?'online':'in-person' }; }
 function collectGmail()     { return { id:currentEditEntry.id, subject:document.getElementById('editGmailSubject').value.trim(), body:document.getElementById('editGmailBody').value }; }
 

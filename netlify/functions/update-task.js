@@ -24,8 +24,8 @@ function findProject(projects, name) {
 }
 
 // TickTick needs the task's CURRENT list for updates; find it (inbox first, then all lists in parallel).
-async function findCurrentProjectId(projects, taskId) {
-  const ids = ['inbox', ...projects.map(p => p.id)];
+async function findCurrentProjectId(projects, taskId, hint) {
+  const ids = [...new Set([hint, ...projects.map(p => p.id)].filter(Boolean))];
   const hits = await Promise.all(ids.map(async pid => {
     const r = await fetch(`${BASE}/project/${pid}/task/${taskId}`, { headers: getHeaders() });
     if (!r.ok) return null;
@@ -40,9 +40,9 @@ export const handler = async (event) => {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
-  let id, title, project, dueDate, priority, content;
+  let id, title, project, dueDate, priority, content, hintProjectId;
   try {
-    ({ id, title, project, dueDate, priority, content } = JSON.parse(event.body));
+    ({ id, title, project, dueDate, priority, content, projectId: hintProjectId } = JSON.parse(event.body));
     if (!id) throw new Error('Missing id');
   } catch (err) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Invalid request: ' + err.message }) };
@@ -58,8 +58,8 @@ export const handler = async (event) => {
       console.warn(`[Earl/update-task] List "${project}" not found`);
     }
 
-    const currentProjectId = await findCurrentProjectId(projects, id);
-    if (!currentProjectId) throw new Error(`Task ${id} not found in any TickTick list (deleted?)`);
+    const currentProjectId = await findCurrentProjectId(projects, id, hintProjectId);
+    if (!currentProjectId) throw new Error(`Task no longer exists in TickTick (completed, deleted, or in Inbox from an older entry)`);
 
     // Move first if the list changed — the update endpoint can't change lists.
     if (projectId && projectId !== currentProjectId) {
