@@ -19,8 +19,20 @@ async function getProjects() {
 
 function findProject(projects, name) {
   if (!name) return null;
-  const n = name.toLowerCase().trim();
+  const n = String(name).split(/\s*(?:\/|→|>|›)\s*/).pop().toLowerCase().trim();
   return projects.find(p => p.name.toLowerCase().trim() === n) || null;
+}
+
+// TickTick needs the task's CURRENT list for updates; find it (inbox first, then all lists in parallel).
+async function findCurrentProjectId(projects, taskId) {
+  const ids = ['inbox', ...projects.map(p => p.id)];
+  const hits = await Promise.all(ids.map(async pid => {
+    const r = await fetch(`${BASE}/project/${pid}/task/${taskId}`, { headers: getHeaders() });
+    if (!r.ok) return null;
+    const t = await r.json().catch(() => null);
+    return t?.id ? t.projectId || pid : null;
+  }));
+  return hits.find(Boolean) || null;
 }
 
 export const handler = async (event) => {
@@ -46,14 +58,28 @@ export const handler = async (event) => {
       console.warn(`[Earl/update-task] List "${project}" not found`);
     }
 
+    const currentProjectId = await findCurrentProjectId(projects, id);
+    if (!currentProjectId) throw new Error(`Task ${id} not found in any TickTick list (deleted?)`);
+
+    // Move first if the list changed — the update endpoint can't change lists.
+    if (projectId && projectId !== currentProjectId) {
+      const mv = await fetch(`${BASE}/task/move`, {
+        method: 'POST', headers,
+        body: JSON.stringify([{ fromProjectId: currentProjectId, toProjectId: projectId, taskId: id }]),
+      });
+      if (!mv.ok) throw new Error(`TickTick move ${mv.status}: ${await mv.text()}`);
+      console.log('[Earl/update-task] Moved', id, 'to', matched.name);
+    }
+
     const priorityMap = { none: 0, low: 1, medium: 3, high: 5 };
+    const due = dueDate ? new Date(dueDate) : null;
 
     const body = {
       id,
+      projectId: projectId || currentProjectId,
       ...(title     && { title }),
-      ...(projectId && { projectId }),
       ...(priority  && { priority: priorityMap[priority] ?? 0 }),
-      ...(dueDate   && { dueDate: new Date(dueDate).toISOString() }),
+      ...(due && !isNaN(due) && { dueDate: due.toISOString() }),
       ...(content !== undefined && { content: content || '' }),
     };
 
